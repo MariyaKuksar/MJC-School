@@ -1,4 +1,4 @@
-# Module 2 REST API Basics
+# Module 2. REST API Basics
 ### Task
 
 #### Recommended Timeline
