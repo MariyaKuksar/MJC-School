@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,9 +31,9 @@ public class GiftCertificateWithTagsExtractor implements ResultSetExtractor<List
                 giftCertificate.setDescription(resultSet.getString(ColumnName.DESCRIPTION));
                 giftCertificate.setPrice(resultSet.getBigDecimal(ColumnName.PRICE));
                 giftCertificate.setDuration(resultSet.getInt(ColumnName.DURATION));
-                giftCertificate.setCreateDate(resultSet.getObject(ColumnName.CREATE_DATE, LocalDateTime.class));
+                giftCertificate.setCreateDate(resultSet.getObject(ColumnName.CREATE_DATE, ZonedDateTime.class));
                 giftCertificate.setLastUpdateDate(resultSet.getObject(ColumnName.LAST_UPDATE_DATE,
-                        LocalDateTime.class));
+                        ZonedDateTime.class));
                 giftCertificateMap.put(giftCertificateId, giftCertificate);
             }
             long tagId = resultSet.getLong(ColumnName.TAG_ID);

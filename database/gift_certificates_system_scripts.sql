@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate` (
   `description` VARCHAR(100) NOT NULL,
   `price` DECIMAL NOT NULL,
   `duration` INT NOT NULL,
-  `create_date` DATETIME NOT NULL,
-  `last_update_date` DATETIME NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
+  `last_update_date` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -68,7 +68,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('1', 'Woman', 'gift certificate for women', '50', '365', '2021-08-03 06:09:51', '2021-08-03 06:09:51');
+INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('1', 'Woman', 'gift certificate for women', '50', '365', '2018-08-29T06:12:15.156', '2018-08-29T06:12:15.156');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('2', 'Man', 'gift certificate for men', '60', '180', '2021-07-25 23:15:18', '2021-07-25 23:15:18');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('3', 'Child', 'gift certificate for children', '30', '50', '2021-08-04 07:56:47', '2021-08-04 07:56:47');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('4', 'Happy Birhday', 'gift certificate', '80', '360', '2021-08-07 06:18:08', '2021-08-07 06:18:08');

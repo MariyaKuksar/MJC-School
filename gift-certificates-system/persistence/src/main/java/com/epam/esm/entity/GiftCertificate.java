@@ -2,6 +2,7 @@ package com.epam.esm.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +13,8 @@ public class GiftCertificate {
     private String description;
     private BigDecimal price;
     private int duration;
-    private LocalDateTime createDate;
-    private LocalDateTime lastUpdateDate;
+    private ZonedDateTime createDate;
+    private ZonedDateTime lastUpdateDate;
     private List<Tag> tags;
 
     public GiftCertificate() {
@@ -59,19 +60,19 @@ public class GiftCertificate {
         this.duration = duration;
     }
 
-    public LocalDateTime getCreateDate() {
+    public ZonedDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(ZonedDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public LocalDateTime getLastUpdateDate() {
+    public ZonedDateTime getLastUpdateDate() {
         return lastUpdateDate;
     }
 
-    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+    public void setLastUpdateDate(ZonedDateTime lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
 

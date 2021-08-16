@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
@@ -19,8 +20,8 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
         giftCertificate.setDescription(resultSet.getString(ColumnName.DESCRIPTION));
         giftCertificate.setPrice(resultSet.getBigDecimal(ColumnName.PRICE));
         giftCertificate.setDuration(resultSet.getInt(ColumnName.DURATION));
-        giftCertificate.setCreateDate(resultSet.getObject(ColumnName.CREATE_DATE, LocalDateTime.class));
-        giftCertificate.setLastUpdateDate(resultSet.getObject(ColumnName.LAST_UPDATE_DATE, LocalDateTime.class));
+        giftCertificate.setCreateDate(resultSet.getObject(ColumnName.CREATE_DATE, ZonedDateTime.class));
+        giftCertificate.setLastUpdateDate(resultSet.getObject(ColumnName.LAST_UPDATE_DATE, ZonedDateTime.class));
         return giftCertificate;
     }
 }
