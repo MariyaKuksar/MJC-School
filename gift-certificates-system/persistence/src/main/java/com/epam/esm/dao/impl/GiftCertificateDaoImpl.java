@@ -1,30 +1,40 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.mapper.GiftCertificateWithTagsExtractor;
 import com.epam.esm.entity.GiftCertificate;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO GIFT_CERTIFICATE (NAME, DESCRIPTION, " +
             "PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE) VALUES (?,?,?,?,?,?)";
-    private static final String SQL_SELECT_ALL_GIFT_CERTIFICATE =
-            "SELECT ID, NAME, DESCRIPTION, PRICE, DURATION, " + "CREATE_DATE, LAST_UPDATE_DATE FROM GIFT_CERTIFICATE";
-    private static final String SQL_SELECT_GIFT_CERTIFICATE_BY_ID =
-            "SELECT ID, NAME, DESCRIPTION, PRICE, DURATION, " + "CREATE_DATE, LAST_UPDATE_DATE FROM GIFT_CERTIFICATE " +
-                    "WHERE ID=?";
-
+    private static final String SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG = "LEFT JOIN " +
+            "GIFT_CERTIFICATE_TAG_CONNECTION ON GIFT_CERTIFICATE.ID=GIFT_CERTIFICATE_ID LEFT JOIN TAG ON TAG_ID=TAG.ID";
+    private static final String SQL_SELECT_ALL_GIFT_CERTIFICATES = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
+            ".NAME," + " DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
+            "GIFT_CERTIFICATE " + SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG;
+    private static final String SQL_SELECT_GIFT_CERTIFICATE_BY_ID = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
+            ".NAME, DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
+            "GIFT_CERTIFICATE " + SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG + " WHERE GIFT_CERTIFICATE.ID=?";
+    private static final String SQL_DELETE_GIFT_CERTIFICATE = "DELETE FROM GIFT_CERTIFICATE WHERE ID=?";
     private JdbcTemplate jdbcTemplate;
+    private GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor;
 
-    public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate,
+                                  GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor) {
         this.jdbcTemplate = jdbcTemplate;
+        this.giftCertificateWithTagsExtractor = giftCertificateWithTagsExtractor;
     }
 
     @Override
@@ -49,23 +59,21 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findAll() {
-        return jdbcTemplate.query(SQL_SELECT_ALL_GIFT_CERTIFICATE, new BeanPropertyRowMapper(GiftCertificate.class));
+        return jdbcTemplate.query(SQL_SELECT_ALL_GIFT_CERTIFICATES, giftCertificateWithTagsExtractor);
     }
 
     @Override
     public Optional<GiftCertificate> findById(long id) {
-
-        return jdbcTemplate.queryForStream(SQL_SELECT_GIFT_CERTIFICATE_BY_ID,
-                new BeanPropertyRowMapper(GiftCertificate.class), id).findFirst();
+        return jdbcTemplate.query(SQL_SELECT_GIFT_CERTIFICATE_BY_ID, giftCertificateWithTagsExtractor, id).stream().findFirst();
     }
 
     @Override
-    public boolean update(GiftCertificate giftCertificate) {
-        return false;
+    public GiftCertificate update(GiftCertificate giftCertificate) {
+        return null;
     }
 
     @Override
-    public boolean delete(long id) {
-        return false;
+    public void delete(long id) {
+        jdbcTemplate.update(SQL_DELETE_GIFT_CERTIFICATE, id);
     }
 }

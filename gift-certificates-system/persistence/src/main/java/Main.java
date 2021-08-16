@@ -1,5 +1,12 @@
+import com.epam.esm.configuration.PersistenceConfiguration;
+import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.impl.GiftCertificateDaoImpl;
+import com.epam.esm.dao.impl.TagDaoImpl;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.Tag;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -9,11 +16,9 @@ import java.time.LocalDateTime;
 public class Main {
 
     public static void main(String[] args) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mySQL://127.0.0.1:3306/gift_certificates_system");
-        dataSource.setUsername("root");
-        dataSource.setPassword("2556795leha");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(PersistenceConfiguration.class);
+        GiftCertificateDao giftCertificateDao = (GiftCertificateDao) applicationContext.getBean(GiftCertificateDao.class);
+        TagDao tagDao = (TagDao) applicationContext.getBean(TagDao.class);
 
         GiftCertificate giftCertificate = new GiftCertificate();
         giftCertificate.setName("Happy Birthday");
@@ -23,10 +28,17 @@ public class Main {
         giftCertificate.setCreateDate(LocalDateTime.now());
         giftCertificate.setLastUpdateDate(LocalDateTime.now());
 
-        GiftCertificateDaoImpl dao = new GiftCertificateDaoImpl(new JdbcTemplate(dataSource));
+        Tag tag = new Tag();
+        tag.setName("happyBirthday");
 
-        dao.create(giftCertificate);
-        System.out.println(dao.findAll());
-        System.out.println(dao.findById(3));
+        System.out.println(giftCertificateDao.create(giftCertificate));
+        System.out.println(giftCertificateDao.findAll());
+        System.out.println(giftCertificateDao.findById(1));
+        giftCertificateDao.delete(4);
+
+        System.out.println(tagDao.create(tag));
+        System.out.println(tagDao.findAll());
+        System.out.println(tagDao.findById(2));
+        tagDao.delete(4);
     }
 }
