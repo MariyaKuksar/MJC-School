@@ -54,12 +54,12 @@ CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate_tag_conn
   CONSTRAINT `fk_gift_certificate_has_tag_gift_certificate`
     FOREIGN KEY (`gift_certificate_id`)
     REFERENCES `gift_certificates_system`.`gift_certificate` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_gift_certificate_has_tag_tag1`
     FOREIGN KEY (`tag_id`)
     REFERENCES `gift_certificates_system`.`tag` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

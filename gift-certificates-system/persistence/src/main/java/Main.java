@@ -34,11 +34,11 @@ public class Main {
         System.out.println(giftCertificateDao.findById(1));
         giftCertificate.setId(2);
         System.out.println(giftCertificateDao.update(giftCertificate));
-        giftCertificateDao.delete(4);
+        giftCertificateDao.delete(1);
 
         System.out.println(tagDao.create(tag));
         System.out.println(tagDao.findAll());
         System.out.println(tagDao.findById(2));
-        tagDao.delete(4);
+        tagDao.delete(3);
     }
 }

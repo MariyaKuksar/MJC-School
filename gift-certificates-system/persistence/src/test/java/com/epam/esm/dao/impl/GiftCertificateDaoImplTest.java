@@ -3,8 +3,7 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.configuration.TestPersistenceConfiguration;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +19,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestPersistenceConfiguration.class)
-class GiftCertificateDaoImplTest {
+public class GiftCertificateDaoImplTest {
     private final GiftCertificateDao giftCertificateDao;
-    private static GiftCertificate giftCertificate1;
-    private static GiftCertificate giftCertificate2;
-    private static GiftCertificate giftCertificate3;
-    private static GiftCertificate giftCertificate4;
-    private static GiftCertificate giftCertificate5;
+    private GiftCertificate giftCertificate1;
+    private GiftCertificate giftCertificate2;
+    private GiftCertificate giftCertificate3;
+    private GiftCertificate giftCertificate4;
+    private GiftCertificate giftCertificate5;
 
     @Autowired
     public GiftCertificateDaoImplTest(GiftCertificateDao giftCertificateDao) {
         this.giftCertificateDao = giftCertificateDao;
     }
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    public void setUp() {
         giftCertificate1 = new GiftCertificate(0, "New Year", "gif certificate", new BigDecimal(100), 180,
                 ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
                 null);
@@ -48,51 +47,42 @@ class GiftCertificateDaoImplTest {
                 new BigDecimal(90), 200, ZonedDateTime.parse("2021-08-17T15:20:52+03:00"),
                 ZonedDateTime.parse("2021" + "-08-17T15:20:52+03:00"), null);
         giftCertificate5 = new GiftCertificate(5L, "Happy New Year Happy New Year Happy New Year Happy New Year",
-                "gif certificate for New Year", new BigDecimal(90), 200, ZonedDateTime.parse("2021-08-17T15:20:52+03" +
-                ":00"), ZonedDateTime.parse("2021" + "-08-17T15:20:52+03:00"), null);
-    }
-
-    @AfterAll
-    static void tearDown() {
-        giftCertificate1 = null;
-        giftCertificate2 = null;
-        giftCertificate3 = null;
-        giftCertificate4 = null;
-        giftCertificate5 = null;
-
+                "gif certificate for New Year", new BigDecimal(90), 200,
+                ZonedDateTime.parse("2021-08-17T15:20:52+03" + ":00"),
+                ZonedDateTime.parse("2021" + "-08-17T15:20:52" + "+03:00"), null);
     }
 
     @Test
-    void createPositiveTest() {
+    public void createPositiveTest() {
         GiftCertificate actual = giftCertificateDao.create(giftCertificate1);
         assertEquals(giftCertificate2, actual);
     }
 
     @Test
-    void createExceptionTest() {
+    public void createExceptionTest() {
         assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.create(new GiftCertificate()));
     }
 
     @Test
-    void findByIdPositiveTest() {
+    public void findByIdPositiveTest() {
         GiftCertificate actual = giftCertificateDao.findById(3).get();
         assertEquals(giftCertificate3, actual);
     }
 
     @Test
-    void findByIdNegativeTest() {
+    public void findByIdNegativeTest() {
         Optional<GiftCertificate> actual = giftCertificateDao.findById(15);
         assertFalse(actual.isPresent());
     }
 
     @Test
-    void updatePositiveTest() {
+    public void updatePositiveTest() {
         GiftCertificate actual = giftCertificateDao.update(giftCertificate4);
         assertEquals(giftCertificate4, actual);
     }
 
     @Test
-    void updateExceptionTest() {
+    public void updateExceptionTest() {
         assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.create(giftCertificate5));
     }
 }
