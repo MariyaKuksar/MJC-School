@@ -19,8 +19,8 @@ public class TagDaoImpl implements TagDao {
     public static final String SQL_SELECT_ALL_TAGS = "SELECT ID, NAME FROM TAG";
     public static final String SQL_SELECT_TAG_BY_ID = "SELECT ID, NAME FROM TAG WHERE ID=?";
     public static final String SQL_DELETE_TAG = "DELETE FROM TAG WHERE ID=?";
-    private JdbcTemplate jdbcTemplate;
-    private TagMapper tagMapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final TagMapper tagMapper;
 
     @Autowired
     public TagDaoImpl(JdbcTemplate jdbcTemplate, TagMapper tagMapper) {

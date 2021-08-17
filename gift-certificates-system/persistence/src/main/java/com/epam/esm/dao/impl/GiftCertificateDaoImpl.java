@@ -26,9 +26,12 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SQL_SELECT_GIFT_CERTIFICATE_BY_ID = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
             ".NAME, DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
             "GIFT_CERTIFICATE " + SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG + " WHERE GIFT_CERTIFICATE.ID=?";
+    private static final String SQL_UPDATE_GIFT_CERTIFICATE =
+            "UPDATE GIFT_CERTIFICATE SET NAME=?, DESCRIPTION=?, " + "PRICE=?, DURATION=?, CREATE_DATE=?, " +
+                    "LAST_UPDATE_DATE=? WHERE ID=?";
     private static final String SQL_DELETE_GIFT_CERTIFICATE = "DELETE FROM GIFT_CERTIFICATE WHERE ID=?";
-    private JdbcTemplate jdbcTemplate;
-    private GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor;
+    private final JdbcTemplate jdbcTemplate;
+    private final GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor;
 
     @Autowired
     public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate,
@@ -69,7 +72,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public GiftCertificate update(GiftCertificate giftCertificate) {
-        return null;
+        jdbcTemplate.update(SQL_UPDATE_GIFT_CERTIFICATE, giftCertificate.getName(), giftCertificate.getDescription(),
+                giftCertificate.getPrice(), giftCertificate.getDuration(), giftCertificate.getCreateDate(),
+                giftCertificate.getLastUpdateDate(), giftCertificate.getId());
+        return giftCertificate;
     }
 
     @Override

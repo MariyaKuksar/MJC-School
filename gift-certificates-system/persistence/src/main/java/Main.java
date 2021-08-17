@@ -1,4 +1,5 @@
 import com.epam.esm.configuration.PersistenceConfiguration;
+import com.epam.esm.configuration.TestPersistenceConfiguration;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.entity.GiftCertificate;
@@ -31,6 +32,8 @@ public class Main {
         System.out.println(giftCertificateDao.create(giftCertificate));
         System.out.println(giftCertificateDao.findAll());
         System.out.println(giftCertificateDao.findById(1));
+        giftCertificate.setId(2);
+        System.out.println(giftCertificateDao.update(giftCertificate));
         giftCertificateDao.delete(4);
 
         System.out.println(tagDao.create(tag));
