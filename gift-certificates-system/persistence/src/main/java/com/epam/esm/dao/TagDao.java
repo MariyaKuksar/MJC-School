@@ -13,5 +13,5 @@ public interface TagDao {
 
     Optional<Tag> findById(long id);
 
-    void delete(long id);
+    boolean delete(long id);
 }

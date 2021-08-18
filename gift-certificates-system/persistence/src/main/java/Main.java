@@ -34,7 +34,7 @@ public class Main {
         System.out.println(giftCertificateDao.findById(1));
         giftCertificate.setId(2);
         System.out.println(giftCertificateDao.update(giftCertificate));
-        giftCertificateDao.delete(1);
+        giftCertificateDao.delete(5);
 
         System.out.println(tagDao.create(tag));
         System.out.println(tagDao.findAll());

@@ -79,7 +79,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public void delete(long id) {
-        jdbcTemplate.update(SQL_DELETE_GIFT_CERTIFICATE, id);
+    public boolean delete(long id) {
+        return (jdbcTemplate.update(SQL_DELETE_GIFT_CERTIFICATE, id) > 0);
     }
 }

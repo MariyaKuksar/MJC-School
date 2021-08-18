@@ -54,7 +54,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public void delete(long id) {
-        jdbcTemplate.update(SQL_DELETE_TAG, id);
+    public boolean delete(long id) {
+        return (jdbcTemplate.update(SQL_DELETE_TAG, id) > 0);
     }
 }

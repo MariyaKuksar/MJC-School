@@ -5,7 +5,7 @@ import com.epam.esm.entity.GiftCertificate;
 import java.util.List;
 import java.util.Optional;
 
-public interface GiftCertificateDao  {
+public interface GiftCertificateDao {
 
     GiftCertificate create(GiftCertificate giftCertificate);
 
@@ -15,5 +15,5 @@ public interface GiftCertificateDao  {
 
     GiftCertificate update(GiftCertificate giftCertificate);
 
-    void delete(long id);
+    boolean delete(long id);
 }
