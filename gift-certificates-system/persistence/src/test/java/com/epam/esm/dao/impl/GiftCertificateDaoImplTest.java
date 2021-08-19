@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -60,7 +60,7 @@ public class GiftCertificateDaoImplTest {
 
     @Test
     public void createExceptionTest() {
-        assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.create(new GiftCertificate()));
+        assertThrows(DataAccessException.class, () -> giftCertificateDao.create(new GiftCertificate()));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class GiftCertificateDaoImplTest {
 
     @Test
     public void updateExceptionTest() {
-        assertThrows(DataIntegrityViolationException.class, () -> giftCertificateDao.create(giftCertificate5));
+        assertThrows(DataAccessException.class, () -> giftCertificateDao.create(giftCertificate5));
     }
 
     @Test
