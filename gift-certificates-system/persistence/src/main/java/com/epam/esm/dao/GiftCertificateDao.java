@@ -1,6 +1,7 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.GiftCertificateSearchParams;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +10,9 @@ public interface GiftCertificateDao {
 
     GiftCertificate create(GiftCertificate giftCertificate);
 
-    List<GiftCertificate> findAll();
+     Optional<GiftCertificate> findById(long id);
 
-    Optional<GiftCertificate> findById(long id);
+    List <GiftCertificate> findBySearchParams(GiftCertificateSearchParams searchParams);
 
     GiftCertificate update(GiftCertificate giftCertificate);
 

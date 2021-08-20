@@ -2,7 +2,9 @@ package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dto.GiftCertificateDto;
+import com.epam.esm.dto.GiftCertificateSearchParamsDto;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.GiftCertificateSearchParams;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.MessageKey;
 import com.epam.esm.exception.ResourceNotFoundException;
@@ -11,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
@@ -32,5 +36,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 GiftCertificateDto.class)).orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id,
                 MessageKey.GIFT_CERTIFICATE_NOT_FOUND_BY_ID, String.valueOf(id),
                 ErrorCode.GIFT_CERTIFICATE.getErrorCode()));
+    }
+
+    @Override
+    public List<GiftCertificateDto> findGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto) {
+        //todo validation
+        GiftCertificateSearchParams searchParams = modelMapper.map(searchParamsDto, GiftCertificateSearchParams.class);
+        List<GiftCertificate> giftCertificateList = giftCertificateDao.findBySearchParams(searchParams);
+        return giftCertificateList.stream().map(giftCertificate -> modelMapper.map(giftCertificate,
+                GiftCertificateDto.class)).collect(Collectors.toList());
     }
 }

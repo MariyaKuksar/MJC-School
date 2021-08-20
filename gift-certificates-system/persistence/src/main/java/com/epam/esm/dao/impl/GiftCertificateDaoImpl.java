@@ -3,6 +3,9 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.mapper.GiftCertificateWithTagsExtractor;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.GiftCertificateSearchParams;
+import com.epam.esm.entity.SqlQuery;
+import com.epam.esm.entity.builder.SelectGiftCertificateSqlQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -32,12 +35,15 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SQL_DELETE_GIFT_CERTIFICATE = "DELETE FROM GIFT_CERTIFICATE WHERE ID=?";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor;
+    private final SelectGiftCertificateSqlQueryBuilder sqlQueryBuilder;
 
     @Autowired
     public GiftCertificateDaoImpl(JdbcTemplate jdbcTemplate,
-                                  GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor) {
+                                  GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor,
+                                  SelectGiftCertificateSqlQueryBuilder sqlQueryBuilder) {
         this.jdbcTemplate = jdbcTemplate;
         this.giftCertificateWithTagsExtractor = giftCertificateWithTagsExtractor;
+        this.sqlQueryBuilder = sqlQueryBuilder;
     }
 
     @Override
@@ -61,13 +67,14 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAll() {
-        return jdbcTemplate.query(SQL_SELECT_ALL_GIFT_CERTIFICATES, giftCertificateWithTagsExtractor);
+    public Optional<GiftCertificate> findById(long id) {
+        return jdbcTemplate.query(SQL_SELECT_GIFT_CERTIFICATE_BY_ID, giftCertificateWithTagsExtractor, id).stream().findFirst();
     }
 
     @Override
-    public Optional<GiftCertificate> findById(long id) {
-        return jdbcTemplate.query(SQL_SELECT_GIFT_CERTIFICATE_BY_ID, giftCertificateWithTagsExtractor, id).stream().findFirst();
+    public List<GiftCertificate> findBySearchParams(GiftCertificateSearchParams searchParams) {
+        SqlQuery sqlQuery = sqlQueryBuilder.buildQuery(searchParams);
+        return jdbcTemplate.query(sqlQuery.getQuery(), giftCertificateWithTagsExtractor, sqlQuery.getArgs().toArray());
     }
 
     @Override

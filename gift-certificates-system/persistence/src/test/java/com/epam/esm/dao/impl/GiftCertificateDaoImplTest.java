@@ -3,6 +3,8 @@ package com.epam.esm.dao.impl;
 import com.epam.esm.configuration.TestPersistenceConfiguration;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.GiftCertificateSearchParams;
+import com.epam.esm.entity.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +30,9 @@ public class GiftCertificateDaoImplTest {
     private GiftCertificate giftCertificate3;
     private GiftCertificate giftCertificate4;
     private GiftCertificate giftCertificate5;
+    private List<GiftCertificate> giftCertificateList;
+    private GiftCertificateSearchParams searchParams1;
+    private GiftCertificateSearchParams searchParams2;
 
     @Autowired
     public GiftCertificateDaoImplTest(GiftCertificateDao giftCertificateDao) {
@@ -48,8 +55,18 @@ public class GiftCertificateDaoImplTest {
                 ZonedDateTime.parse("2021" + "-08-17T15:20:52+03:00"), null);
         giftCertificate5 = new GiftCertificate(5L, "Happy New Year Happy New Year Happy New Year Happy New Year",
                 "gif certificate for New Year", new BigDecimal(90), 200,
-                ZonedDateTime.parse("2021-08-17T15:20:52+03" + ":00"),
-                ZonedDateTime.parse("2021" + "-08-17T15:20:52" + "+03:00"), null);
+                ZonedDateTime.parse("2021-08-17T15:20:52+03" + ":00"), ZonedDateTime.parse("2021-08-17T15:20:52+03:00"
+        ), null);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(1L, "woman"));
+        tags.add(new Tag(3L, "relax"));
+        GiftCertificate giftCertificate6 = new GiftCertificate(1L, "Woman", "gift certificate for women",
+                new BigDecimal(50), 365, ZonedDateTime.parse("2018-08-29T06:12:15+03:00"),
+                ZonedDateTime.parse("2018" + "-08-29T06:12:15+03:00"), tags);
+        giftCertificateList = new ArrayList<>();
+        giftCertificateList.add(giftCertificate6);
+        searchParams1 = new GiftCertificateSearchParams("woman", "for women");
+        searchParams2 = new GiftCertificateSearchParams("friend", "gift");
     }
 
     @Test
@@ -73,6 +90,18 @@ public class GiftCertificateDaoImplTest {
     public void findByIdNegativeTest() {
         Optional<GiftCertificate> actual = giftCertificateDao.findById(15);
         assertFalse(actual.isPresent());
+    }
+
+    @Test
+    public void findBySearchParamsPositiveTest() {
+        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(searchParams1);
+        assertEquals(giftCertificateList, actual);
+    }
+
+    @Test
+    public void findBySearchParamsNegativeTest() {
+        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(searchParams2);
+        assertTrue(actual.isEmpty());
     }
 
     @Test
