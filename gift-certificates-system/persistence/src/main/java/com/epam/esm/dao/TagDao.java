@@ -13,5 +13,7 @@ public interface TagDao {
 
     Optional<Tag> findById(long id);
 
+    Optional<Tag> findByName(String name);
+
     boolean delete(long id);
 }

@@ -18,6 +18,7 @@ public class TagDaoImpl implements TagDao {
     public static final String SQL_INSERT_TAG = "INSERT INTO TAG (NAME) VALUES (?)";
     public static final String SQL_SELECT_ALL_TAGS = "SELECT ID, NAME FROM TAG";
     public static final String SQL_SELECT_TAG_BY_ID = "SELECT ID, NAME FROM TAG WHERE ID=?";
+    public static final String SQL_SELECT_TAG_BY_NAME = "SELECT ID, NAME FROM TAG WHERE NAME=?";
     public static final String SQL_DELETE_TAG = "DELETE FROM TAG WHERE ID=?";
     private final JdbcTemplate jdbcTemplate;
     private final TagMapper tagMapper;
@@ -51,6 +52,11 @@ public class TagDaoImpl implements TagDao {
     @Override
     public Optional<Tag> findById(long id) {
         return jdbcTemplate.queryForStream(SQL_SELECT_TAG_BY_ID, tagMapper, id).findFirst();
+    }
+
+    @Override
+    public Optional<Tag> findByName(String name) {
+        return jdbcTemplate.queryForStream(SQL_SELECT_TAG_BY_NAME, tagMapper, name).findFirst();
     }
 
     @Override

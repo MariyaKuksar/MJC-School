@@ -19,7 +19,7 @@ public class GiftCertificateDto {
     private ZonedDateTime createDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastUpdateDate;
-    private List<Tag> tags;
+    private List<TagDto> tags;
 
     public GiftCertificateDto() {
     }
@@ -80,15 +80,15 @@ public class GiftCertificateDto {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public List<Tag> getTags() {
+    public List<TagDto> getTags() {
         return tags == null ? null : Collections.unmodifiableList(tags);
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<TagDto> tags) {
         this.tags = tags;
     }
 
-    public void addTag(Tag tag) {
+    public void addTag(TagDto tag) {
         if (tags == null) {
             tags = new ArrayList<>();
         }

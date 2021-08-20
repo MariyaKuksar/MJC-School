@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface GiftCertificateService {
 
+    GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto);
+
     GiftCertificateDto findGiftCertificateById(long id);
 
     List<GiftCertificateDto> findGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto);
+
+    void deleteGiftCertificate(long id);
 }

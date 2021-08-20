@@ -10,9 +10,13 @@ public interface GiftCertificateDao {
 
     GiftCertificate create(GiftCertificate giftCertificate);
 
-     Optional<GiftCertificate> findById(long id);
+    void createGiftCertificateTagConnection (GiftCertificate giftCertificate);
 
-    List <GiftCertificate> findBySearchParams(GiftCertificateSearchParams searchParams);
+    Optional<GiftCertificate> findById(long id);
+
+    Optional<GiftCertificate> findByName(String name);
+
+    List<GiftCertificate> findBySearchParams(GiftCertificateSearchParams searchParams);
 
     GiftCertificate update(GiftCertificate giftCertificate);
 

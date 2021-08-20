@@ -4,11 +4,8 @@ import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateSearchParamsDto;
 import com.epam.esm.service.GiftCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class GiftCertificateController {
         this.giftCertificateService = giftCertificateService;
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping("/{id}")
     public GiftCertificateDto getGiftCertificateById(@PathVariable long id) {
         return giftCertificateService.findGiftCertificateById(id);
     }
@@ -33,5 +30,16 @@ public class GiftCertificateController {
         return giftCertificateService.findGiftCertificates(searchParamsDto);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public GiftCertificateDto createGiftCertificate(@RequestBody GiftCertificateDto giftCertificateDto){
+        return giftCertificateService.createGiftCertificate(giftCertificateDto);
+    }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteGiftCertificate(@PathVariable long id) {
+        giftCertificateService.deleteGiftCertificate(id);
+    }
 }
+
