@@ -124,4 +124,9 @@ public class GiftCertificateDaoImplTest {
     public void deleteNegativeTest() {
         assertFalse(giftCertificateDao.delete(100));
     }
+
+    @Test
+    public void deleteGiftCertificateTagConnectionPositiveTest() {
+        assertTrue(giftCertificateDao.deleteGiftCertificateTagConnection(1));
+    }
 }

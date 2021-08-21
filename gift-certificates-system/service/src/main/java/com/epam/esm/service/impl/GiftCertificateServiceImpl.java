@@ -9,22 +9,19 @@ import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ErrorCode;
+import com.epam.esm.exception.IncorrectParamValueException;
 import com.epam.esm.exception.MessageKey;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ArrayUtils;
+import com.epam.esm.validator.GiftCertificateValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,20 +39,17 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto) {
-        //todo validation if invalid or is not free name throw exception
-        if (checkIfNameFree(giftCertificateDto.getName())) {
-            GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-            ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());//todo or ZoneOffset.UTC (+00.00
-            // created)
-            giftCertificate.setCreateDate(currentDate);
-            giftCertificate.setLastUpdateDate(currentDate);
-            giftCertificate = giftCertificateDao.create(giftCertificate);
-            if (giftCertificateDto.getTags() != null) {
-                createGiftCertificateTagConnection(giftCertificate);
-            }
-            giftCertificateDto = modelMapper.map(giftCertificate, GiftCertificateDto.class);
+        GiftCertificateValidator.validateGiftCertificate(giftCertificateDto);
+        checkIfNameFree(giftCertificateDto.getName());
+        ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());//todo or ZoneOffset.UTC (+00.00
+        giftCertificateDto.setCreateDate(currentDate);
+        giftCertificateDto.setLastUpdateDate(currentDate);
+        GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        giftCertificate = giftCertificateDao.create(giftCertificate);
+        if (giftCertificateDto.getTags() != null) {
+            createGiftCertificateTagConnection(giftCertificate);
         }
-        return giftCertificateDto;
+        return modelMapper.map(giftCertificate, GiftCertificateDto.class);
     }
 
     @Override
@@ -64,8 +58,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         Optional<GiftCertificate> giftCertificateOptional = giftCertificateDao.findById(id);
         return giftCertificateOptional.map(giftCertificate -> modelMapper.map(giftCertificateOptional.get(),
                 GiftCertificateDto.class)).orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id,
-                MessageKey.GIFT_CERTIFICATE_NOT_FOUND_BY_ID, String.valueOf(id),
-                ErrorCode.GIFT_CERTIFICATE.getErrorCode()));
+                MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.GIFT_CERTIFICATE.getErrorCode()));
     }
 
     @Override
@@ -103,13 +96,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void deleteGiftCertificate(long id) {
         //todo validation
         if (!giftCertificateDao.delete(id)) {
-            throw new ResourceNotFoundException("invalid id = " + id, MessageKey.GIFT_CERTIFICATE_NOT_FOUND_BY_ID,
+            throw new ResourceNotFoundException("invalid id = " + id, MessageKey.RESOURCE_NOT_FOUND_BY_ID,
                     String.valueOf(id), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 
-    private boolean checkIfNameFree(String name) {
-        return giftCertificateDao.findByName(name).isEmpty();
+    private void checkIfNameFree(String name) {
+        if (giftCertificateDao.findByName(name).isPresent()) {
+            throw new IncorrectParamValueException("such name already exist, invalid name = " + name,
+                    MessageKey.NAME_ALREADY_EXIST, name, ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+        }
     }
 
     private void createGiftCertificateTagConnection(GiftCertificate giftCertificate) {
