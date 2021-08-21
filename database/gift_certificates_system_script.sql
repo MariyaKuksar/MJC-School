@@ -76,6 +76,8 @@ INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `descri
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('6', 'Woman\'s Day', 'gift for a good mood your woman', '55', '365', '2021-08-13 08:50:47', '2021-08-14 09:30:21');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('7', 'SPA', 'spa for women', '30', '80', '2021-08-13 08:50:47', '2021-08-13 08:50:47');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('8', 'Beauty Club', 'gift certificate for women', '40', '50', '2021-08-13 08:50:47', '2021-08-13 08:50:47');
+INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('9', 'Little Happiness', 'for your baby', '50', '360', '2021-08-13 08:50:47', '2021-08-13 08:50:47');
+INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('10', 'Quests', 'gives happiness', '100', '280', '2021-08-13 08:50:47', '2021-08-13 08:50:47');
 
 INSERT INTO `gift_certificates_system`.`tag` (`id`, `name`) VALUES ('1', 'woman');
 INSERT INTO `gift_certificates_system`.`tag` (`id`, `name`) VALUES ('2', 'man');
@@ -94,3 +96,6 @@ INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('7', '1');
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('7', '3');
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('8', '1');
+INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('9', '4');
+INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('10', '3');
+INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('10', '4');

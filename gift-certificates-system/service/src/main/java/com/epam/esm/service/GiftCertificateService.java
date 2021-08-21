@@ -13,5 +13,7 @@ public interface GiftCertificateService {
 
     List<GiftCertificateDto> findGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto);
 
+    GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto);
+
     void deleteGiftCertificate(long id);
 }

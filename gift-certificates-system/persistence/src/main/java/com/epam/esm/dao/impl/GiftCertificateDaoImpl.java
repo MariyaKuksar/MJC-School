@@ -38,6 +38,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             "UPDATE GIFT_CERTIFICATE SET NAME=?, DESCRIPTION=?, " + "PRICE=?, DURATION=?, CREATE_DATE=?, " +
                     "LAST_UPDATE_DATE=? WHERE ID=?";
     private static final String SQL_DELETE_GIFT_CERTIFICATE = "DELETE FROM GIFT_CERTIFICATE WHERE ID=?";
+    private static final String SQL_DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM " +
+            "GIFT_CERTIFICATE_TAG_CONNECTION WHERE GIFT_CERTIFICATE_ID=?";
     private final JdbcTemplate jdbcTemplate;
     private final GiftCertificateWithTagsExtractor giftCertificateWithTagsExtractor;
     private final SelectGiftCertificateSqlQueryBuilder sqlQueryBuilder;
@@ -106,4 +108,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         return (jdbcTemplate.update(SQL_DELETE_GIFT_CERTIFICATE, id) > 0);
     }
 
+    @Override
+    public boolean deleteGiftCertificateTagConnection(long id) {
+        return (jdbcTemplate.update(SQL_DELETE_GIFT_CERTIFICATE_TAG_CONNECTION, id)) > 0;
+    }
 }

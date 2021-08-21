@@ -32,8 +32,15 @@ public class GiftCertificateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GiftCertificateDto createGiftCertificate(@RequestBody GiftCertificateDto giftCertificateDto){
+    public GiftCertificateDto createGiftCertificate(@RequestBody GiftCertificateDto giftCertificateDto) {
         return giftCertificateService.createGiftCertificate(giftCertificateDto);
+    }
+
+    @PatchMapping("/{id}")
+    public GiftCertificateDto updateGiftCertificate(@PathVariable long id,
+                                                    @RequestBody GiftCertificateDto giftCertificateDto) {
+        giftCertificateDto.setId(id);
+        return giftCertificateService.updateGiftCertificate(giftCertificateDto);
     }
 
     @DeleteMapping("/{id}")

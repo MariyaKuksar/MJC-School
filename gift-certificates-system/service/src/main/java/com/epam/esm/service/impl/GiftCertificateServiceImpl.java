@@ -4,6 +4,7 @@ import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateSearchParamsDto;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
 import com.epam.esm.entity.Tag;
@@ -18,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -40,10 +42,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto) {
-        //todo validation (distinct) if invalid or is not free name throw exception
+        //todo validation if invalid or is not free name throw exception
         if (checkIfNameFree(giftCertificateDto.getName())) {
             GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-            ZonedDateTime currentDate = ZonedDateTime.now(ZoneOffset.UTC);
+            ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());//todo or ZoneOffset.UTC (+00.00
+            // created)
             giftCertificate.setCreateDate(currentDate);
             giftCertificate.setLastUpdateDate(currentDate);
             giftCertificate = giftCertificateDao.create(giftCertificate);
@@ -75,6 +78,28 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
+    public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
+        GiftCertificateDto giftCertificateForUpdateDto = findGiftCertificateById(giftCertificateDto.getId());
+        //todo validation if invalid or is not free name throw exception
+        String newName = giftCertificateDto.getName();
+        if (newName != null && !newName.equals(giftCertificateDto.getName())) {
+            checkIfNameFree(newName);
+        }
+        updateFields(giftCertificateForUpdateDto, giftCertificateDto);
+        GiftCertificate updatedGiftCertificate =
+                giftCertificateDao.update(modelMapper.map(giftCertificateForUpdateDto, GiftCertificate.class));
+        List<TagDto> tagDtoList = giftCertificateDto.getTags();
+        if (tagDtoList != null && !tagDtoList.equals(giftCertificateForUpdateDto.getTags())) {
+            if (giftCertificateForUpdateDto.getTags() != null) {
+                giftCertificateDao.deleteGiftCertificateTagConnection(giftCertificateForUpdateDto.getId());
+            }
+            updatedGiftCertificate.setTags(tagDtoList.stream().map(tagDto -> modelMapper.map(tagDto, Tag.class)).collect(Collectors.toList()));
+            createGiftCertificateTagConnection(updatedGiftCertificate);
+        }
+        return modelMapper.map(updatedGiftCertificate, GiftCertificateDto.class);
+    }
+
+    @Override
     public void deleteGiftCertificate(long id) {
         //todo validation
         if (!giftCertificateDao.delete(id)) {
@@ -88,8 +113,26 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     private void createGiftCertificateTagConnection(GiftCertificate giftCertificate) {
-        giftCertificate.setTags(giftCertificate.getTags().stream().distinct().collect(Collectors.toList()));
-        giftCertificate.getTags().forEach(tag -> tag.setId(tagDao.findByName(tag.getName()).orElseGet(() -> tagDao.create(tag)).getId()));
+        List<Tag> tags = giftCertificate.getTags().stream().distinct().collect(Collectors.toList());
+        tags.forEach(tag -> tag.setId(tagDao.findByName(tag.getName()).orElseGet(() -> tagDao.create(tag)).getId()));
+        giftCertificate.setTags(tags);
         giftCertificateDao.createGiftCertificateTagConnection(giftCertificate);
+    }
+
+    private void updateFields(GiftCertificateDto giftCertificateForUpdateDto, GiftCertificateDto giftCertificateDto) {
+        if (giftCertificateDto.getName() != null) {
+            giftCertificateForUpdateDto.setName(giftCertificateDto.getName());
+        }
+        if (giftCertificateDto.getDescription() != null) {
+            giftCertificateForUpdateDto.setDescription(giftCertificateDto.getDescription());
+        }
+        if (giftCertificateDto.getPrice() != null) {
+            giftCertificateForUpdateDto.setPrice(giftCertificateDto.getPrice());
+        }
+        if (giftCertificateDto.getDuration() != 0) {
+            giftCertificateForUpdateDto.setDuration(giftCertificateDto.getDuration());
+        }
+        giftCertificateForUpdateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault())); //todo or
+        // ZonedOffset.UTC
     }
 }

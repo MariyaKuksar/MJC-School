@@ -10,7 +10,7 @@ public interface GiftCertificateDao {
 
     GiftCertificate create(GiftCertificate giftCertificate);
 
-    void createGiftCertificateTagConnection (GiftCertificate giftCertificate);
+    void createGiftCertificateTagConnection(GiftCertificate giftCertificate);
 
     Optional<GiftCertificate> findById(long id);
 
@@ -21,4 +21,6 @@ public interface GiftCertificateDao {
     GiftCertificate update(GiftCertificate giftCertificate);
 
     boolean delete(long id);
+
+    boolean deleteGiftCertificateTagConnection(long id);
 }
