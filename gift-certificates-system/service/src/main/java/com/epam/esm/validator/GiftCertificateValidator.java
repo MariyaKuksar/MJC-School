@@ -50,8 +50,8 @@ public final class GiftCertificateValidator {
 
     public static void validatePrice(BigDecimal price) {
         if (price == null || price.scale() > ValidValue.MAX_SCALE_PRICE || price.compareTo(ValidValue.MIN_PRICE) < 0 || price.compareTo(ValidValue.MAX_PRICE) > 0) {
-            throw new IncorrectParamValueException("invalid price = " + price, MessageKey.INCORRECT_PRICE,
-                    price.toString(), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+            throw new IncorrectParamValueException("invalid price = " + String.valueOf(price), MessageKey.INCORRECT_PRICE,
+                    String.valueOf(price), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 

@@ -8,6 +8,7 @@ public final class MessageKey {
     public static final String INCORRECT_PRICE = "message.incorrect_price";
     public static final String INCORRECT_DURATION = "message.incorrect_duration";
     public static final String NAME_ALREADY_EXIST = "message.name_already_exist";
+    public static final String INVALID_PARAM_FORMAT = "message.invalid_param_format";
     public static final String INTERNAL_SERVER_ERROR = "message.internal_server_error";
 
     private MessageKey() {
