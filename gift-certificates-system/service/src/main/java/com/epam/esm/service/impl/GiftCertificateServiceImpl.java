@@ -18,6 +18,7 @@ import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -38,6 +39,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificateValidator.validateGiftCertificate(giftCertificateDto);
@@ -71,6 +73,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 GiftCertificateDto.class)).collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificateDto giftCertificateForUpdateDto = findGiftCertificateById(giftCertificateDto.getId());
