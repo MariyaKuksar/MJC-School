@@ -42,7 +42,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto) {
         GiftCertificateValidator.validateGiftCertificate(giftCertificateDto);
         checkIfNameFree(giftCertificateDto.getName());
-        ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());//todo or ZoneOffset.UTC (+00.00
+        ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());
         giftCertificateDto.setCreateDate(currentDate);
         giftCertificateDto.setLastUpdateDate(currentDate);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
@@ -124,8 +124,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (giftCertificateDto.getDuration() != 0) {
             giftCertificateForUpdateDto.setDuration(giftCertificateDto.getDuration());
         }
-        giftCertificateForUpdateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault())); //todo or
-        // ZonedOffset.UTC
+        giftCertificateForUpdateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault()));        //
     }
 
     private void updateGiftCertificateTagConnection(GiftCertificateDto giftCertificateForUpdateDto,
