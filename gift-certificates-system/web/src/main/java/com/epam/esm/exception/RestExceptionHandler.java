@@ -15,13 +15,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.Locale;
 
 @RestControllerAdvice
-public class HandlerException {
+public class RestExceptionHandler {
     private static final Logger logger = LogManager.getLogger();
     private static final String DEFAULT_ERROR_CODE = "00";
     private final MessageSource messageSource;
 
     @Autowired
-    public HandlerException(MessageSource messageSource) {
+    public RestExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 

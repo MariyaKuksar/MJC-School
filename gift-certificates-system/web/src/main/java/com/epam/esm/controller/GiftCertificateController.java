@@ -27,16 +27,19 @@ public class GiftCertificateController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public GiftCertificateDto getGiftCertificateById(@PathVariable long id) {
         return giftCertificateService.findGiftCertificateById(id);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<GiftCertificateDto> getGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto) {
         return giftCertificateService.findGiftCertificates(searchParamsDto);
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public GiftCertificateDto updateGiftCertificate(@PathVariable long id,
                                                     @RequestBody GiftCertificateDto giftCertificateDto) {
         giftCertificateDto.setId(id);

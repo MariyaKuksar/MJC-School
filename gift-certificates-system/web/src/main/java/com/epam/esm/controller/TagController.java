@@ -18,20 +18,22 @@ public class TagController {
         this.tagService = tagService;
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TagDto createTag(@RequestBody TagDto tagDto) {
+        return tagService.createTag(tagDto);
+    }
+
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public TagDto getTagById(@PathVariable long id) {
         return tagService.findTagById(id);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<TagDto> getTags() {
         return tagService.findAllTags();
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public TagDto createTag(@RequestBody TagDto tagDto) {
-        return tagService.createTag(tagDto);
     }
 
     @DeleteMapping("/{id}")

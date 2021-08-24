@@ -16,7 +16,6 @@ public class TestPersistenceConfiguration extends PersistenceConfiguration{
     private String initTablesScript;
 
     @Bean
-    @Profile("dev")
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)

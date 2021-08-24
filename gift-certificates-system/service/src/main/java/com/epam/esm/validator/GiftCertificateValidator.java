@@ -11,54 +11,59 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 
-public final class GiftCertificateValidator {
+@Component
+public class GiftCertificateValidator {
 
-    private GiftCertificateValidator() {
-    }
-
-    public static void validateGiftCertificate(GiftCertificateDto giftCertificateDto) {
+    public void validateGiftCertificate(GiftCertificateDto giftCertificateDto) {
         validateName(giftCertificateDto.getName());
         validateDescription(giftCertificateDto.getDescription());
         validatePrice(giftCertificateDto.getPrice());
         validateDuration(giftCertificateDto.getDuration());
         List<TagDto> tagDtoList = giftCertificateDto.getTags();
         if (tagDtoList != null && !tagDtoList.isEmpty()) {
-            tagDtoList.forEach(tagDto -> TagValidator.validateName(tagDto.getName()));
+            tagDtoList.forEach(tagDto -> validateTagName(tagDto.getName()));
         }
     }
 
-    public static void validateId(long id) {
+    public void validateId(long id) {
         if (id < ValidValue.MIN_ID) {
-            throw new IncorrectParamValueException("invalid id = " + id, MessageKey.INCORRECT_ID, String.valueOf(id),
-                    ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+            throw new IncorrectParamValueException("invalid id = " + id,
+                    MessageKey.INCORRECT_ID, String.valueOf(id), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 
-    public static void validateName(String name) {
+    public void validateName(String name) {
         if (StringUtils.isBlank(name) || name.length() > ValidValue.MAX_LENGTH_NAME) {
-            throw new IncorrectParamValueException("invalid name = " + name, MessageKey.INCORRECT_NAME, name,
-                    ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+            throw new IncorrectParamValueException("invalid name = " + name,
+                    MessageKey.INCORRECT_NAME, name, ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 
-    public static void validateDescription(String description) {
+    public void validateDescription(String description) {
         if (StringUtils.isBlank(description) || description.length() > ValidValue.MAX_LENGTH_DESCRIPTION) {
             throw new IncorrectParamValueException("invalid description = " + description,
                     MessageKey.INCORRECT_DESCRIPTION, description, ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 
-    public static void validatePrice(BigDecimal price) {
+    public void validatePrice(BigDecimal price) {
         if (price == null || price.scale() > ValidValue.MAX_SCALE_PRICE || price.compareTo(ValidValue.MIN_PRICE) < 0 || price.compareTo(ValidValue.MAX_PRICE) > 0) {
-            throw new IncorrectParamValueException("invalid price = " + String.valueOf(price), MessageKey.INCORRECT_PRICE,
-                    String.valueOf(price), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+            throw new IncorrectParamValueException("invalid price = " + price,
+                    MessageKey.INCORRECT_PRICE, String.valueOf(price), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 
-    public static void validateDuration(int duration) {
+    public void validateDuration(int duration) {
         if (duration < ValidValue.MIN_DURATION || duration > ValidValue.MAX_DURATION) {
-            throw new IncorrectParamValueException("invalid duration = " + duration, MessageKey.INCORRECT_DURATION,
-                    String.valueOf(duration), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+            throw new IncorrectParamValueException("invalid duration = " + duration,
+                    MessageKey.INCORRECT_DURATION, String.valueOf(duration), ErrorCode.GIFT_CERTIFICATE.getErrorCode());
+        }
+    }
+
+    public void validateTagName(String name) {
+        if (StringUtils.isBlank(name) || name.length() > ValidValue.MAX_LENGTH_NAME) {
+            throw new IncorrectParamValueException("invalid tag name = " + name,
+                    MessageKey.INCORRECT_NAME, name, ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }
 }

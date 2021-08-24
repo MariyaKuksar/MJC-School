@@ -21,46 +21,51 @@ import java.util.stream.Collectors;
 public class TagServiceImpl implements TagService {
     private final TagDao tagDao;
     private final ModelMapper modelMapper;
+    private final TagValidator tagValidator;
 
     @Autowired
-    public TagServiceImpl(TagDao tagDao, ModelMapper modelMapper) {
+    public TagServiceImpl(TagDao tagDao, ModelMapper modelMapper, TagValidator tagValidator) {
         this.tagDao = tagDao;
         this.modelMapper = modelMapper;
+        this.tagValidator = tagValidator;
     }
 
     @Override
     public TagDto createTag(TagDto tagDto) {
         String tagName = tagDto.getName();
-        TagValidator.validateName(tagName);
+        tagValidator.validateName(tagName);
         if (tagDao.findByName(tagName).isPresent()) {
             throw new IncorrectParamValueException("such name already exist, invalid name = " + tagName,
                     MessageKey.NAME_ALREADY_EXIST, tagName, ErrorCode.TAG.getErrorCode());
         }
         Tag tag = modelMapper.map(tagDto, Tag.class);
         tag = tagDao.create(tag);
-        tagDto.setId(tag.getId());
-        return tagDto;
+        return modelMapper.map(tag, TagDto.class);
     }
 
     @Override
     public TagDto findTagById(long id) {
-        TagValidator.validateId(id);
+        tagValidator.validateId(id);
         Optional<Tag> tagOptional = tagDao.findById(id);
-        return tagOptional.map(tag -> modelMapper.map(tag, TagDto.class)).orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id, MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG.getErrorCode()));
+        return tagOptional.map(tag -> modelMapper.map(tag, TagDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id,
+                        MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG.getErrorCode()));
     }
 
     @Override
     public List<TagDto> findAllTags() {
         List<Tag> tagList = tagDao.findAll();
-        return tagList.stream().map(tag -> modelMapper.map(tag, TagDto.class)).collect(Collectors.toList());
+        return tagList.stream()
+                .map(tag -> modelMapper.map(tag, TagDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteTag(long id) {
-        TagValidator.validateId(id);
+        tagValidator.validateId(id);
         if (!tagDao.delete(id)) {
-            throw new ResourceNotFoundException("invalid id = " + id, MessageKey.RESOURCE_NOT_FOUND_BY_ID,
-                    String.valueOf(id), ErrorCode.TAG.getErrorCode());
+            throw new ResourceNotFoundException("invalid id = " + id,
+                    MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG.getErrorCode());
         }
     }
 }

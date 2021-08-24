@@ -21,7 +21,6 @@ public class PersistenceConfiguration {
     private String jdbcUrl;
 
     @Bean
-    @Profile("prod")
     public DataSource dataSource() {
         HikariDataSource hikariDataSource = new HikariDataSource();
         hikariDataSource.setDriverClassName(driverClassName);
