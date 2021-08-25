@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -36,10 +37,10 @@ public class WebConfiguration implements WebMvcConfigurer {
     private String languageRu;
     @Value("en")
     private String languageEn;
-    private final StringToSortingOrderConverter stringToSortingOrderConverter;
+    private final Converter stringToSortingOrderConverter;
 
     @Autowired
-    public WebConfiguration(StringToSortingOrderConverter stringToSortingOrderConverter) {
+    public WebConfiguration(Converter stringToSortingOrderConverter) {
         this.stringToSortingOrderConverter = stringToSortingOrderConverter;
     }
 
@@ -69,8 +70,8 @@ public class WebConfiguration implements WebMvcConfigurer {
      *
      * @return the local resolver
      */
-    @Profile("dev")
     @Bean(name = "localeResolver")
+    @Profile("dev")
     public LocaleResolver devLocaleResolver() {
         AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(languageRu));
@@ -82,8 +83,8 @@ public class WebConfiguration implements WebMvcConfigurer {
      *
      * @return the local resolver
      */
-    @Profile("prod")
     @Bean(name = "localeResolver")
+    @Profile("prod")
     public LocaleResolver prodLocaleResolver() {
         AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(languageEn));
