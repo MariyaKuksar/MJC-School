@@ -17,6 +17,13 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class is implementation of interface {@link GiftCertificateDao}
+ * for working with tag table in database.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO GIFT_CERTIFICATE (NAME, DESCRIPTION, " +
@@ -26,7 +33,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG = "LEFT JOIN " +
             "GIFT_CERTIFICATE_TAG_CONNECTION ON GIFT_CERTIFICATE.ID=GIFT_CERTIFICATE_ID LEFT JOIN TAG ON TAG_ID=TAG.ID";
     private static final String SQL_SELECT_ALL_GIFT_CERTIFICATES = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
-            ".NAME," + " DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
+            ".NAME, DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
             "GIFT_CERTIFICATE " + SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG;
     private static final String SQL_SELECT_GIFT_CERTIFICATE_BY_ID = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
             ".NAME, DESCRIPTION, PRICE, DURATION, CREATE_DATE, LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " +
@@ -35,8 +42,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" + ".NAME, DESCRIPTION, PRICE, DURATION, CREATE_DATE, " +
                     "LAST_UPDATE_DATE, TAG.ID, TAG.NAME FROM " + "GIFT_CERTIFICATE " + SQL_JOIN_GIF_CERTIFICATE_TAG_CONNECTION_JOIN_TAG + " WHERE GIFT_CERTIFICATE.NAME=?";
     private static final String SQL_UPDATE_GIFT_CERTIFICATE =
-            "UPDATE GIFT_CERTIFICATE SET NAME=?, DESCRIPTION=?, " + "PRICE=?, DURATION=?, CREATE_DATE=?, " +
-                    "LAST_UPDATE_DATE=? WHERE ID=?";
+            "UPDATE GIFT_CERTIFICATE SET NAME=?, DESCRIPTION=?, PRICE=?, DURATION=?, LAST_UPDATE_DATE=? WHERE ID=?";
     private static final String SQL_DELETE_GIFT_CERTIFICATE = "DELETE FROM GIFT_CERTIFICATE WHERE ID=?";
     private static final String SQL_DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM " +
             "GIFT_CERTIFICATE_TAG_CONNECTION WHERE GIFT_CERTIFICATE_ID=?";
@@ -98,8 +104,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public GiftCertificate update(GiftCertificate giftCertificate) {
         jdbcTemplate.update(SQL_UPDATE_GIFT_CERTIFICATE, giftCertificate.getName(), giftCertificate.getDescription(),
-                giftCertificate.getPrice(), giftCertificate.getDuration(), giftCertificate.getCreateDate(),
-                giftCertificate.getLastUpdateDate(), giftCertificate.getId());
+                giftCertificate.getPrice(), giftCertificate.getDuration(), giftCertificate.getLastUpdateDate(), giftCertificate.getId());
         return giftCertificate;
     }
 

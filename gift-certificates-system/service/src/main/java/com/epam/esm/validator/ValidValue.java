@@ -2,6 +2,12 @@ package com.epam.esm.validator;
 
 import java.math.BigDecimal;
 
+/**
+ * Describes all valid value for validation.
+ *
+ * @author Mariya Kuksar
+ * @version 1.0
+ */
 public final class ValidValue {
     public static final int MIN_ID = 1;
     public static final int MAX_LENGTH_NAME = 45;

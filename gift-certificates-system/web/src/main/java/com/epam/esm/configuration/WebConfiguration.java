@@ -17,6 +17,13 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * Class contains spring web configuration.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ * @see WebMvcConfigurer
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.epam.esm")
@@ -41,6 +48,12 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addConverter(stringToSortingOrderConverter);
     }
 
+    /**
+     * Creates bean MessageSource for resolving messages, with support for the parameterization
+     * and internationalization of such messages
+     *
+     * @return the message source
+     */
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -51,17 +64,27 @@ public class WebConfiguration implements WebMvcConfigurer {
         return messageSource;
     }
 
+    /**
+     * Creates bean LocaleResolver and set default locale for dev profile
+     *
+     * @return the local resolver
+     */
     @Profile("dev")
-    @Bean (name="localeResolver")
+    @Bean(name = "localeResolver")
     public LocaleResolver devLocaleResolver() {
         AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(languageRu));
         return acceptHeaderLocaleResolver;
     }
 
+    /**
+     * Creates bean LocaleResolver and set default locale fo prod profile
+     *
+     * @return the local resolver
+     */
     @Profile("prod")
-    @Bean (name="localeResolver")
-    public LocaleResolver prodLocaleResolver(){
+    @Bean(name = "localeResolver")
+    public LocaleResolver prodLocaleResolver() {
         AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(languageEn));
         return acceptHeaderLocaleResolver;

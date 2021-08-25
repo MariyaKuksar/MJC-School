@@ -14,6 +14,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.Locale;
 
+/**
+ * Class represents controller which handle all generated exceptions.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 @RestControllerAdvice
 public class RestExceptionHandler {
     private static final Logger logger = LogManager.getLogger();
@@ -25,6 +31,13 @@ public class RestExceptionHandler {
         this.messageSource = messageSource;
     }
 
+    /**
+     * Handles ResourceNotFoundException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseMessage handleResourceNotFoundException(ResourceNotFoundException exception, Locale locale) {
@@ -34,6 +47,13 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.NOT_FOUND.value() + exception.getErrorCode());
     }
 
+    /**
+     * Handles IncorrectParamValueException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(IncorrectParamValueException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseMessage handleIncorrectParamValueException(IncorrectParamValueException exception, Locale locale) {
@@ -43,6 +63,14 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.BAD_REQUEST.value() + exception.getErrorCode());
     }
 
+    /**
+     * Handles HttpMessageNotReadableException, MethodArgumentTypeMismatchException and
+     * BindException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
             BindException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -52,6 +80,13 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.BAD_REQUEST.value() + DEFAULT_ERROR_CODE);
     }
 
+    /**
+     * Handles all others Exceptions
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseMessage handleException(Exception exception, Locale locale) {

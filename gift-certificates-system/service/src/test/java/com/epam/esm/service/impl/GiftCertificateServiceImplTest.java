@@ -38,6 +38,10 @@ public class GiftCertificateServiceImplTest {
     GiftCertificateDto giftCertificateDto3;
     GiftCertificate giftCertificate2;
     GiftCertificateDto giftCertificateDto4;
+    GiftCertificate giftCertificate3;
+    GiftCertificateDto giftCertificateDto5;
+    GiftCertificateDto giftCertificateDto6;
+    GiftCertificate giftCertificate4;
 
     @BeforeEach
     public void setUp() {
@@ -65,6 +69,17 @@ public class GiftCertificateServiceImplTest {
         giftCertificateDto4 = new GiftCertificateDto(10, "Happy New Year", "gift certificate", new BigDecimal("60"),
                 360, ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"
         ), null);
+        giftCertificate3 = new GiftCertificate(10, "New Year holiday", "gift", new BigDecimal("100"), 100,
+                ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
+                null);
+        giftCertificateDto5 = new GiftCertificateDto(10, "New Year holiday", "gift", new BigDecimal("100"), 100, null
+                , null, null);
+        giftCertificateDto6 = new GiftCertificateDto(10, "New Year holiday", "gift", new BigDecimal("100"), 100,
+                ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
+                null);
+        giftCertificate4 = new GiftCertificate(7, "New Year holiday", "gift certificate", new BigDecimal("80"), 180,
+                ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
+                null);
 
     }
 
@@ -122,6 +137,24 @@ public class GiftCertificateServiceImplTest {
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class,
                 () -> giftCertificateService.updateGiftCertificate(giftCertificateDto1));
+    }
+
+    @Test
+    public void updateAllGiftCertificatePositiveTest() {
+        when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.of(giftCertificate2));
+        when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.empty());
+        doNothing().when(giftCertificateValidator).validateGiftCertificate(isA(GiftCertificateDto.class));
+        when(giftCertificateDao.update(isA(GiftCertificate.class))).thenReturn(giftCertificate3);
+        GiftCertificateDto actual = giftCertificateService.updateAllGiftCertificate(giftCertificateDto5);
+        assertEquals(giftCertificateDto6, actual);
+    }
+
+    @Test
+    public void updateAllGiftCertificateNegativeTest() {
+        when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.of(giftCertificate2));
+        when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.of(giftCertificate4));
+        assertThrows(IncorrectParamValueException.class,
+                () -> giftCertificateService.updateAllGiftCertificate(giftCertificateDto5));
     }
 
     @Test

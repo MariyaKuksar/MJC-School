@@ -13,6 +13,13 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class is implementation of interface {@link TagDao}
+ * for working with tag table in database.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 @Repository
 public class TagDaoImpl implements TagDao {
     public static final String SQL_INSERT_TAG = "INSERT INTO TAG (NAME) VALUES (?)";

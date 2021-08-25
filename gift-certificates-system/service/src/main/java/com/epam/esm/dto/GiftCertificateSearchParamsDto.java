@@ -2,6 +2,13 @@ package com.epam.esm.dto;
 
 import com.epam.esm.entity.SortingOrder;
 
+/**
+ * Class is implementation of pattern DTO for transmission gift certificate
+ * search params between service and controller
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class GiftCertificateSearchParamsDto {
     private String tagName;
     private String partNameOrDescription;

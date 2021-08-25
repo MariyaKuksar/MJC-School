@@ -9,6 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class is implementation of pattern DTO for transmission gift certificate
+ * entity between service and controller
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class GiftCertificateDto {
     private long id;
     private String name;

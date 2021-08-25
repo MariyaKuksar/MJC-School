@@ -1,5 +1,11 @@
 package com.epam.esm.exception;
 
+/**
+ * Describes all message key for localization
+ *
+ * @author Mariya Kuksar
+ * @version 1.0
+ */
 public final class MessageKey {
     public static final String RESOURCE_NOT_FOUND_BY_ID = "message.resource_not_found_by_id";
     public static final String INCORRECT_ID = "message.incorrect_id";

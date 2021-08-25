@@ -12,6 +12,14 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Class used by JdbcTemplate for performing the actual work of extracting
+ *  results from a ResultSet and creating list of gift certificates with tags.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ * @see ResultSetExtractor
+ */
 @Component
 public class GiftCertificateWithTagsExtractor implements ResultSetExtractor<List<GiftCertificate>> {
     private final TagMapper tagMapper;

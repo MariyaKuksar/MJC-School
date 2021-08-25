@@ -1,5 +1,11 @@
 package com.epam.esm.dao.mapper;
 
+/**
+ * Describes all database tables column name
+ *
+ * @author Mariya Kuksar
+ * @version 1.0
+ */
 public final class ColumnName {
     public static final String GIFT_CERTIFICATE_ID = "gift_certificate.id";
     public static final String GIFT_CERTIFICATE_NAME = "gift_certificate.name";

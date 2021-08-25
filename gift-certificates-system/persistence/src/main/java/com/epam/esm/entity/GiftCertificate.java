@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class presents gift certificate entity.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class GiftCertificate {
     private long id;
     private String name;

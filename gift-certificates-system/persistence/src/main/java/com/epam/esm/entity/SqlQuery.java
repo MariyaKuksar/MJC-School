@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class presents sql query entity with params to insert into it.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class SqlQuery {
     private String query;
     private List<String> args;

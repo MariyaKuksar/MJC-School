@@ -1,5 +1,12 @@
 package com.epam.esm.dto;
 
+/**
+ * Class is implementation of pattern DTO for transmission tag
+ * entity between service and controller
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class TagDto {
     private long id;
     private String name;

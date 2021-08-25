@@ -17,6 +17,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class is implementation of interface {@link TagService}
+ * for operations with tags.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ * @see TagService
+ */
 @Service
 public class TagServiceImpl implements TagService {
     private final TagDao tagDao;

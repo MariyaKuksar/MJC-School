@@ -5,6 +5,12 @@ import com.epam.esm.entity.SqlQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class designed to build sql query.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 @Component
 public class SelectGiftCertificateSqlQueryBuilder {
     private static final String SQL_SELECT_GIFT_CERTIFICATES = "SELECT GIFT_CERTIFICATE.ID, GIFT_CERTIFICATE" +
@@ -23,6 +29,12 @@ public class SelectGiftCertificateSqlQueryBuilder {
     private static final String GIFT_CERTIFICATE_NAME = "GIFT_CERTIFICATE.NAME ";
     private static final String CONDITION_SEPARATOR = " , ";
 
+    /**
+     * Builds sql query
+     *
+     * @param searchParams data for creating search condition gift certificates
+     * @return the sql query
+     */
     public SqlQuery buildQuery(GiftCertificateSearchParams searchParams) {
         SqlQuery sqlQuery = new SqlQuery();
         StringBuilder query = new StringBuilder();

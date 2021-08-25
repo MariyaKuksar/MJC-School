@@ -1,5 +1,11 @@
 package com.epam.esm.entity;
 
+/**
+ * Class presents params which are used for searching gift certificates in database.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 public class GiftCertificateSearchParams {
     private String tagName;
     private String partNameOrDescription;
