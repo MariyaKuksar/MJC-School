@@ -1,6 +1,5 @@
 package com.epam.esm.configuration;
 
-import com.epam.esm.converter.StringToSortingOrderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;

@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -72,7 +73,7 @@ public class RestExceptionHandler {
      * @return the response message entity
      */
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class,
-            BindException.class})
+            BindException.class, HttpMediaTypeNotSupportedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseMessage handleInvalidParamFormatException(Exception exception, Locale locale) {
         String errorMessage = messageSource.getMessage(MessageKey.INVALID_PARAM_FORMAT, new String[]{}, locale);
