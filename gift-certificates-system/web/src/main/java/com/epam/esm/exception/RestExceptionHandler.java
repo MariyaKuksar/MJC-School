@@ -48,6 +48,14 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.NOT_FOUND.value() + exception.getErrorCode());
     }
 
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseMessage handleResourceAlreadyExistsException (ResourceAlreadyExistsException exception, Locale locale){
+        String errorMessage = messageSource.getMessage(exception.getMessageKey(),
+                new String[]{exception.getIncorrectParameter()}, locale);
+        logger.error(HttpStatus.CONFLICT, exception);
+        return new ResponseMessage(errorMessage, HttpStatus.CONFLICT.value() + exception.getErrorCode());
+    }
     /**
      * Handles IncorrectParamValueException
      *

@@ -8,10 +8,7 @@ import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.ErrorCode;
-import com.epam.esm.exception.IncorrectParamValueException;
-import com.epam.esm.exception.MessageKey;
-import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.exception.*;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
 import org.modelmapper.ModelMapper;
@@ -134,7 +131,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private void checkIfNameFree(String name) {
         if (giftCertificateDao.findByName(name).isPresent()) {
-            throw new IncorrectParamValueException("such name already exist, invalid name = " + name,
+            throw new ResourceAlreadyExistsException("such name already exist, invalid name = " + name,
                     MessageKey.NAME_ALREADY_EXIST, name, ErrorCode.GIFT_CERTIFICATE.getErrorCode());
         }
     }

@@ -3,10 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.ErrorCode;
-import com.epam.esm.exception.IncorrectParamValueException;
-import com.epam.esm.exception.MessageKey;
-import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.exception.*;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
@@ -43,7 +40,7 @@ public class TagServiceImpl implements TagService {
         String tagName = tagDto.getName();
         tagValidator.validateName(tagName);
         if (tagDao.findByName(tagName).isPresent()) {
-            throw new IncorrectParamValueException("such name already exist, invalid name = " + tagName,
+            throw new ResourceAlreadyExistsException("such name already exist, invalid name = " + tagName,
                     MessageKey.NAME_ALREADY_EXIST, tagName, ErrorCode.TAG.getErrorCode());
         }
         Tag tag = modelMapper.map(tagDto, Tag.class);

@@ -1,19 +1,19 @@
 package com.epam.esm.exception;
 
 /**
- * Thrown to indicate that params is incorrect.
+ * Thrown to indicate that unique param already exists.
  *
  * @author Maryia Kuksar
  * @version 1.0
  * @see RuntimeException
  */
-public class IncorrectParamValueException extends RuntimeException {
+public class ResourceAlreadyExistsException extends RuntimeException{
     private String messageKey;
     private String incorrectParameter;
     private String ErrorCode;
 
     /**
-     * Constructor a IncorrectParamValueException with the specified detail message,
+     * Constructor a ResourceAlreadyExistsException with the specified detail message,
      * message key for localization, incorrect parameter, error code
      *
      * @param message the detail message
@@ -21,8 +21,8 @@ public class IncorrectParamValueException extends RuntimeException {
      * @param incorrectParameter the incorrect parameter
      * @param errorCode the error code
      */
-    public IncorrectParamValueException(String message, String messageKey, String incorrectParameter,
-                                        String errorCode) {
+    public ResourceAlreadyExistsException(String message, String messageKey, String incorrectParameter,
+                                          String errorCode) {
         super(message);
         this.messageKey = messageKey;
         this.incorrectParameter = incorrectParameter;

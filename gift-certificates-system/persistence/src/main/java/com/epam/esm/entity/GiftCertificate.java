@@ -27,6 +27,7 @@ public class GiftCertificate {
     private List<Tag> tags;
 
     public GiftCertificate() {
+        this.tags = new ArrayList<>();
     }
 
     public GiftCertificate(long id, String name, String description, BigDecimal price, int duration,
