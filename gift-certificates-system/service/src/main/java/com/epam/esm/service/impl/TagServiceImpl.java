@@ -4,6 +4,7 @@ import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ErrorCode;
+import com.epam.esm.exception.ErrorDetails;
 import com.epam.esm.exception.MessageKey;
 import com.epam.esm.exception.ResourceAlreadyExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
@@ -44,7 +45,7 @@ public class TagServiceImpl implements TagService {
         tagValidator.validateName(tagName);
         if (tagDao.findByName(tagName).isPresent()) {
             throw new ResourceAlreadyExistsException("such name already exist, invalid name = " + tagName,
-                    MessageKey.NAME_ALREADY_EXIST, tagName, ErrorCode.TAG.getErrorCode());
+                    new ErrorDetails(MessageKey.NAME_ALREADY_EXIST, tagName, ErrorCode.TAG_INVALID_NAME.getErrorCode()));
         }
         Tag tag = modelMapper.map(tagDto, Tag.class);
         tag = tagDao.create(tag);
@@ -57,7 +58,7 @@ public class TagServiceImpl implements TagService {
         Optional<Tag> tagOptional = tagDao.findById(id);
         return tagOptional.map(tag -> modelMapper.map(tag, TagDto.class))
                 .orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id,
-                        MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG.getErrorCode()));
+                        new ErrorDetails(MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG_INVALID_ID.getErrorCode())));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class TagServiceImpl implements TagService {
         tagValidator.validateId(id);
         if (!tagDao.delete(id)) {
             throw new ResourceNotFoundException("invalid id = " + id,
-                    MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG.getErrorCode());
+                    new ErrorDetails(MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.TAG_INVALID_ID.getErrorCode()));
         }
     }
 }

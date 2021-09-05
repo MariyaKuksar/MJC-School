@@ -1,5 +1,8 @@
 package com.epam.esm.exception;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Thrown to indicate that params is incorrect.
  *
@@ -8,36 +11,20 @@ package com.epam.esm.exception;
  * @see RuntimeException
  */
 public class IncorrectParamValueException extends RuntimeException {
-    private String messageKey;
-    private String incorrectParameter;
-    private String ErrorCode;
+    private List<ErrorDetails> errors;
 
     /**
-     * Constructor a IncorrectParamValueException with the specified detail message,
-     * message key for localization, incorrect parameter, error code
+     * Constructor a IncorrectParamValueException with the specified detail message and list of error details
      *
      * @param message the detail message
-     * @param messageKey the message key for localization
-     * @param incorrectParameter the incorrect parameter
-     * @param errorCode the error code
+     * @param errors the list of error details
      */
-    public IncorrectParamValueException(String message, String messageKey, String incorrectParameter,
-                                        String errorCode) {
+        public IncorrectParamValueException(String message, List<ErrorDetails> errors) {
         super(message);
-        this.messageKey = messageKey;
-        this.incorrectParameter = incorrectParameter;
-        ErrorCode = errorCode;
+        this.errors = errors;
     }
 
-    public String getMessageKey() {
-        return messageKey;
-    }
-
-    public String getIncorrectParameter() {
-        return incorrectParameter;
-    }
-
-    public String getErrorCode() {
-        return ErrorCode;
+    public List<ErrorDetails> getErrors() {
+        return errors == null ? Collections.emptyList() : Collections.unmodifiableList(errors);
     }
 }

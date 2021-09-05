@@ -1,42 +1,27 @@
 package com.epam.esm.exception;
 
 /**
- * Throwns to indicate that resource is not found.
+ * Thrown to indicate that resource is not found.
  *
  * @author Maryia Kuksar
  * @version 1.0
  * @see RuntimeException
  */
 public class ResourceNotFoundException extends RuntimeException {
-    private String messageKey;
-    private String incorrectParameter;
-    private String ErrorCode;
+    private ErrorDetails errorDetails;
 
     /**
-     * Constructor a ResourceNotFoundException with the specified detail message,
-     * message key for localization, incorrect parameter, error code
+     * Constructor a ResourceNotFoundException with the specified detail message and error details
      *
      * @param message the detail message
-     * @param messageKey the message key for localization
-     * @param incorrectParameter the incorrect parameter
-     * @param errorCode the error code
+     * @param errorDetails the error details
      */
-    public ResourceNotFoundException(String message, String messageKey, String incorrectParameter, String errorCode) {
+    public ResourceNotFoundException(String message, ErrorDetails errorDetails) {
         super(message);
-        this.messageKey = messageKey;
-        this.incorrectParameter = incorrectParameter;
-        ErrorCode = errorCode;
+        this.errorDetails = errorDetails;
     }
 
-    public String getMessageKey() {
-        return messageKey;
-    }
-
-    public String getIncorrectParameter() {
-        return incorrectParameter;
-    }
-
-    public String getErrorCode() {
-        return ErrorCode;
+    public ErrorDetails getErrorDetails() {
+        return errorDetails;
     }
 }

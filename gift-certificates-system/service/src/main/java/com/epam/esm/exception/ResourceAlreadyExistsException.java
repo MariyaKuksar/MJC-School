@@ -8,36 +8,20 @@ package com.epam.esm.exception;
  * @see RuntimeException
  */
 public class ResourceAlreadyExistsException extends RuntimeException{
-    private String messageKey;
-    private String incorrectParameter;
-    private String ErrorCode;
+    private ErrorDetails errorDetails;
 
     /**
-     * Constructor a ResourceAlreadyExistsException with the specified detail message,
-     * message key for localization, incorrect parameter, error code
+     * Constructor a ResourceAlreadyExistsException with the specified detail message and error details
      *
      * @param message the detail message
-     * @param messageKey the message key for localization
-     * @param incorrectParameter the incorrect parameter
-     * @param errorCode the error code
+     * @param errorDetails the error details
      */
-    public ResourceAlreadyExistsException(String message, String messageKey, String incorrectParameter,
-                                          String errorCode) {
+    public ResourceAlreadyExistsException(String message, ErrorDetails errorDetails) {
         super(message);
-        this.messageKey = messageKey;
-        this.incorrectParameter = incorrectParameter;
-        ErrorCode = errorCode;
+        this.errorDetails = errorDetails;
     }
 
-    public String getMessageKey() {
-        return messageKey;
-    }
-
-    public String getIncorrectParameter() {
-        return incorrectParameter;
-    }
-
-    public String getErrorCode() {
-        return ErrorCode;
+    public ErrorDetails getErrorDetails() {
+        return errorDetails;
     }
 }
