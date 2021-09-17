@@ -2,6 +2,7 @@ package com.epam.esm.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,9 +25,7 @@ import java.util.Locale;
  * @version 1.0
  * @see WebMvcConfigurer
  */
-@Configuration
-@EnableWebMvc
-@ComponentScan("com.epam.esm")
+@SpringBootApplication(scanBasePackages = "com.epam.esm")
 public class WebConfiguration implements WebMvcConfigurer {
     @Value("message")
     private String baseName;

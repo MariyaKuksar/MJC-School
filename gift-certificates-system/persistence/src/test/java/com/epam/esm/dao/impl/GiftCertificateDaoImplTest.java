@@ -7,22 +7,17 @@ import com.epam.esm.entity.GiftCertificateSearchParams;
 import com.epam.esm.entity.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestPersistenceConfiguration.class)
+@SpringBootTest(classes = TestPersistenceConfiguration.class)
 public class GiftCertificateDaoImplTest {
     private final GiftCertificateDao giftCertificateDao;
     private GiftCertificate giftCertificate1;
@@ -49,7 +44,7 @@ public class GiftCertificateDaoImplTest {
                 null);
         giftCertificate3 = new GiftCertificate(3L, "Child", "gift certificate for children", new BigDecimal(30), 50,
                 ZonedDateTime.parse("2021-08-04T07:56:47+03:00"), ZonedDateTime.parse("2021-08-04T07:56:47+03:00"),
-                null);
+                Collections.emptyList());
         giftCertificate4 = new GiftCertificate(5L, "Happy New Year", "gif certificate for New Year",
                 new BigDecimal(90), 200, ZonedDateTime.parse("2021-08-17T15:20:52+03:00"),
                 ZonedDateTime.parse("2021" + "-08-17T15:20:52+03:00"), null);
