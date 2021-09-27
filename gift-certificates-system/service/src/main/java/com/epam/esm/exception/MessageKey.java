@@ -23,6 +23,8 @@ public final class MessageKey {
     public static final String INTERNAL_SERVER_ERROR = "message.internal_server_error";
     public static final String METHOD_NOT_ALLOWED = "message.method_not_allowed";
     public static final String UNSUPPORTED_MEDIA_TYPE = "message.unsupported_media_type";
+    public static final String INCORRECT_PAGE_NUMBER = "message.incorrect_page_number";
+    public static final String INCORRECT_PAGE_SIZE = "message.incorrect_page_size";
 
     private MessageKey() {
     }

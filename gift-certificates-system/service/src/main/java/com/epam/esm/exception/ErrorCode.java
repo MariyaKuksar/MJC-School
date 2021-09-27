@@ -13,7 +13,10 @@ public enum ErrorCode {
     GIFT_CERTIFICATE_INVALID_PRICE("04"),
     GIFT_CERTIFICATE_INVALID_DURATION ("05"),
     TAG_INVALID_ID ("06"),
-    TAG_INVALID_NAME ("07");
+    TAG_INVALID_NAME ("07"),
+    USER_INVALID_ID ("08"),
+    PAGE_INVALID_NUMBER ("09"),
+    PAGE_INVALID_SIZE ("10");
 
     private final String errorCode;
 
