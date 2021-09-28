@@ -24,7 +24,6 @@ import java.util.Locale;
  * @see WebMvcConfigurer
  */
 @SpringBootApplication(scanBasePackages = "com.epam.esm")
-@EntityScan(basePackages = "com.epam.esm")
 public class WebConfiguration implements WebMvcConfigurer {
     @Value("message")
     private String baseName;

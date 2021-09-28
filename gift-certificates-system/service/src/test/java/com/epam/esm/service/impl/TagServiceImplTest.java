@@ -73,13 +73,6 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void findAllTagsPositiveTest() {
-        when(tagDao.findAll()).thenReturn(Arrays.asList(tag1));
-        List<TagDto> actual = tagService.findAllTags();
-        assertEquals(1, actual.size());
-    }
-
-    @Test
     public void deleteTagPositiveTest() {
         doNothing().when(tagValidator).validateId(anyLong());
         when(tagDao.delete(anyLong())).thenReturn(true);

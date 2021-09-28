@@ -1,12 +1,21 @@
 package com.epam.esm.entity;
+
+import javax.persistence.*;
+
 /**
  * Class presents tag entity.
  *
  * @author Maryia Kuksar
  * @version 1.0
  */
+@Entity
+@Table(name = "tag")
 public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+    @Column(name = "name")
     private String name;
 
     public Tag() {

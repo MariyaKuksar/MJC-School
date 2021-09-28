@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageDto<UserDto> findAllUsers(PaginationDto paginationDto) {
         Pagination pagination = modelMapper.map(paginationDto, Pagination.class);
-        List<User> users = userDao.findAll(pagination);
-        List<UserDto> usersDto = users.stream()
+        List<User> userList = userDao.findAll(pagination);
+        List<UserDto> userDtoList = userList.stream()
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .collect(Collectors.toList());
         long totalNumberPosition = userDao.getTotalNumber();
-        return new PageDto<UserDto>(usersDto, totalNumberPosition);
+        return new PageDto<UserDto>(userDtoList, totalNumberPosition);
     }
 }

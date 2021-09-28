@@ -1,12 +1,14 @@
 package com.epam.esm.controller;
 
+import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +29,21 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUserById(@PathVariable long id) {
-        return userService.findUserById(id);
+        UserDto userDto = userService.findUserById(id);
+        addLinks(userDto);
+        return userDto;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageDto<UserDto> getUsers(@RequestParam Map<String, String> pageParams) {
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
-        PageDto<UserDto> page = userService.findAllUsers(paginationDto);
-        page.getPagePositions().forEach(this::addLinks);
-        return page;
+        PageDto<UserDto> pageDto = userService.findAllUsers(paginationDto);
+        pageDto.getPagePositions().forEach(this::addLinks);
+        return pageDto;
     }
 
     private void addLinks(UserDto userDto) {
-        userDto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).getUserById(userDto.getId())).withSelfRel());
+        userDto.add(linkTo(methodOn(UserController.class).getUserById(userDto.getId())).withSelfRel());
     }
 }

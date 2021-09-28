@@ -1,5 +1,7 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.TagDto;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public interface TagService {
      *
      * @return the list of all founded tags dto
      */
-    List<TagDto> findAllTags();
+    PageDto<TagDto> findAllTags(PaginationDto paginationDto);
 
     /**
      * Deletes tag by id

@@ -1,5 +1,6 @@
 package com.epam.esm.dao;
 
+import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Tag;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface TagDao {
      *
      * @return the list of all founded tags
      */
-    List<Tag> findAll();
+    List<Tag> findAll(Pagination pagination);
 
     /**
      * Finds tag in database by id
@@ -51,4 +52,6 @@ public interface TagDao {
      * @return true if tag was deleted, else false
      */
     boolean delete(long id);
+
+    long  getTotalNumber();
 }

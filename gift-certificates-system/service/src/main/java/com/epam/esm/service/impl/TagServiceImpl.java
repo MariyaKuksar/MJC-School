@@ -1,7 +1,10 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.TagDto;
+import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
@@ -13,6 +16,7 @@ import com.epam.esm.validator.TagValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +42,7 @@ public class TagServiceImpl implements TagService {
         this.modelMapper = modelMapper;
         this.tagValidator = tagValidator;
     }
-
+    @Transactional
     @Override
     public TagDto createTag(TagDto tagDto) {
         String tagName = tagDto.getName();
@@ -62,13 +66,17 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDto> findAllTags() {
-        List<Tag> tagList = tagDao.findAll();
-        return tagList.stream()
+    public PageDto<TagDto> findAllTags(PaginationDto paginationDto) {
+        Pagination pagination = modelMapper.map(paginationDto, Pagination.class);
+        List<Tag> tagList = tagDao.findAll(pagination);
+        List<TagDto> tagDtoList = tagList.stream()
                 .map(tag -> modelMapper.map(tag, TagDto.class))
                 .collect(Collectors.toList());
+        long totalNumberPosition = tagDao.getTotalNumber();
+        return new PageDto<>(tagDtoList, totalNumberPosition);
     }
 
+    @Transactional
     @Override
     public void deleteTag(long id) {
         tagValidator.validateId(id);

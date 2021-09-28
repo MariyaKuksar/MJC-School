@@ -1,19 +1,19 @@
 package com.epam.esm.controller;
 
+import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import com.epam.esm.converter.ParamsToDtoConverter;
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Class is an endpoint of the API which performs CRUD operations on tags.
@@ -24,11 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/tags")
 public class TagController {
+    private static final String DELETE = "delete";
     private final TagService tagService;
+    private final ParamsToDtoConverter paramsToDtoConverter;
 
     @Autowired
-    public TagController(TagService tagService) {
+    public TagController(TagService tagService, ParamsToDtoConverter paramsToDtoConverter) {
         this.tagService = tagService;
+        this.paramsToDtoConverter = paramsToDtoConverter;
     }
 
     /**
@@ -52,7 +55,9 @@ public class TagController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TagDto getTagById(@PathVariable long id) {
-        return tagService.findTagById(id);
+        TagDto tagDto = tagService.findTagById(id);
+        addLinks(tagDto);
+        return tagDto;
     }
 
     /**
@@ -62,8 +67,11 @@ public class TagController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TagDto> getTags() {
-        return tagService.findAllTags();
+    public PageDto<TagDto> getTags(@RequestParam Map<String, String> pageParams) {
+        PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
+        PageDto<TagDto> pageDto = tagService.findAllTags(paginationDto);
+        pageDto.getPagePositions().forEach(this::addLinks);
+        return pageDto;
     }
 
     /**
@@ -73,7 +81,13 @@ public class TagController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTag(@PathVariable long id) {
+    public ResponseEntity deleteTag(@PathVariable long id) {
         tagService.deleteTag(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private void addLinks (TagDto tagDto){
+        tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel());
+        tagDto.add(linkTo(methodOn(TagController.class).deleteTag(tagDto.getId())).withRel(DELETE));
     }
 }
