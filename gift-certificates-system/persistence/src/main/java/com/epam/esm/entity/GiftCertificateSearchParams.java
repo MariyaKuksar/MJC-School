@@ -1,5 +1,7 @@
 package com.epam.esm.entity;
 
+import java.util.List;
+
 /**
  * Class presents params which are used for searching gift certificates in database.
  *
@@ -7,7 +9,7 @@ package com.epam.esm.entity;
  * @version 1.0
  */
 public class GiftCertificateSearchParams {
-    private String tagName;
+    private List<String> tagNames;
     private String partNameOrDescription;
     private SortingOrder sortingOrderByDate;
     private SortingOrder sortingOrderByName;
@@ -15,17 +17,17 @@ public class GiftCertificateSearchParams {
     public GiftCertificateSearchParams() {
     }
 
-    public GiftCertificateSearchParams(String tagName, String partNameOrDescription) {
-        this.tagName = tagName;
+    public GiftCertificateSearchParams(List<String> tagNames, String partNameOrDescription) {
+        this.tagNames = tagNames;
         this.partNameOrDescription = partNameOrDescription;
     }
 
-    public String getTagName() {
-        return tagName;
+    public List<String> getTagNames() {
+        return tagNames;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
     }
 
     public String getPartNameOrDescription() {
@@ -55,13 +57,12 @@ public class GiftCertificateSearchParams {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GiftCertificateSearchParams)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         GiftCertificateSearchParams that = (GiftCertificateSearchParams) o;
 
-        if (tagName != null ? !tagName.equals(that.tagName) : that.tagName != null) return false;
-        if (partNameOrDescription != null ? !partNameOrDescription.equals(that.partNameOrDescription) :
-                that.partNameOrDescription != null)
+        if (tagNames != null ? !tagNames.equals(that.tagNames) : that.tagNames != null) return false;
+        if (partNameOrDescription != null ? !partNameOrDescription.equals(that.partNameOrDescription) : that.partNameOrDescription != null)
             return false;
         if (sortingOrderByDate != that.sortingOrderByDate) return false;
         return sortingOrderByName == that.sortingOrderByName;
@@ -69,7 +70,7 @@ public class GiftCertificateSearchParams {
 
     @Override
     public int hashCode() {
-        int result = tagName != null ? tagName.hashCode() : 0;
+        int result = tagNames != null ? tagNames.hashCode() : 0;
         result = 31 * result + (partNameOrDescription != null ? partNameOrDescription.hashCode() : 0);
         result = 31 * result + (sortingOrderByDate != null ? sortingOrderByDate.hashCode() : 0);
         result = 31 * result + (sortingOrderByName != null ? sortingOrderByName.hashCode() : 0);
@@ -79,7 +80,7 @@ public class GiftCertificateSearchParams {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GiftCertificateSearchParams{");
-        sb.append("tagName='").append(tagName).append('\'');
+        sb.append("tagNames=").append(tagNames);
         sb.append(", partNameOrDescription='").append(partNameOrDescription).append('\'');
         sb.append(", sortingOrderByDate=").append(sortingOrderByDate);
         sb.append(", sortingOrderByName=").append(sortingOrderByName);

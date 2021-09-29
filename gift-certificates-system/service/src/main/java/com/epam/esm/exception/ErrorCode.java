@@ -16,7 +16,10 @@ public enum ErrorCode {
     TAG_INVALID_NAME ("07"),
     USER_INVALID_ID ("08"),
     PAGE_INVALID_NUMBER ("09"),
-    PAGE_INVALID_SIZE ("10");
+    PAGE_INVALID_SIZE ("10"),
+    INVALID_SORTING_ORDER_BY_DATE ("11"),
+    INVALID_SORTING_ORDER_BY_NAME ("12"),
+    NO_FIELDS_TO_UPDATE ("13");
 
     private final String errorCode;
 

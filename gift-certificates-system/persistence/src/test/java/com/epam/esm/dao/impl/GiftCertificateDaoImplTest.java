@@ -60,8 +60,8 @@ public class GiftCertificateDaoImplTest {
                 ZonedDateTime.parse("2018" + "-08-29T06:12:15+03:00"), tags);
         giftCertificateList = new ArrayList<>();
         giftCertificateList.add(giftCertificate6);
-        searchParams1 = new GiftCertificateSearchParams("woman", "for women");
-        searchParams2 = new GiftCertificateSearchParams("friend", "gift");
+        searchParams1 = new GiftCertificateSearchParams(Arrays.asList("woman"), "for women");
+        searchParams2 = new GiftCertificateSearchParams(Arrays.asList("friend"), "gift");
     }
 
     @Test
@@ -88,18 +88,6 @@ public class GiftCertificateDaoImplTest {
     }
 
     @Test
-    public void findBySearchParamsPositiveTest() {
-        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(searchParams1);
-        assertEquals(giftCertificateList, actual);
-    }
-
-    @Test
-    public void findBySearchParamsNegativeTest() {
-        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(searchParams2);
-        assertTrue(actual.isEmpty());
-    }
-
-    @Test
     public void updatePositiveTest() {
         GiftCertificate actual = giftCertificateDao.update(giftCertificate4);
         assertEquals(giftCertificate4, actual);
@@ -118,10 +106,5 @@ public class GiftCertificateDaoImplTest {
     @Test
     public void deleteNegativeTest() {
         assertFalse(giftCertificateDao.delete(100));
-    }
-
-    @Test
-    public void deleteGiftCertificateTagConnectionPositiveTest() {
-        assertTrue(giftCertificateDao.deleteGiftCertificateTagConnection(1));
     }
 }

@@ -1,6 +1,7 @@
 package com.epam.esm.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Maryia Kuksar
  * @version 1.0
  */
-public class GiftCertificateDto {
+public class GiftCertificateDto extends RepresentationModel<GiftCertificateDto> {
     private long id;
     private String name;
     private String description;
@@ -28,7 +29,6 @@ public class GiftCertificateDto {
     private List<TagDto> tags;
 
     public GiftCertificateDto() {
-        this.tags = new ArrayList<>();
     }
 
     public GiftCertificateDto(long id, String name, String description, BigDecimal price, int duration,

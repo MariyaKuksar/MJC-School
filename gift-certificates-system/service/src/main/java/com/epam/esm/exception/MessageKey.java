@@ -25,6 +25,9 @@ public final class MessageKey {
     public static final String UNSUPPORTED_MEDIA_TYPE = "message.unsupported_media_type";
     public static final String INCORRECT_PAGE_NUMBER = "message.incorrect_page_number";
     public static final String INCORRECT_PAGE_SIZE = "message.incorrect_page_size";
+    public static final String INCORRECT_SORTING_ORDER_BY_DATE = "message.incorrect_sorting_order_by_date";
+    public static final String INCORRECT_SORTING_ORDER_BY_NAME = "message.incorrect_sorting_order_by_name";
+    public static final String NO_FIELDS_TO_UPDATE = "message.no_fields_to_update";
 
     private MessageKey() {
     }

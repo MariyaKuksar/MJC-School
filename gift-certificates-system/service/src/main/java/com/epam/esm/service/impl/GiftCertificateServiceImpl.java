@@ -4,17 +4,21 @@ import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateSearchParamsDto;
-import com.epam.esm.dto.TagDto;
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
+import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Tag;
+import com.epam.esm.exception.ResourceAlreadyExistsException;
+import com.epam.esm.exception.IncorrectParamValueException;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
 import com.epam.esm.exception.MessageKey;
-import com.epam.esm.exception.ResourceAlreadyExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +41,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
+    private static final int NUMBER_GIFT_CERTIFICATE_FIELDS = 5;
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
     private final ModelMapper modelMapper;
@@ -59,14 +65,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDto.setCreateDate(currentDate);
         giftCertificateDto.setLastUpdateDate(currentDate);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        giftCertificate.setTags(createGiftCertificateTags(giftCertificate.getTags()));
         giftCertificate = giftCertificateDao.create(giftCertificate);
-        if (giftCertificateDto.getTags() != null) {
-            giftCertificateDto.setId(giftCertificate.getId());
-            createGiftCertificateTagConnection(giftCertificateDto);
-            giftCertificate.setTags(giftCertificateDto.getTags().stream()
-                    .map(tagDto -> modelMapper.map(tagDto, Tag.class))
-                    .collect(Collectors.toList()));
-        }
         return modelMapper.map(giftCertificate, GiftCertificateDto.class);
     }
 
@@ -81,12 +81,15 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificateDto> findGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto) {
+    public PageDto<GiftCertificateDto> findGiftCertificates(PaginationDto paginationDto, GiftCertificateSearchParamsDto searchParamsDto) {
+        Pagination pagination = modelMapper.map(paginationDto, Pagination.class);
         GiftCertificateSearchParams searchParams = modelMapper.map(searchParamsDto, GiftCertificateSearchParams.class);
-        List<GiftCertificate> giftCertificateList = giftCertificateDao.findBySearchParams(searchParams);
-        return giftCertificateList.stream()
+        List<GiftCertificate> giftCertificateList = giftCertificateDao.findBySearchParams(pagination, searchParams);
+        List<GiftCertificateDto> giftCertificateDtoList = giftCertificateList.stream()
                 .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
+        long totalNumberPosition = giftCertificateDao.getTotalNumber(searchParams);
+        return new PageDto<>(giftCertificateDtoList, totalNumberPosition);
     }
 
     @Transactional
@@ -99,8 +102,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         updateFields(giftCertificateForUpdateDto, giftCertificateDto);
         giftCertificateValidator.validateGiftCertificate(giftCertificateDto);
-        updateGiftCertificateTagConnection(giftCertificateForUpdateDto, giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        giftCertificate.setTags(createGiftCertificateTags(giftCertificate.getTags()));
         giftCertificate = giftCertificateDao.update(giftCertificate);
         return modelMapper.map(giftCertificate, GiftCertificateDto.class);
     }
@@ -116,17 +119,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDto.setCreateDate(giftCertificateForUpdateDto.getCreateDate());
         giftCertificateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault()));
         giftCertificateValidator.validateGiftCertificate(giftCertificateDto);
-        if (giftCertificateForUpdateDto.getTags() != null) {
-            giftCertificateDao.deleteGiftCertificateTagConnection(giftCertificateForUpdateDto.getId());
-        }
-        if (giftCertificateDto.getTags() != null) {
-            createGiftCertificateTagConnection(giftCertificateDto);
-        }
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
+        giftCertificate.setTags(createGiftCertificateTags(giftCertificate.getTags()));
         giftCertificate = giftCertificateDao.update(giftCertificate);
         return modelMapper.map(giftCertificate, GiftCertificateDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteGiftCertificate(long id) {
         giftCertificateValidator.validateId(id);
@@ -145,45 +144,43 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
     }
 
-    private void createGiftCertificateTagConnection(GiftCertificateDto giftCertificateDto) {
-        List<Tag> tags = giftCertificateDto.getTags().stream()
-                .distinct()
-                .map(tagDto -> modelMapper.map(tagDto, Tag.class))
-                .collect(Collectors.toList());
-        tags.forEach(tag -> tag.setId(tagDao.findByName(tag.getName()).orElseGet(() -> tagDao.create(tag)).getId()));
-        giftCertificateDto.setTags(tags.stream()
-                .map(tag -> modelMapper.map(tag, TagDto.class))
-                .collect(Collectors.toList()));
-        GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
-        giftCertificateDao.createGiftCertificateTagConnection(giftCertificate);
+    private List<Tag> createGiftCertificateTags(List<Tag> tagList) {
+        if(tagList != null) {
+            tagList = tagList.stream()
+                    .map(tag -> tagDao.findByName(tag.getName()).orElseGet(() -> tagDao.create(tag)))
+                    .collect(Collectors.toList());
+            }
+            return tagList;
     }
 
     private void updateFields(GiftCertificateDto giftCertificateForUpdateDto, GiftCertificateDto giftCertificateDto) {
+        int emptyFieldCounter = 0;
         if (giftCertificateDto.getName() == null) {
             giftCertificateDto.setName(giftCertificateForUpdateDto.getName());
+            emptyFieldCounter++;
         }
         if (giftCertificateDto.getDescription() == null) {
             giftCertificateDto.setDescription(giftCertificateForUpdateDto.getDescription());
+            emptyFieldCounter++;
         }
         if (giftCertificateDto.getPrice() == null) {
             giftCertificateDto.setPrice(giftCertificateForUpdateDto.getPrice());
+            emptyFieldCounter++;
         }
         if (giftCertificateDto.getDuration() == 0) {
             giftCertificateDto.setDuration(giftCertificateForUpdateDto.getDuration());
+            emptyFieldCounter++;
+        }
+        if(giftCertificateDto.getTags() == null){
+            giftCertificateDto.setTags(giftCertificateForUpdateDto.getTags());
+            emptyFieldCounter++;
+        }
+        if (emptyFieldCounter==NUMBER_GIFT_CERTIFICATE_FIELDS){
+            throw new IncorrectParamValueException("no fields to update", Arrays.asList(new ErrorDetails(MessageKey.NO_FIELDS_TO_UPDATE,
+                    StringUtils.EMPTY, ErrorCode.NO_FIELDS_TO_UPDATE.getErrorCode())));
         }
         giftCertificateDto.setCreateDate(giftCertificateForUpdateDto.getCreateDate());
         giftCertificateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault()));
         giftCertificateDto.setId(giftCertificateForUpdateDto.getId());
-    }
-
-    private void updateGiftCertificateTagConnection(GiftCertificateDto giftCertificateForUpdateDto,
-                                                    GiftCertificateDto giftCertificateDto) {
-        List<TagDto> tagDtoList = giftCertificateDto.getTags();
-        if (tagDtoList != null && !tagDtoList.equals(giftCertificateForUpdateDto.getTags())) {
-            if (giftCertificateForUpdateDto.getTags() != null) {
-                giftCertificateDao.deleteGiftCertificateTagConnection(giftCertificateForUpdateDto.getId());
-            }
-            createGiftCertificateTagConnection(giftCertificateDto);
-        }
     }
 }

@@ -116,13 +116,6 @@ public class GiftCertificateServiceImplTest {
     }
 
     @Test
-    public void findGiftCertificatesPositiveTest() {
-        when(giftCertificateDao.findBySearchParams(isA(GiftCertificateSearchParams.class))).thenReturn(Arrays.asList(giftCertificate1));
-        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(new GiftCertificateSearchParams());
-        assertEquals(1, actual.size());
-    }
-
-    @Test
     public void updateGiftCertificatePositiveTest() {
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.of(giftCertificate1));
         when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.empty());

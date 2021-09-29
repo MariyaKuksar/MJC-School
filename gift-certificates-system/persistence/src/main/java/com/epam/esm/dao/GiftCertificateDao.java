@@ -2,6 +2,7 @@ package com.epam.esm.dao;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
+import com.epam.esm.entity.Pagination;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +22,6 @@ public interface GiftCertificateDao {
      * @return the created gift certificate
      */
     GiftCertificate create(GiftCertificate giftCertificate);
-
-    /**
-     * Creates gift certificate and tags connections in database
-     *
-     * @param giftCertificate the gift certificate with tags for connection
-     */
-    void createGiftCertificateTagConnection(GiftCertificate giftCertificate);
 
     /**
      * Finds gift certificate in database by id
@@ -50,7 +44,7 @@ public interface GiftCertificateDao {
      * @param searchParams data for searching gift certificates
      * @return the list of founded gift certificate dto
      */
-    List<GiftCertificate> findBySearchParams(GiftCertificateSearchParams searchParams);
+    List<GiftCertificate> findBySearchParams(Pagination pagination, GiftCertificateSearchParams searchParams);
 
     /**
      * Updates gift certificate in database
@@ -68,11 +62,5 @@ public interface GiftCertificateDao {
      */
     boolean delete(long id);
 
-    /**
-     * Deletes gift certificate and tag connection in database
-     *
-     * @param id the gift certificate id connections with which needs to delete
-     * @return true if gift certificate and tag connections was deleted, else false
-     */
-    boolean deleteGiftCertificateTagConnection(long id);
+    long getTotalNumber (GiftCertificateSearchParams searchParams);
 }

@@ -1,7 +1,6 @@
 package com.epam.esm.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -14,16 +13,27 @@ import java.util.List;
  * @author Maryia Kuksar
  * @version 1.0
  */
+@Entity
+@Table(name = "gift_certificate")
 public class GiftCertificate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+    @Column(name = "price")
     private BigDecimal price;
+    @Column(name = "duration")
     private int duration;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @Column(name = "create_date")
     private ZonedDateTime createDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @Column(name = "last_update_date")
     private ZonedDateTime lastUpdateDate;
+    @ManyToMany
+    @JoinTable(name = "gift_certificate_tag_connection", joinColumns = @JoinColumn(name = "gift_certificate_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
     public GiftCertificate() {

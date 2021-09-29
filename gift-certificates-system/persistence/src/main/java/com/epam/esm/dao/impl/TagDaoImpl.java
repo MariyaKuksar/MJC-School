@@ -1,18 +1,12 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.mapper.TagMapper;
 import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +48,8 @@ public class TagDaoImpl implements TagDao {
     public Optional<Tag> findByName(String name) {
         return entityManager.createQuery(SELECT_TAG_BY_NAME,Tag.class)
                 .setParameter(QueryParam.NAME, name)
-                .getResultStream().findFirst();
+                .getResultStream()
+                .findFirst();
     }
 
     @Override
