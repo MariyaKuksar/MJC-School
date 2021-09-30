@@ -19,7 +19,8 @@ public enum ErrorCode {
     PAGE_INVALID_SIZE ("10"),
     INVALID_SORTING_ORDER_BY_DATE ("11"),
     INVALID_SORTING_ORDER_BY_NAME ("12"),
-    NO_FIELDS_TO_UPDATE ("13");
+    NO_FIELDS_TO_UPDATE ("13"),
+    ORDER_INVALID_ID ("14");
 
     private final String errorCode;
 

@@ -28,10 +28,10 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gift_certificates_system`.`order`
+-- Table `gift_certificates_system`.`item_order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`order` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`item_order` (
+  `id` BIGINT NOT NULL,
   `cost` DECIMAL NOT NULL,
   `user_id` BIGINT NOT NULL,
   `create_date` TIMESTAMP NOT NULL,
@@ -46,11 +46,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gift_certificates_system`.`gift_certificate_order_connection`
+-- Table `gift_certificates_system`.`ordered_gift_certificate`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate_order_connection` (
+CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`ordered_gift_certificate` (
   `gift_certificate_id` BIGINT NOT NULL,
   `order_id` BIGINT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(100) NOT NULL,
+  `price` DECIMAL NOT NULL,
+  `duration` INT NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
+  `last_update_date` TIMESTAMP NOT NULL,
   `quantity` INT NOT NULL,
   PRIMARY KEY (`gift_certificate_id`, `order_id`),
   INDEX `fk_gift_certificate_has_order_order1_idx` (`order_id` ASC) VISIBLE,
@@ -62,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate_order_co
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_gift_certificate_has_order_order1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `gift_certificates_system`.`order` (`id`)
+    REFERENCES `gift_certificates_system`.`item_order` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -158,3 +164,7 @@ INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('9', '3');
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('10', '3');
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('10', '4');
+
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('1', '150', '1', '2021-08-13 08:50:47');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('1', '1', 'Sport', 'for men', '100', '350', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '1');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('2', '1', 'Woman', 'for women', '25', '180', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '2');

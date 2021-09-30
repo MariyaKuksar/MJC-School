@@ -1,39 +1,26 @@
-package com.epam.esm.entity;
+package com.epam.esm.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "item_order")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class OrderDto extends RepresentationModel<OrderDto> {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
-    @Column(name = "cost")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal cost;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @Column(name = "create_date")
+    private UserDto user;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime createDate;
-    @OneToMany(mappedBy = "orderId")
-    private List<OrderedGiftCertificate> orderedGiftCertificates;
+    private List <OrderedGiftCertificateDto> orderedGiftCertificates;
 
-    public Order() {
+    public OrderDto() {
     }
 
-    public Order(long id, BigDecimal cost, User user, ZonedDateTime createDate, List<OrderedGiftCertificate> orderedGiftCertificates) {
+    public OrderDto(long id, BigDecimal cost, UserDto user, ZonedDateTime createDate, List<OrderedGiftCertificateDto> orderedGiftCertificates) {
         this.id = id;
         this.cost = cost;
         this.user = user;
@@ -57,11 +44,11 @@ public class Order {
         this.cost = cost;
     }
 
-    public User getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
@@ -73,11 +60,11 @@ public class Order {
         this.createDate = createDate;
     }
 
-    public List<OrderedGiftCertificate> getOrderedGiftCertificates() {
+    public List<OrderedGiftCertificateDto> getOrderedGiftCertificates() {
         return orderedGiftCertificates;
     }
 
-    public void setOrderedGiftCertificates(List<OrderedGiftCertificate> orderedGiftCertificates) {
+    public void setOrderedGiftCertificates(List<OrderedGiftCertificateDto> orderedGiftCertificates) {
         this.orderedGiftCertificates = orderedGiftCertificates;
     }
 
@@ -85,19 +72,21 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        Order order = (Order) o;
+        OrderDto orderDto = (OrderDto) o;
 
-        if (id != order.id) return false;
-        if (cost != null ? !cost.equals(order.cost) : order.cost != null) return false;
-        if (user != null ? !user.equals(order.user) : order.user != null) return false;
-        if (createDate != null ? !createDate.equals(order.createDate) : order.createDate != null) return false;
-        return orderedGiftCertificates != null ? orderedGiftCertificates.equals(order.orderedGiftCertificates) : order.orderedGiftCertificates == null;
+        if (id != orderDto.id) return false;
+        if (cost != null ? !cost.equals(orderDto.cost) : orderDto.cost != null) return false;
+        if (user != null ? !user.equals(orderDto.user) : orderDto.user != null) return false;
+        if (createDate != null ? !createDate.equals(orderDto.createDate) : orderDto.createDate != null) return false;
+        return orderedGiftCertificates != null ? orderedGiftCertificates.equals(orderDto.orderedGiftCertificates) : orderDto.orderedGiftCertificates == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = super.hashCode();
+        result = 31 * result + (int) (id ^ (id >>> 32));
         result = 31 * result + (cost != null ? cost.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
@@ -107,7 +96,7 @@ public class Order {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Order{");
+        final StringBuilder sb = new StringBuilder("OrderDto{");
         sb.append("id=").append(id);
         sb.append(", cost=").append(cost);
         sb.append(", user=").append(user);

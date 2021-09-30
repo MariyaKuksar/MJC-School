@@ -1,5 +1,6 @@
 package com.epam.esm.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.hateoas.RepresentationModel;
  * @version 1.0
  */
 public class TagDto extends RepresentationModel<TagDto> {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
     private String name;
 

@@ -1,6 +1,6 @@
 package com.epam.esm.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
@@ -22,9 +22,9 @@ public class GiftCertificateDto extends RepresentationModel<GiftCertificateDto> 
     private String description;
     private BigDecimal price;
     private int duration;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime createDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime lastUpdateDate;
     private List<TagDto> tags;
 

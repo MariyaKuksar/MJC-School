@@ -1,5 +1,9 @@
 package com.epam.esm.dao;
 
-public interface OrderDao {
+import com.epam.esm.entity.Order;
 
+import java.util.Optional;
+
+public interface OrderDao {
+    Optional<Order> findById(long id);
 }
