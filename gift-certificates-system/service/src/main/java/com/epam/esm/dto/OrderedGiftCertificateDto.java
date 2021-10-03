@@ -31,6 +31,11 @@ public class OrderedGiftCertificateDto extends RepresentationModel<OrderedGiftCe
         this.quantity = quantity;
     }
 
+    public OrderedGiftCertificateDto(long giftCertificateId, int quantity) {
+        this.giftCertificateId = giftCertificateId;
+        this.quantity = quantity;
+    }
+
     public long getGiftCertificateId() {
         return giftCertificateId;
     }

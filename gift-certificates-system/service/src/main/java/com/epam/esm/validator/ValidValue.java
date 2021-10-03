@@ -17,8 +17,11 @@ public final class ValidValue {
     public static final BigDecimal MAX_PRICE = new BigDecimal("999999.99");
     public static final int MIN_DURATION = 1;
     public static final int MAX_DURATION = 1000;
+    public static final int MIN_QUANTITY = 1;
+    public static final int MAX_QUANTITY = 10;
+    public static final int UNIQUE_QUANTITY = 1;
 
-    private ValidValue(){
+    private ValidValue() {
 
     }
 }

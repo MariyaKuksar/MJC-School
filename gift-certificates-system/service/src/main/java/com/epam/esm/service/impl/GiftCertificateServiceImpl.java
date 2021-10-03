@@ -61,9 +61,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto) {
         giftCertificateValidator.validateGiftCertificate(giftCertificateDto);
         checkIfNameFree(giftCertificateDto.getName());
-        ZonedDateTime currentDate = ZonedDateTime.now(ZoneId.systemDefault());
-        giftCertificateDto.setCreateDate(currentDate);
-        giftCertificateDto.setLastUpdateDate(currentDate);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
         giftCertificate.setTags(createGiftCertificateTags(giftCertificate.getTags()));
         giftCertificate = giftCertificateDao.create(giftCertificate);
@@ -88,8 +85,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<GiftCertificateDto> giftCertificateDtoList = giftCertificateList.stream()
                 .map(giftCertificate -> modelMapper.map(giftCertificate, GiftCertificateDto.class))
                 .collect(Collectors.toList());
-        long totalNumberPosition = giftCertificateDao.getTotalNumber(searchParams);
-        return new PageDto<>(giftCertificateDtoList, totalNumberPosition);
+        long totalNumberPositions = giftCertificateDao.getTotalNumber(searchParams);
+        return new PageDto<>(giftCertificateDtoList, totalNumberPositions);
     }
 
     @Transactional
@@ -117,7 +114,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             checkIfNameFree(newName);
         }
         giftCertificateDto.setCreateDate(giftCertificateForUpdateDto.getCreateDate());
-        giftCertificateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault()));
         giftCertificateValidator.validateGiftCertificate(giftCertificateDto);
         GiftCertificate giftCertificate = modelMapper.map(giftCertificateDto, GiftCertificate.class);
         giftCertificate.setTags(createGiftCertificateTags(giftCertificate.getTags()));
@@ -134,6 +130,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     new ErrorDetails(MessageKey.RESOURCE_NOT_FOUND_BY_ID,
                             String.valueOf(id), ErrorCode.GIFT_CERTIFICATE_INVALID_ID.getErrorCode()));
         }
+        giftCertificateDao.deleteConnectionByGiftCertificateId(id);
     }
 
     private void checkIfNameFree(String name) {
@@ -180,7 +177,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     StringUtils.EMPTY, ErrorCode.NO_FIELDS_TO_UPDATE.getErrorCode())));
         }
         giftCertificateDto.setCreateDate(giftCertificateForUpdateDto.getCreateDate());
-        giftCertificateDto.setLastUpdateDate(ZonedDateTime.now(ZoneId.systemDefault()));
         giftCertificateDto.setId(giftCertificateForUpdateDto.getId());
     }
 }

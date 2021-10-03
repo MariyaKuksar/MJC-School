@@ -28,6 +28,9 @@ public final class MessageKey {
     public static final String INCORRECT_SORTING_ORDER_BY_DATE = "message.incorrect_sorting_order_by_date";
     public static final String INCORRECT_SORTING_ORDER_BY_NAME = "message.incorrect_sorting_order_by_name";
     public static final String NO_FIELDS_TO_UPDATE = "message.no_fields_to_update";
+    public static final String NO_SUCH_USER_EXISTS = "message.no_such_user_exists";
+    public static final String NO_SUCH_GIFT_CERTIFICATE_EXISTS = "message.no_such.gift_certificate_exists";
+    public static final String INCORRECT_QUANTITY = "message.incorrect_quantity";
 
     private MessageKey() {
     }

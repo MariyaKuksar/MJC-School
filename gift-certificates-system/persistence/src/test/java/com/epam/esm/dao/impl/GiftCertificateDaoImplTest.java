@@ -97,14 +97,4 @@ public class GiftCertificateDaoImplTest {
     public void updateExceptionTest() {
         assertThrows(DataAccessException.class, () -> giftCertificateDao.create(giftCertificate5));
     }
-
-    @Test
-    public void deletePositiveTest() {
-        assertTrue(giftCertificateDao.delete(1));
-    }
-
-    @Test
-    public void deleteNegativeTest() {
-        assertFalse(giftCertificateDao.delete(100));
-    }
 }

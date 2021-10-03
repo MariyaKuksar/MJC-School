@@ -63,4 +63,6 @@ public interface GiftCertificateDao {
     boolean delete(long id);
 
     long getTotalNumber (GiftCertificateSearchParams searchParams);
+
+    void deleteConnectionByGiftCertificateId(long id);
 }

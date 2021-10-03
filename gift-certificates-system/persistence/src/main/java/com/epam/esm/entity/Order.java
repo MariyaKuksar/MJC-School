@@ -1,5 +1,7 @@
 package com.epam.esm.entity;
 
+import com.epam.esm.entity.audit.OrderAudit;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
+import javax.persistence.EntityListeners;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "item_order")
+@EntityListeners(OrderAudit.class)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

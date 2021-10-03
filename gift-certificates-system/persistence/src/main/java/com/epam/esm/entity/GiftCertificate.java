@@ -1,5 +1,7 @@
 package com.epam.esm.entity;
 
+import com.epam.esm.entity.audit.GiftCertificateAudit;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,10 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.EntityListeners;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "gift_certificate")
+@EntityListeners(GiftCertificateAudit.class)
 public class GiftCertificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +46,7 @@ public class GiftCertificate {
     @ManyToMany
     @JoinTable(name = "gift_certificate_tag_connection", joinColumns = @JoinColumn(name = "gift_certificate_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
+    private boolean deleted;
 
     public GiftCertificate() {
         this.tags = new ArrayList<>();
@@ -117,29 +121,31 @@ public class GiftCertificate {
     }
 
     public List<Tag> getTags() {
-        return tags == null ? null : Collections.unmodifiableList(tags);
+        return tags;
     }
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
-    public void addTag(Tag tag) {
-        if (tags == null) {
-            tags = new ArrayList<>();
-        }
-        tags.add(tag);
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GiftCertificate)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         GiftCertificate that = (GiftCertificate) o;
 
         if (id != that.id) return false;
         if (duration != that.duration) return false;
+        if (deleted != that.deleted) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (price != null ? !price.equals(that.price) : that.price != null) return false;
@@ -159,6 +165,7 @@ public class GiftCertificate {
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (lastUpdateDate != null ? lastUpdateDate.hashCode() : 0);
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
+        result = 31 * result + (deleted ? 1 : 0);
         return result;
     }
 
@@ -173,6 +180,7 @@ public class GiftCertificate {
         sb.append(", createDate=").append(createDate);
         sb.append(", lastUpdateDate=").append(lastUpdateDate);
         sb.append(", tags=").append(tags);
+        sb.append(", deleted=").append(deleted);
         sb.append('}');
         return sb.toString();
     }

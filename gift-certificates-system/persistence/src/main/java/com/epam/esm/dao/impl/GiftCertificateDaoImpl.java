@@ -23,7 +23,10 @@ import java.util.Optional;
  */
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
-    private static final String SELECT_GIFT_CERTIFICATE_BY_NAME = "FROM GiftCertificate WHERE name=:name";
+    private static final String SELECT_GIFT_CERTIFICATE_BY_ID = "FROM GiftCertificate WHERE deleted=false AND id=:id";
+    private static final String SELECT_GIFT_CERTIFICATE_BY_NAME = "FROM GiftCertificate WHERE deleted=false AND name=:name";
+    private static final String DELETE_GIFT_CERTIFICATE = "UPDATE GiftCertificate SET deleted=true WHERE id = :id AND deleted = false";
+    private static final String DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM gift_certificate_tag_connection WHERE gift_certificate_id = :giftCertificateId";
     @PersistenceContext
     private EntityManager entityManager;
     private final GiftCertificateQueryCreator queryBuilder;
@@ -41,7 +44,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public Optional<GiftCertificate> findById(long id) {
-        return Optional.ofNullable(entityManager.find(GiftCertificate.class, id));
+        return entityManager.createQuery(SELECT_GIFT_CERTIFICATE_BY_ID, GiftCertificate.class)
+                .setParameter(QueryParam.ID, id)
+                .getResultStream()
+                .findFirst();
     }
 
     @Override
@@ -71,11 +77,15 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
     @Override
     public boolean delete(long id) {
-        GiftCertificate giftCertificate = entityManager.find(GiftCertificate.class, id);
-        if (giftCertificate != null) {
-            entityManager.remove(giftCertificate);
-        }
-        return giftCertificate != null;
+        return entityManager.createQuery(DELETE_GIFT_CERTIFICATE)
+                .setParameter(QueryParam.ID, id)
+                .executeUpdate() == 1;
+    }
+
+    @Override
+    public void deleteConnectionByGiftCertificateId(long id) {
+        entityManager.createNativeQuery(DELETE_GIFT_CERTIFICATE_TAG_CONNECTION)
+                .setParameter(QueryParam.GIFT_CERTIFICATE_ID, id).executeUpdate();
     }
 
     @Override

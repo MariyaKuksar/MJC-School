@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 -- Table `gift_certificates_system`.`item_order`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`item_order` (
-  `id` BIGINT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `cost` DECIMAL NOT NULL,
   `user_id` BIGINT NOT NULL,
   `create_date` TIMESTAMP NOT NULL,
@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate` (
   `duration` INT NOT NULL,
   `create_date` TIMESTAMP NOT NULL,
   `last_update_date` TIMESTAMP NOT NULL,
+  `deleted` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -110,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`gift_certificate_tag_conn
   CONSTRAINT `fk_gift_certificate_has_tag_gift_certificate`
     FOREIGN KEY (`gift_certificate_id`)
     REFERENCES `gift_certificates_system`.`gift_certificate` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_gift_certificate_has_tag_tag1`
     FOREIGN KEY (`tag_id`)

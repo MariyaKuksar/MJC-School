@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class GiftCertificateQueryCreator {
+    private static final String DELETED = "deleted";
     private static final String TAGS = "tags";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
@@ -26,6 +27,7 @@ public class GiftCertificateQueryCreator {
         CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
         Root<GiftCertificate> giftCertificateRoot = criteriaQuery.from(GiftCertificate.class);
         List<Predicate> restrictions = new ArrayList<>();
+        restrictions.add(criteriaBuilder.equal(giftCertificateRoot.get(DELETED), Boolean.FALSE));
         if (searchParams.getTagNames() != null) {
             restrictions.addAll(addTagNames(searchParams.getTagNames(), criteriaBuilder, giftCertificateRoot));
         }

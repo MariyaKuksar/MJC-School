@@ -1,7 +1,7 @@
 package com.epam.esm.controller;
 
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.PageDto;
@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    public static final String ORDERS = "orders";
     private final UserService userService;
     private final ParamsToDtoConverter paramsToDtoConverter;
 
@@ -50,5 +52,6 @@ public class UserController {
 
     private void addLinks(UserDto userDto) {
         userDto.add(linkTo(methodOn(UserController.class).getUserById(userDto.getId())).withSelfRel());
+        userDto.add(linkTo(methodOn(OrderController.class).getOrdersByUserId(userDto.getId(), Collections.emptyMap())).withRel(ORDERS));
     }
 }
