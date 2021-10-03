@@ -36,6 +36,8 @@ public interface TagService {
      */
     PageDto<TagDto> findAllTags(PaginationDto paginationDto);
 
+    TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders();
+
     /**
      * Deletes tag by id
      *

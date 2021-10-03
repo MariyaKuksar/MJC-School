@@ -13,6 +13,7 @@ import com.epam.esm.exception.ResourceAlreadyExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,14 @@ public class TagServiceImpl implements TagService {
                 .collect(Collectors.toList());
         long totalNumberPosition = tagDao.getTotalNumber();
         return new PageDto<>(tagDtoList, totalNumberPosition);
+    }
+
+    @Override
+    public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() {
+        Optional<Tag> tagOptional = tagDao.findMostPopularTagOfUserWithHighestCostOfAllOrders();
+        return tagOptional.map(tag -> modelMapper.map(tag, TagDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException("the most popular tag of user with the highest cost of all orders not found",
+                        new ErrorDetails(MessageKey.POPULAR_TAG_NOT_FOUND, StringUtils.EMPTY ,ErrorCode.DEFAULT.getErrorCode())));
     }
 
     @Transactional

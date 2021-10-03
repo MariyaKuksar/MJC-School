@@ -27,7 +27,6 @@ import java.util.Locale;
 @RestControllerAdvice
 public class RestExceptionHandler {
     private static final Logger logger = LogManager.getLogger();
-    private static final String DEFAULT_ERROR_CODE = "00";
     private final MessageSource messageSource;
 
     @Autowired
@@ -100,7 +99,7 @@ public class RestExceptionHandler {
     public ResponseMessage handleHttpRequestMethodNotSupportedException (HttpRequestMethodNotSupportedException exception, Locale locale){
         String errorMessage = messageSource.getMessage(MessageKey.METHOD_NOT_ALLOWED, new String[]{}, locale);
         logger.error(HttpStatus.METHOD_NOT_ALLOWED, exception);
-        return new ResponseMessage(errorMessage, HttpStatus.METHOD_NOT_ALLOWED.value() + DEFAULT_ERROR_CODE);
+        return new ResponseMessage(errorMessage, HttpStatus.METHOD_NOT_ALLOWED.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 
     /**
@@ -115,7 +114,7 @@ public class RestExceptionHandler {
     public ResponseMessage handleHttpMediaTypeNotSupportedException (HttpMediaTypeNotSupportedException exception, Locale locale) {
         String errorMessage = messageSource.getMessage(MessageKey.UNSUPPORTED_MEDIA_TYPE, new String[]{}, locale);
         logger.error(HttpStatus.UNSUPPORTED_MEDIA_TYPE, exception);
-        return new ResponseMessage(errorMessage, HttpStatus.UNSUPPORTED_MEDIA_TYPE.value() + DEFAULT_ERROR_CODE);
+        return new ResponseMessage(errorMessage, HttpStatus.UNSUPPORTED_MEDIA_TYPE.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 
     /**
@@ -132,7 +131,7 @@ public class RestExceptionHandler {
     public ResponseMessage handleInvalidParamFormatException(Exception exception, Locale locale) {
         String errorMessage = messageSource.getMessage(MessageKey.INVALID_PARAM_FORMAT, new String[]{}, locale);
         logger.error(HttpStatus.BAD_REQUEST, exception);
-        return new ResponseMessage(errorMessage, HttpStatus.BAD_REQUEST.value() + DEFAULT_ERROR_CODE);
+        return new ResponseMessage(errorMessage, HttpStatus.BAD_REQUEST.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 
     /**
@@ -147,7 +146,7 @@ public class RestExceptionHandler {
     public ResponseMessage handleException(Exception exception, Locale locale) {
         String errorMessage = messageSource.getMessage(MessageKey.INTERNAL_SERVER_ERROR, new String[]{}, locale);
         logger.error(HttpStatus.INTERNAL_SERVER_ERROR, exception);
-        return new ResponseMessage(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR.value() + DEFAULT_ERROR_CODE);
+        return new ResponseMessage(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 }
 

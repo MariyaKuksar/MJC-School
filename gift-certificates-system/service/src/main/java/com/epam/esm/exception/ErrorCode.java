@@ -7,6 +7,7 @@ package com.epam.esm.exception;
  * @version 1.0
  */
 public enum ErrorCode {
+    DEFAULT ("00"),
     GIFT_CERTIFICATE_INVALID_ID ("01"),
     GIFT_CERTIFICATE_INVALID_NAME ("02"),
     GIFT_CERTIFICATE_INVALID_DESCRIPTION ("03"),

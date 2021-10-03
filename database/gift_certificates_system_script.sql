@@ -167,5 +167,17 @@ INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_
 INSERT INTO `gift_certificates_system`.`gift_certificate_tag_connection` (`gift_certificate_id`, `tag_id`) VALUES ('10', '4');
 
 INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('1', '150', '1', '2021-08-13 08:50:47');
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('2', '380', '1', '2021-08-15 08:50:47');
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('3', '740', '1', '2021-08-17 08:50:47');
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('4', '100', '2', '2021-08-20 08:50:47');
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('5', '1000', '3', '2021-08-25 08:50:47');
+INSERT INTO `gift_certificates_system`.`item_order` (`id`, `cost`, `user_id`, `create_date`) VALUES ('6', '200', '1', '2021-09-10 08:50:47');
+
 INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('1', '1', 'Sport', 'for men', '100', '350', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '1');
 INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('2', '1', 'Woman', 'for women', '25', '180', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '2');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('6', '2', 'Woman', 'for woman', '100', '360', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '2');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('10', '3', 'Man', 'for man', '50', '180', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '1');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('8', '3', 'Child', 'for child', '80', '100', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '3');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('5', '4', 'Sport', 'for sport', '50', '360', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '1');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('4', '5', 'Love', 'for love', '100', '150', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '2');
+INSERT INTO `gift_certificates_system`.`ordered_gift_certificate` (`gift_certificate_id`, `order_id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`, `quantity`) VALUES ('5', '6', 'Friend', 'for friend', '100', '100', '2021-08-13 08:50:47', '2021-08-13 08:50:47', '2');

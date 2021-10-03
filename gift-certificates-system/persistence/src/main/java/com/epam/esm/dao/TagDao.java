@@ -45,6 +45,8 @@ public interface TagDao {
      */
     Optional<Tag> findByName(String name);
 
+    Optional<Tag> findMostPopularTagOfUserWithHighestCostOfAllOrders ();
+
     /**
      * Deletes tag in database
      *
