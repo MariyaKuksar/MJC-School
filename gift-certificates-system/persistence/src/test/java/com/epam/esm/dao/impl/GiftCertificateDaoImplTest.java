@@ -10,14 +10,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = TestPersistenceConfiguration.class)
+@Transactional
 public class GiftCertificateDaoImplTest {
     private final GiftCertificateDao giftCertificateDao;
     private GiftCertificate giftCertificate1;
@@ -43,7 +50,7 @@ public class GiftCertificateDaoImplTest {
                 ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
                 null);
         giftCertificate3 = new GiftCertificate(3L, "Child", "gift certificate for children", new BigDecimal(30), 50,
-                ZonedDateTime.parse("2021-08-04T07:56:47+03:00"), ZonedDateTime.parse("2021-08-04T07:56:47+03:00"),
+                ZonedDateTime.parse("2021-08-04T07:56:47+03:00[Europe/Minsk]"), ZonedDateTime.parse("2021-08-04T07:56:47+03:00[Europe/Minsk]"),
                 Collections.emptyList());
         giftCertificate4 = new GiftCertificate(5L, "Happy New Year", "gif certificate for New Year",
                 new BigDecimal(90), 200, ZonedDateTime.parse("2021-08-17T15:20:52+03:00"),
@@ -67,7 +74,7 @@ public class GiftCertificateDaoImplTest {
     @Test
     public void createPositiveTest() {
         GiftCertificate actual = giftCertificateDao.create(giftCertificate1);
-        assertEquals(giftCertificate2, actual);
+        assertNotNull(actual);
     }
 
     @Test
@@ -88,13 +95,29 @@ public class GiftCertificateDaoImplTest {
     }
 
     @Test
-    public void updatePositiveTest() {
-        GiftCertificate actual = giftCertificateDao.update(giftCertificate4);
-        assertEquals(giftCertificate4, actual);
+    public void findByNamePositiveTest() {
+        GiftCertificate actual = giftCertificateDao.findByName("Child").get();
+        assertEquals(giftCertificate3, actual);
+    }
+
+    @Test
+    public void findByNameNegativeTest() {
+        Optional<GiftCertificate> actual = giftCertificateDao.findByName("Mary");
+        assertFalse(actual.isPresent());
     }
 
     @Test
     public void updateExceptionTest() {
         assertThrows(DataAccessException.class, () -> giftCertificateDao.create(giftCertificate5));
+    }
+
+    @Test
+    public void deletePositiveTest() {
+        assertTrue(giftCertificateDao.delete(1));
+    }
+
+    @Test
+    public void deleteNegativeTest() {
+        assertFalse(giftCertificateDao.delete(15));
     }
 }

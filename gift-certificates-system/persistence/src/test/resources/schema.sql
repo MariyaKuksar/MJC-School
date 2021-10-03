@@ -5,7 +5,8 @@ CREATE TABLE gift_certificate (
   price DECIMAL NOT NULL,
   duration INT NOT NULL,
   create_date TIMESTAMP NOT NULL,
-  last_update_date TIMESTAMP NOT NULL
+  last_update_date TIMESTAMP NOT NULL,
+  `deleted` BOOLEAN DEFAULT FALSE
   );
 
 CREATE TABLE tag (

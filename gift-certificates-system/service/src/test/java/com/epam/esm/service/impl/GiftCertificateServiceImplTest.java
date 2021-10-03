@@ -1,18 +1,21 @@
 package com.epam.esm.service.impl;
 
+import com.epam.esm.configuration.ServiceConfiguration;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.GiftCertificateSearchParams;
-import com.epam.esm.exception.IncorrectParamValueException;
+import com.epam.esm.entity.Pagination;
+import com.epam.esm.exception.ResourceAlreadyExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -25,12 +28,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.*;
 
-
+@SpringBootTest (classes = ServiceConfiguration.class)
 public class GiftCertificateServiceImplTest {
+    @MockBean
     private GiftCertificateDao giftCertificateDao;
+    @MockBean
     private TagDao tagDao;
-    private ModelMapper modelMapper;
+    @MockBean
     private GiftCertificateValidator giftCertificateValidator;
+    @Autowired
     GiftCertificateService giftCertificateService;
     GiftCertificateDto giftCertificateDto1;
     GiftCertificate giftCertificate1;
@@ -45,13 +51,6 @@ public class GiftCertificateServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        giftCertificateDao = mock(GiftCertificateDao.class);
-        tagDao = mock(TagDao.class);
-        modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE).setMatchingStrategy(MatchingStrategies.STRICT).setFieldMatchingEnabled(true).setSkipNullEnabled(true);
-        giftCertificateValidator = mock(GiftCertificateValidator.class);
-        giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao, modelMapper,
-                giftCertificateValidator);
         giftCertificateDto1 = new GiftCertificateDto(0, "New Year", "gift certificate", new BigDecimal("50"), 360,
                 ZonedDateTime.parse("2021-08-17T14:11:52+03:00"), ZonedDateTime.parse("2021-08-17T14:11:52+03:00"),
                 null);
@@ -96,7 +95,7 @@ public class GiftCertificateServiceImplTest {
     public void createGiftCertificateNegativeTest() {
         doNothing().when(giftCertificateValidator).validateGiftCertificate(isA(GiftCertificateDto.class));
         when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.of(giftCertificate1));
-        assertThrows(IncorrectParamValueException.class,
+        assertThrows(ResourceAlreadyExistsException.class,
                 () -> giftCertificateService.createGiftCertificate(giftCertificateDto1));
     }
 
@@ -113,6 +112,13 @@ public class GiftCertificateServiceImplTest {
         doNothing().when(giftCertificateValidator).validateId(anyLong());
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> giftCertificateService.findGiftCertificateById(1000));
+    }
+
+    @Test
+    public void findGiftCertificatesPositiveTest() {
+        when(giftCertificateDao.findBySearchParams(isA(Pagination.class), isA(GiftCertificateSearchParams.class))).thenReturn(Arrays.asList(giftCertificate1));
+        List<GiftCertificate> actual = giftCertificateDao.findBySearchParams(new Pagination(), new GiftCertificateSearchParams());
+        assertEquals(1, actual.size());
     }
 
     @Test
@@ -146,7 +152,7 @@ public class GiftCertificateServiceImplTest {
     public void updateAllGiftCertificateNegativeTest() {
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.of(giftCertificate2));
         when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.of(giftCertificate4));
-        assertThrows(IncorrectParamValueException.class,
+        assertThrows(ResourceAlreadyExistsException.class,
                 () -> giftCertificateService.updateAllGiftCertificate(giftCertificateDto5));
     }
 
