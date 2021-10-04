@@ -20,6 +20,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class is implementation of interface {@link UserService}
+ * for operations with users.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see UserService
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
@@ -38,7 +46,7 @@ public class UserServiceImpl implements UserService {
         userValidator.validateId(id);
         Optional<User> userOptional = userDao.findById(id);
         return userOptional.map(user -> modelMapper.map(user, UserDto.class))
-                .orElseThrow(() -> new ResourceNotFoundException ("invalid id = " + id,
+                .orElseThrow(() -> new ResourceNotFoundException("invalid id = " + id,
                         new ErrorDetails(MessageKey.RESOURCE_NOT_FOUND_BY_ID, String.valueOf(id), ErrorCode.USER_INVALID_ID.getErrorCode())));
     }
 
@@ -50,6 +58,6 @@ public class UserServiceImpl implements UserService {
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .collect(Collectors.toList());
         long totalNumberPosition = userDao.getTotalNumber();
-        return new PageDto<UserDto>(userDtoList, totalNumberPosition);
+        return new PageDto<>(userDtoList, totalNumberPosition);
     }
 }

@@ -1,5 +1,12 @@
 package com.epam.esm.dto;
 
+/**
+ * Class is implementation of pattern DTO for transmission pagination
+ * entity between service and controller.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 public class PaginationDto {
     private int offset;
     private int limit;

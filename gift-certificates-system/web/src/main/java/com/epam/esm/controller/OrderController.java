@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+/**
+ * Class is an endpoint of the API which performs operations on orders.
+ *
+ * @author Maryia Kuksar
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -33,6 +39,12 @@ public class OrderController {
         this.paramsToDtoConverter = paramsToDtoConverter;
     }
 
+    /**
+     * Creates new order, processes POST requests at /orders
+     *
+     * @param orderDto data for creating new order
+     * @return the created order dto
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
@@ -41,6 +53,12 @@ public class OrderController {
         return createdOrderDto;
     }
 
+    /**
+     * Gets order by id, processes GET requests at /orders/{id}
+     *
+     * @param id the order id which needs to find
+     * @return the found order dto
+     */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public OrderDto getOrderById(@PathVariable long id) {
@@ -49,6 +67,13 @@ public class OrderController {
         return orderDto;
     }
 
+    /**
+     * Gets order by user id, processes GET requests at /orders/users/{userId}
+     *
+     * @param userId     the user id whose orders need to find
+     * @param pageParams the data for pagination
+     * @return the page with found orders and total number of positions
+     */
     @GetMapping("/users/{userId}")
     public PageDto<OrderDto> getOrdersByUserId(@PathVariable long userId, @RequestParam Map<String, String> pageParams) {
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);

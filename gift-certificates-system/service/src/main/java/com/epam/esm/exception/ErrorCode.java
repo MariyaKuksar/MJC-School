@@ -1,7 +1,7 @@
 package com.epam.esm.exception;
 
 /**
- * Class presents custom error code which is based on gift certificate or tag field, which is incorrect.
+ * Class presents custom error code which is based on entity field, which is incorrect.
  *
  * @author Maryia Kuksar
  * @version 1.0

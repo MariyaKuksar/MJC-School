@@ -62,8 +62,8 @@ public class GiftCertificateController {
     /**
      * Gets gift certificate by id, processes GET requests at /gift-certificates/{id}
      *
-     * @param id the gift certificate id which needs to found
-     * @return the founded gift certificate dto
+     * @param id the gift certificate id which needs to find
+     * @return the found gift certificate dto
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -76,8 +76,8 @@ public class GiftCertificateController {
     /**
      * Gets gift certificates by params, processes GET requests at /gift-certificates
      *
-     * @param params data for searching gift certificates
-     * @return the founded gift certificate dto
+     * @param params data for searching gift certificates and pagination
+     * @return the page with found gift certificates and total number of positions
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -127,10 +127,11 @@ public class GiftCertificateController {
      * Deletes gift certificate by id, processes DELETE requests at /gift-certificates/{id}
      *
      * @param id the gift certificate id which needs to delete
+     * @return void
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity deleteGiftCertificate(@PathVariable long id) {
+    public ResponseEntity<Void> deleteGiftCertificate(@PathVariable long id) {
         giftCertificateService.deleteGiftCertificate(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

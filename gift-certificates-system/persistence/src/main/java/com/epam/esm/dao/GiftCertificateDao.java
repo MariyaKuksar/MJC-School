@@ -18,6 +18,7 @@ public interface GiftCertificateDao {
 
     /**
      * Creates new gift certificate in database
+     *
      * @param giftCertificate the gift certificate for creating
      * @return the created gift certificate
      */
@@ -25,24 +26,26 @@ public interface GiftCertificateDao {
 
     /**
      * Finds gift certificate in database by id
-     * @param id the gift certificate id which needs to found
-     * @return the founded gift certificate
+     *
+     * @param id the gift certificate id which needs to find
+     * @return the found gift certificate
      */
     Optional<GiftCertificate> findById(long id);
 
     /**
      * Finds gift certificate in database by name
      *
-     * @param name the gift certificate name which needs to found
-     * @return the founded gift certificate
+     * @param name the gift certificate name which needs to find
+     * @return the found gift certificate
      */
     Optional<GiftCertificate> findByName(String name);
 
     /**
      * Finds gift certificate in database by search params
      *
+     * @param pagination   the data for pagination
      * @param searchParams data for searching gift certificates
-     * @return the list of founded gift certificate dto
+     * @return the list of found gift certificate
      */
     List<GiftCertificate> findBySearchParams(Pagination pagination, GiftCertificateSearchParams searchParams);
 
@@ -62,7 +65,18 @@ public interface GiftCertificateDao {
      */
     boolean delete(long id);
 
-    long getTotalNumber (GiftCertificateSearchParams searchParams);
-
+    /**
+     * Deletes gift certificate and tag connections in database
+     *
+     * @param id the gift certificate id
+     */
     void deleteConnectionByGiftCertificateId(long id);
+
+    /**
+     * Gets the total number of gift certificates by search params
+     *
+     * @param searchParams data for searching gift certificates
+     * @return the total number of gift certificates by search params
+     */
+    long getTotalNumber(GiftCertificateSearchParams searchParams);
 }

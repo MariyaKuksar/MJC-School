@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see org.springframework.hateoas.RepresentationModel
  */
 public class GiftCertificateSearchParamsDto {
     private List<String> tagNames;

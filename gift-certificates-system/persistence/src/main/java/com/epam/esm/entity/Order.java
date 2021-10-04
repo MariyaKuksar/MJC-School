@@ -16,6 +16,12 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+/**
+ * Class presents order entity.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Entity
 @Table(name = "item_order")
 @EntityListeners(OrderAudit.class)

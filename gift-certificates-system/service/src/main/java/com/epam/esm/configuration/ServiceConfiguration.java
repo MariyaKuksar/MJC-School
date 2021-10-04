@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 public class ServiceConfiguration {
 
     /**
-     * Creates beam ModelMapper for mapping entity to dto and opposite
+     * Creates bean ModelMapper for mapping entity to dto and opposite
      *
      * @return the model mapper
      */

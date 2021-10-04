@@ -5,10 +5,11 @@ import org.springframework.hateoas.RepresentationModel;
 
 /**
  * Class is implementation of pattern DTO for transmission tag
- * entity between service and controller
+ * entity between service and controller.
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see RepresentationModel
  */
 public class TagDto extends RepresentationModel<TagDto> {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

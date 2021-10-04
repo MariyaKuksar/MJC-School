@@ -2,6 +2,14 @@ package com.epam.esm.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 
+/**
+ * Class is implementation of pattern DTO for transmission user
+ * entity between service and controller.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see RepresentationModel
+ */
 public class UserDto extends RepresentationModel<UserDto> {
     private long id;
     private String name;

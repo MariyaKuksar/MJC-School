@@ -8,6 +8,14 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+/**
+ * Class is implementation of pattern DTO for transmission order
+ * entity between service and controller.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see RepresentationModel
+ */
 public class OrderDto extends RepresentationModel<OrderDto> {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;

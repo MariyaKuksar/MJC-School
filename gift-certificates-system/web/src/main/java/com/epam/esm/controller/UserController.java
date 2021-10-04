@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Class is an endpoint of the API which performs operations on users.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -33,6 +39,12 @@ public class UserController {
         this.paramsToDtoConverter = paramsToDtoConverter;
     }
 
+    /**
+     * Gets user by id, processes GET requests at /users/{id}
+     *
+     * @param id the user id which needs to find
+     * @return the found user dto
+     */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUserById(@PathVariable long id) {
@@ -41,6 +53,12 @@ public class UserController {
         return userDto;
     }
 
+    /**
+     * Gets all users, processes GET requests at /users
+     *
+     * @param pageParams the data for pagination
+     * @return the page with all users and total number of positions
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageDto<UserDto> getUsers(@RequestParam Map<String, String> pageParams) {

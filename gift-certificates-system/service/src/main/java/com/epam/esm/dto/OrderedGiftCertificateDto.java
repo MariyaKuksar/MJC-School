@@ -5,6 +5,14 @@ import org.springframework.hateoas.RepresentationModel;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
+/**
+ * Class is implementation of pattern DTO for transmission ordered gift certificate
+ * entity between service and controller.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see RepresentationModel
+ */
 public class OrderedGiftCertificateDto extends RepresentationModel<OrderedGiftCertificateDto> {
     private long giftCertificateId;
     private long orderId;

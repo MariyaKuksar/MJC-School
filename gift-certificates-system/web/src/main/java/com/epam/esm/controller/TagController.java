@@ -1,7 +1,7 @@
 package com.epam.esm.controller;
 
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.PageDto;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.Map;
 
 /**
- * Class is an endpoint of the API which performs CRUD operations on tags.
+ * Class is an endpoint of the API which performs operations on tags.
  *
  * @author Maryia Kuksar
  * @version 1.0
@@ -57,10 +57,10 @@ public class TagController {
     }
 
     /**
-     * Gets tag by id, processes GET requests at /tag/{id}
+     * Gets tag by id, processes GET requests at /tags/{id}
      *
-     * @param id the tag id which needs to found
-     * @return the founded tag dto
+     * @param id the tag id which needs to find
+     * @return the found tag dto
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -73,7 +73,8 @@ public class TagController {
     /**
      * Gets all tags, processes GET requests at /tags
      *
-     * @return the list of all tags dto
+     * @param pageParams the data for pagination
+     * @return the page with all tags and total number of positions
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -84,9 +85,15 @@ public class TagController {
         return pageDto;
     }
 
+    /**
+     * Gets the most popular tag of the user with the highest cost of all orders,
+     * processes GET requests at /tags/popular
+     *
+     * @return the found tag dto
+     */
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public TagDto getMostPopularTagOfUserWithHighestCostOfAllOrders(){
+    public TagDto getMostPopularTagOfUserWithHighestCostOfAllOrders() {
         TagDto tagDto = tagService.findMostPopularTagOfUserWithHighestCostOfAllOrders();
         addLinks(tagDto);
         return tagDto;
@@ -96,15 +103,16 @@ public class TagController {
      * Deletes tag by id, processes DELETE requests at /tags/{id}
      *
      * @param id the tag id which needs to delete
+     * @return void
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity deleteTag(@PathVariable long id) {
+    public ResponseEntity<Void> deleteTag(@PathVariable long id) {
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void addLinks (TagDto tagDto){
+    private void addLinks(TagDto tagDto) {
         tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel());
         tagDto.add(linkTo(methodOn(TagController.class).deleteTag(tagDto.getId())).withRel(DELETE));
     }

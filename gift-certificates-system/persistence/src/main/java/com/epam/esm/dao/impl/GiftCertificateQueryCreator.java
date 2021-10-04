@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class designed to create query.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Component
 public class GiftCertificateQueryCreator {
     private static final String DELETED = "deleted";
@@ -23,6 +29,13 @@ public class GiftCertificateQueryCreator {
     private static final String ZERO_OR_MORE_CHARACTERS = "%";
     private static final String CREATE_DATE = "createDate";
 
+    /**
+     * Creates query
+     *
+     * @param searchParams    data for creating search condition gift certificates
+     * @param criteriaBuilder the criteria builder
+     * @return the criteria query
+     */
     public CriteriaQuery<GiftCertificate> buildQuery(GiftCertificateSearchParams searchParams, CriteriaBuilder criteriaBuilder) {
         CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
         Root<GiftCertificate> giftCertificateRoot = criteriaQuery.from(GiftCertificate.class);

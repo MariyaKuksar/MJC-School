@@ -142,11 +142,11 @@ public class RestExceptionHandler {
      * @return the response message entity
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseMessage handleException(Exception exception, Locale locale) {
         String errorMessage = messageSource.getMessage(MessageKey.INTERNAL_SERVER_ERROR, new String[]{}, locale);
-        logger.error(HttpStatus.INTERNAL_SERVER_ERROR, exception);
-        return new ResponseMessage(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR.value() + ErrorCode.DEFAULT.getErrorCode());
+        logger.error(HttpStatus.BAD_REQUEST, exception);
+        return new ResponseMessage(errorMessage, HttpStatus.BAD_REQUEST.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 }
 

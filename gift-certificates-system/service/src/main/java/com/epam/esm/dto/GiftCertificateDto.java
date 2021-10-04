@@ -12,10 +12,11 @@ import java.util.List;
 
 /**
  * Class is implementation of pattern DTO for transmission gift certificate
- * entity between service and controller
+ * entity between service and controller.
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see RepresentationModel
  */
 public class GiftCertificateDto extends RepresentationModel<GiftCertificateDto> {
     private long id;

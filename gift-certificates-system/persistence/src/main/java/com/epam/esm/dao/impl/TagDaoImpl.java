@@ -16,6 +16,7 @@ import java.util.Optional;
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see TagDao
  */
 @Repository
 public class TagDaoImpl implements TagDao {
@@ -58,6 +59,7 @@ public class TagDaoImpl implements TagDao {
                 .findFirst();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Optional<Tag> findMostPopularTagOfUserWithHighestCostOfAllOrders() {
         return entityManager.createNativeQuery(SELECT_MOST_POPULAR_TAG, Tag.class).getResultStream().findFirst();

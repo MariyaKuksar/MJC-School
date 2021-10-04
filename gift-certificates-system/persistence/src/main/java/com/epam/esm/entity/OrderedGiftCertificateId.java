@@ -2,6 +2,12 @@ package com.epam.esm.entity;
 
 import java.io.Serializable;
 
+/**
+ * Class presents ordered gift certificate id.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 public class OrderedGiftCertificateId implements Serializable {
     private long giftCertificateId;
     private long orderId;

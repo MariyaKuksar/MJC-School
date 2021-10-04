@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Maryia Kuksar
  * @version 1.0
  */
-
 @SpringBootApplication(scanBasePackages = "com.epam.esm")
 public class TestPersistenceConfiguration {
 }

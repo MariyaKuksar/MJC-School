@@ -29,6 +29,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class is implementation of interface {@link OrderService}
+ * for operations with orders
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see OrderService
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;

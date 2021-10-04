@@ -17,6 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class converts params to dto.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Component
 public class ParamsToDtoConverter {
     private static final String NUMBER = "number";
@@ -30,6 +36,12 @@ public class ParamsToDtoConverter {
     private static final String SORTING_ORDER_BY_DATE = "sortingOrderByDate";
     private static final String SORTING_ORDER_BY_NAME = "sortingOrderByName";
 
+    /**
+     * Gets pagination dto.
+     *
+     * @param pageParams the page params
+     * @return the pagination dto
+     */
     public PaginationDto getPaginationDto(Map<String, String> pageParams) {
         String number = StringUtils.isBlank(pageParams.get(NUMBER)) ? DEFAULT_NUMBER : pageParams.get(NUMBER);
         String size = StringUtils.isBlank(pageParams.get(SIZE)) ? DEFAULT_SIZE : pageParams.get(SIZE);
@@ -39,6 +51,12 @@ public class ParamsToDtoConverter {
         return new PaginationDto(offset, limit);
     }
 
+    /**
+     * Gets gift certificates search params dto
+     *
+     * @param params the search params
+     * @return the gift certificates search params dto
+     */
     public GiftCertificateSearchParamsDto getGiftCertificatesSearchParamsDto(Map<String, String> params) {
         GiftCertificateSearchParamsDto searchParamsDto = new GiftCertificateSearchParamsDto();
         String tagNames = params.get(TAG_NAMES);
@@ -98,6 +116,7 @@ public class ParamsToDtoConverter {
     }
 
     private boolean isValidSortingOrder(String sortingOrderParamValue) {
-        return StringUtils.isNotBlank(sortingOrderParamValue) && EnumUtils.isValidEnum(SortingOrder.class, sortingOrderParamValue.toUpperCase());
+        return StringUtils.isNotBlank(sortingOrderParamValue)
+                && EnumUtils.isValidEnum(SortingOrder.class, sortingOrderParamValue.toUpperCase());
     }
 }

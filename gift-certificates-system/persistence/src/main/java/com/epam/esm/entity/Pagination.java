@@ -1,5 +1,11 @@
 package com.epam.esm.entity;
 
+/**
+ * Class presents data for pagination.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 public class Pagination {
     private int offset;
     private int limit;

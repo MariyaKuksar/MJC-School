@@ -16,10 +16,11 @@ import java.util.Optional;
 
 /**
  * Class is implementation of interface {@link GiftCertificateDao}
- * for working with tag table in database.
+ * for working with gift_certificate table in database.
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see GiftCertificateDao
  */
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {

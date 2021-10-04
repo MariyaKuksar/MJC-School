@@ -7,6 +7,12 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+/**
+ * Class presents user entity/
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Entity
 @Table(name = "user")
 public class User {

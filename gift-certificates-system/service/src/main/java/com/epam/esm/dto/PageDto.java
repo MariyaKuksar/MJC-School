@@ -2,7 +2,15 @@ package com.epam.esm.dto;
 
 import java.util.List;
 
-public class PageDto <T> {
+/**
+ * Class is implementation of pattern DTO for transmission page
+ * entity between service and controller.
+ *
+ * @param <T> the entity which presents on page
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
+public class PageDto<T> {
     private List<T> pagePositions;
     private long totalNumberPositions;
 

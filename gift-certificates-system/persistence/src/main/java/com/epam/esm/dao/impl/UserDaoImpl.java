@@ -10,12 +10,25 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class is implementation of interface {@link UserDao}
+ * for working with user table in database.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see UserDao
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
     private static final String SELECT_ALL_USERS = "FROM User";
     private static final String SELECT_TOTAL_NUMBER_USERS = "SELECT COUNT(*) FROM User";
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    public Optional<User> findById(long id) {
+        return Optional.ofNullable(entityManager.find(User.class, id));
+    }
 
     @Override
     public List<User> findAll(Pagination pagination) {
@@ -26,12 +39,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        return Optional.ofNullable(entityManager.find(User.class, id));
-    }
-
-    @Override
     public long getTotalNumber() {
-        return (Long)(entityManager.createQuery(SELECT_TOTAL_NUMBER_USERS).getSingleResult());
+        return (Long) (entityManager.createQuery(SELECT_TOTAL_NUMBER_USERS).getSingleResult());
     }
 }

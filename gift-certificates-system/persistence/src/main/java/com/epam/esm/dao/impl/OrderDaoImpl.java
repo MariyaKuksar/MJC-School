@@ -10,6 +10,14 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class is implementation of interface {@link OrderDao}
+ * for working with item_order table in database.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see OrderDao
+ */
 @Repository
 public class OrderDaoImpl implements OrderDao {
     private static final String SELECT_ORDERS_BY_USER_ID = "FROM Order WHERE user.id=:userId";
@@ -45,6 +53,4 @@ public class OrderDaoImpl implements OrderDao {
                 .setParameter(QueryParam.USER_ID, userId)
                 .getSingleResult();
     }
-
-
 }

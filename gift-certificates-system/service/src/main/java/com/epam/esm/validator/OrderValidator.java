@@ -15,9 +15,33 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Class provides methods to validate fields of {@link OrderDto}
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Component
 public class OrderValidator {
 
+    /**
+     * Validates order id
+     *
+     * @param id the order id
+     */
+    public void validateId(long id) {
+        if (id < ValidValue.MIN_ID) {
+            ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(id),
+                    ErrorCode.ORDER_INVALID_ID.getErrorCode());
+            throw new IncorrectParamValueException("invalid id = " + id, Arrays.asList(errorDetails));
+        }
+    }
+
+    /**
+     * Validates all fields of order
+     *
+     * @param orderDto the data for validating
+     */
     public void validateOrder(OrderDto orderDto) {
         List<ErrorDetails> errors = new ArrayList<>();
         validateUserId(orderDto.getUser().getId(), errors);
@@ -71,14 +95,6 @@ public class OrderValidator {
             ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(id),
                     ErrorCode.USER_INVALID_ID.getErrorCode());
             errors.add(errorDetails);
-        }
-    }
-
-    public void validateId(long id) {
-        if (id < ValidValue.MIN_ID) {
-            ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(id),
-                    ErrorCode.ORDER_INVALID_ID.getErrorCode());
-            throw new IncorrectParamValueException("invalid id = " + id, Arrays.asList(errorDetails));
         }
     }
 }

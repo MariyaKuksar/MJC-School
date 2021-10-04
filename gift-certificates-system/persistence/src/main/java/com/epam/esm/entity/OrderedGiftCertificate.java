@@ -8,6 +8,12 @@ import javax.persistence.IdClass;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
+/**
+ * Class presents ordered gift certificate entity.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Entity
 @Table(name = "ordered_gift_certificate")
 @IdClass(OrderedGiftCertificateId.class)
