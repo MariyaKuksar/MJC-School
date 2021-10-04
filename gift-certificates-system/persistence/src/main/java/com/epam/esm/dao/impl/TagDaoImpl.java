@@ -62,7 +62,9 @@ public class TagDaoImpl implements TagDao {
     @SuppressWarnings("unchecked")
     @Override
     public Optional<Tag> findMostPopularTagOfUserWithHighestCostOfAllOrders() {
-        return entityManager.createNativeQuery(SELECT_MOST_POPULAR_TAG, Tag.class).getResultStream().findFirst();
+        return entityManager.createNativeQuery(SELECT_MOST_POPULAR_TAG, Tag.class)
+                .getResultStream()
+                .findFirst();
     }
 
     @Override
@@ -76,6 +78,6 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public long getTotalNumber() {
-        return (Long) (entityManager.createQuery(SELECT_TOTAL_NUMBER_TAGS).getSingleResult());
+        return (Long) entityManager.createQuery(SELECT_TOTAL_NUMBER_TAGS).getSingleResult();
     }
 }

@@ -63,7 +63,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = modelMapper.map(orderDto, Order.class);
         order.setUser(userDao.findById(orderDto.getUser().getId())
                 .orElseThrow(() -> new IncorrectParamValueException("invalid id" + orderDto.getUser().getId(),
-                        Arrays.asList(new ErrorDetails(MessageKey.NO_SUCH_USER_EXISTS, String.valueOf(orderDto.getUser().getId()), ErrorCode.USER_INVALID_ID.getErrorCode())))));
+                        Arrays.asList(new ErrorDetails(MessageKey.NO_SUCH_USER_EXISTS, String.valueOf(orderDto.getUser().getId()),
+                                ErrorCode.USER_INVALID_ID.getErrorCode())))));
         order.getOrderedGiftCertificates().forEach(this::setOrderedGiftCertificateDetails);
         setOrderCost(order);
         order = orderDao.create(order);
@@ -83,6 +84,8 @@ public class OrderServiceImpl implements OrderService {
     public PageDto<OrderDto> findOrderByUserId(long userId, PaginationDto paginationDto) {
         userValidator.validateId(userId);
         Pagination pagination = modelMapper.map(paginationDto, Pagination.class);
+        userDao.findById(userId).orElseThrow(() -> new IncorrectParamValueException("invalid id" + userId,
+                Arrays.asList(new ErrorDetails(MessageKey.NO_SUCH_USER_EXISTS, String.valueOf(userId), ErrorCode.USER_INVALID_ID.getErrorCode()))));
         List<Order> orderList = orderDao.findByUserId(userId, pagination);
         List<OrderDto> orderDtoList = orderList.stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))

@@ -40,6 +40,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public long getTotalNumber() {
-        return (Long) (entityManager.createQuery(SELECT_TOTAL_NUMBER_USERS).getSingleResult());
+        return (Long) entityManager.createQuery(SELECT_TOTAL_NUMBER_USERS).getSingleResult();
     }
 }

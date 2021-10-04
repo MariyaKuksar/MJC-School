@@ -133,7 +133,7 @@ public class GiftCertificateController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable long id) {
         giftCertificateService.deleteGiftCertificate(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private void addLinks (GiftCertificateDto giftCertificateDto){

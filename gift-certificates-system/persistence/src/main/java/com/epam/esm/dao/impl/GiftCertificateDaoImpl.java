@@ -86,13 +86,16 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public void deleteConnectionByGiftCertificateId(long id) {
         entityManager.createNativeQuery(DELETE_GIFT_CERTIFICATE_TAG_CONNECTION)
-                .setParameter(QueryParam.GIFT_CERTIFICATE_ID, id).executeUpdate();
+                .setParameter(QueryParam.GIFT_CERTIFICATE_ID, id)
+                .executeUpdate();
     }
 
     @Override
     public long getTotalNumber(GiftCertificateSearchParams searchParams) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<GiftCertificate> criteriaQuery = queryBuilder.buildQuery(searchParams, criteriaBuilder);
-        return entityManager.createQuery(criteriaQuery).getResultStream().count();
+        return entityManager.createQuery(criteriaQuery)
+                .getResultStream()
+                .count();
     }
 }

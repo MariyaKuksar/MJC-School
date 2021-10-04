@@ -139,13 +139,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
     }
 
-    private List<Tag> createGiftCertificateTags(List<Tag> tagList) {
-        if(tagList != null) {
-            tagList = tagList.stream()
+    private List<Tag> createGiftCertificateTags(List<Tag> tags) {
+        if(tags != null) {
+            tags = tags.stream()
                     .map(tag -> tagDao.findByName(tag.getName()).orElseGet(() -> tagDao.create(tag)))
                     .collect(Collectors.toList());
             }
-            return tagList;
+            return tags;
     }
 
     private void updateFields(GiftCertificateDto giftCertificateForUpdateDto, GiftCertificateDto giftCertificateDto) {
