@@ -106,6 +106,7 @@ public class OrderServiceImplTest {
     @Test
     public void findOrderByUserIdPositiveTest() {
         doNothing().when(userValidator).validateId(anyLong());
+        when(userDao.findById(anyLong())).thenReturn(Optional.of(user));
         when(orderDao.findByUserId(anyLong(), isA(Pagination.class))).thenReturn(Arrays.asList(order));
         when(orderDao.getTotalNumberByUserId(anyLong())).thenReturn(1L);
         PageDto<OrderDto> actual = orderService.findOrderByUserId(10, new PaginationDto(1, 1));

@@ -30,11 +30,11 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM gift_certificate_tag_connection WHERE gift_certificate_id = :giftCertificateId";
     @PersistenceContext
     private EntityManager entityManager;
-    private final GiftCertificateQueryCreator queryBuilder;
+    private final GiftCertificateQueryCreator queryCreator;
 
     @Autowired
     public GiftCertificateDaoImpl(GiftCertificateQueryCreator queryBuilder) {
-        this.queryBuilder = queryBuilder;
+        this.queryCreator = queryBuilder;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public List<GiftCertificate> findBySearchParams(Pagination pagination, GiftCertificateSearchParams searchParams) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<GiftCertificate> criteriaQuery = queryBuilder.buildQuery(searchParams, criteriaBuilder);
+        CriteriaQuery<GiftCertificate> criteriaQuery = queryCreator.createCriteriaQuery(searchParams, criteriaBuilder);
         return entityManager.createQuery(criteriaQuery)
                 .setFirstResult(pagination.getOffset())
                 .setMaxResults(pagination.getLimit())
@@ -93,7 +93,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public long getTotalNumber(GiftCertificateSearchParams searchParams) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<GiftCertificate> criteriaQuery = queryBuilder.buildQuery(searchParams, criteriaBuilder);
+        CriteriaQuery<GiftCertificate> criteriaQuery = queryCreator.createCriteriaQuery(searchParams, criteriaBuilder);
         return entityManager.createQuery(criteriaQuery)
                 .getResultStream()
                 .count();
