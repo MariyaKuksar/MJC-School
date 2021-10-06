@@ -1,5 +1,4 @@
 # Module 4. Authentication & Spring Security
-### Task
 
 ### Task
 
