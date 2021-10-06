@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Class contains spring service configuration.
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
  * @version 1.0
  */
 @SpringBootApplication (scanBasePackages = "com.epam.esm")
+@EnableTransactionManagement
 public class ServiceConfiguration {
 
     /**

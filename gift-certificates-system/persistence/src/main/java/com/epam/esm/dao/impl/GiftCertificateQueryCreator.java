@@ -36,7 +36,7 @@ public class GiftCertificateQueryCreator {
      * @param criteriaBuilder the criteria builder
      * @return the criteria query
      */
-    public CriteriaQuery<GiftCertificate> buildQuery(GiftCertificateSearchParams searchParams, CriteriaBuilder criteriaBuilder) {
+    public CriteriaQuery<GiftCertificate> createCriteriaQuery(GiftCertificateSearchParams searchParams, CriteriaBuilder criteriaBuilder) {
         CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
         Root<GiftCertificate> giftCertificateRoot = criteriaQuery.from(GiftCertificate.class);
         List<Predicate> restrictions = new ArrayList<>();

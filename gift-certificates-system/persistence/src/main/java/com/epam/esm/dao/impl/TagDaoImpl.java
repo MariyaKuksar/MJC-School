@@ -22,7 +22,8 @@ import java.util.Optional;
 public class TagDaoImpl implements TagDao {
     private static final String SELECT_ALL_TAGS = "FROM Tag";
     private static final String SELECT_TAG_BY_NAME = "FROM Tag WHERE name=:name";
-    private static final String SELECT_MOST_POPULAR_TAG = "SELECT tag.id, tag.name FROM tag JOIN gift_certificate_tag_connection ON tag.id = gift_certificate_tag_connection.tag_id " +
+    private static final String SELECT_MOST_POPULAR_TAG = "SELECT tag.id, tag.name FROM tag " +
+            "JOIN gift_certificate_tag_connection ON tag.id = gift_certificate_tag_connection.tag_id " +
             "JOIN gift_certificate ON gift_certificate_tag_connection.gift_certificate_id = gift_certificate.id " +
             "JOIN ordered_gift_certificate ON gift_certificate.id = ordered_gift_certificate.gift_certificate_id " +
             "JOIN item_order ON ordered_gift_certificate.order_id = item_order.id WHERE item_order.user_id = " +
@@ -69,7 +70,7 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public boolean delete(long id) {
-        Tag tag = entityManager.find(Tag.class, id);
+        Tag tag = entityManager.getReference(Tag.class, id);
         if (tag != null) {
             entityManager.remove(tag);
         }
