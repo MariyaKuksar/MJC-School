@@ -5,6 +5,7 @@ import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.entity.Pagination;
+import com.epam.esm.entity.Role;
 import com.epam.esm.entity.User;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
@@ -14,7 +15,9 @@ import com.epam.esm.service.UserService;
 import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,12 +36,27 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final ModelMapper modelMapper;
     private final UserValidator userValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, ModelMapper modelMapper, UserValidator userValidator) {
+    public UserServiceImpl(UserDao userDao, ModelMapper modelMapper, UserValidator userValidator, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.modelMapper = modelMapper;
         this.userValidator = userValidator;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    @Override
+    public UserDto createUser(UserDto userDto) {
+        userValidator.validateUser(userDto);
+        //check email TODO
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setRole(Role.USER);
+        //TODO status.active
+        User user = modelMapper.map(userDto, User.class);
+        user = userDao.createUser(user);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override

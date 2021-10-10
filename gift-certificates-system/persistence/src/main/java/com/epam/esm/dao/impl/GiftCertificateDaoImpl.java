@@ -26,8 +26,8 @@ import java.util.Optional;
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String SELECT_GIFT_CERTIFICATE_BY_ID = "FROM GiftCertificate WHERE deleted=false AND id=:id";
     private static final String SELECT_GIFT_CERTIFICATE_BY_NAME = "FROM GiftCertificate WHERE deleted=false AND name=:name";
-    private static final String DELETE_GIFT_CERTIFICATE = "UPDATE GiftCertificate SET deleted=true WHERE id = :id AND deleted = false";
-    private static final String DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM gift_certificate_tag_connection WHERE gift_certificate_id = :giftCertificateId";
+    private static final String DELETE_GIFT_CERTIFICATE = "UPDATE GiftCertificate SET deleted=true WHERE id=:id AND deleted=false";
+    private static final String DELETE_GIFT_CERTIFICATE_TAG_CONNECTION = "DELETE FROM gift_certificate_tag_connection WHERE gift_certificate_id=:giftCertificateId";
     @PersistenceContext
     private EntityManager entityManager;
     private final GiftCertificateQueryCreator queryCreator;

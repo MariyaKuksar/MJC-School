@@ -23,6 +23,10 @@ USE `gift_certificates_system` ;
 CREATE TABLE IF NOT EXISTS `gift_certificates_system`.`user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NULL,
+  `password` VARCHAR(60) NULL,
+  `role` ENUM("USER", "ADMIN") NULL DEFAULT 'USER',
+  `status` ENUM("ACTIVE", "BANNED", "DELETED") NULL DEFAULT 'ACTIVE',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -130,6 +134,9 @@ INSERT INTO `gift_certificates_system`.`user` (`id`, `name`) VALUES ('2', 'Alexa
 INSERT INTO `gift_certificates_system`.`user` (`id`, `name`) VALUES ('3', 'Ivan');
 INSERT INTO `gift_certificates_system`.`user` (`id`, `name`) VALUES ('4', 'Alexey');
 INSERT INTO `gift_certificates_system`.`user` (`id`, `name`) VALUES ('5', 'Andrey');
+UPDATE `gift_certificates_system`.`user` SET `email` = 'admin@gmail.com', `password` = '$2a$12$kcCYuq2gLAS8U03jcXpjU.evKuy2K1CHlwjQAu6X0far4Smx199l.', `role` = 'ADMIN' WHERE (`id` = '1');
+UPDATE `gift_certificates_system`.`user` SET `email` = 'user@gmail.com', `password` = '$2a$12$5g3ph6ybppIn00PSNRIyPu1Et5m5K8j8RLkLNjWTDLKb3Ggmnk1QG' WHERE (`id` = '2');
+
 
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('1', 'Woman', 'gift certificate for women', '50', '365', '2018-08-29T06:12:15', '2018-08-29T06:12:15');
 INSERT INTO `gift_certificates_system`.`gift_certificate` (`id`, `name`, `description`, `price`, `duration`, `create_date`, `last_update_date`) VALUES ('2', 'Man', 'gift certificate for men', '60', '180', '2021-07-25 23:15:18', '2021-07-25 23:15:18');

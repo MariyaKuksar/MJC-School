@@ -11,6 +11,9 @@ import com.epam.esm.dto.UserDto;
  * @version 1.0
  */
 public interface UserService {
+
+    UserDto createUser(UserDto userDto);
+
     /**
      * Finds user by id
      *

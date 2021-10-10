@@ -1,5 +1,6 @@
 package com.epam.esm.validator;
 
+import com.epam.esm.dto.UserDto;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
 import com.epam.esm.exception.IncorrectParamValueException;
@@ -28,5 +29,9 @@ public class UserValidator {
                     ErrorCode.USER_INVALID_ID.getErrorCode());
             throw new IncorrectParamValueException("invalid id = " + id, Arrays.asList(errorDetails));
         }
+    }
+
+    public void validateUser(UserDto userDto) {
+        //TODO
     }
 }

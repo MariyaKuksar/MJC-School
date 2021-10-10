@@ -11,6 +11,7 @@ public final class QueryParam {
     public static final String NAME = "name";
     public static final String GIFT_CERTIFICATE_ID = "giftCertificateId";
     public static final String USER_ID = "userId";
+    public static final String EMAIL = "email";
 
     private QueryParam() {
     }

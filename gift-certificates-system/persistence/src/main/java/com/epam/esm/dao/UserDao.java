@@ -13,6 +13,9 @@ import java.util.Optional;
  * @version 1.0
  */
 public interface UserDao {
+
+    User createUser(User user);
+
     /**
      * Finds user by id
      *
@@ -20,6 +23,8 @@ public interface UserDao {
      * @return the found user
      */
     Optional<User> findById(long id);
+
+    Optional<User> findByEmail(String email);
 
     /**
      * Finds all users
@@ -35,4 +40,5 @@ public interface UserDao {
      * @return the total number of
      */
     long getTotalNumber();
+
 }

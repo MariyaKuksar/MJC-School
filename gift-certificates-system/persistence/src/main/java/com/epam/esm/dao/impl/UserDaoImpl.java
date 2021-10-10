@@ -20,14 +20,29 @@ import java.util.Optional;
  */
 @Repository
 public class UserDaoImpl implements UserDao {
+    private static final String SELECT_USER_BY_EMAIL = "FROM User WHERE email=:email";
     private static final String SELECT_ALL_USERS = "FROM User";
     private static final String SELECT_TOTAL_NUMBER_USERS = "SELECT COUNT(*) FROM User";
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
+    public User createUser(User user) {
+        entityManager.persist(user);
+        return user;
+    }
+
+    @Override
     public Optional<User> findById(long id) {
         return Optional.ofNullable(entityManager.find(User.class, id));
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return entityManager.createQuery(SELECT_USER_BY_EMAIL, User.class)
+                .setParameter(QueryParam.EMAIL, email)
+                .getResultStream()
+                .findFirst();
     }
 
     @Override

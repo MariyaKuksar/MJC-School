@@ -32,6 +32,8 @@ public final class MessageKey {
     public static final String NO_SUCH_GIFT_CERTIFICATE_EXISTS = "message.no_such.gift_certificate_exists";
     public static final String INCORRECT_QUANTITY = "message.incorrect_quantity";
     public static final String POPULAR_TAG_NOT_FOUND = "message.popular_tag_not_found";
+    public static final String BAD_CREDENTIALS = "message.bad_credentials";
+    public static final String LOCKED_ACCOUNT = "message.locked_account";
 
     private MessageKey() {
     }
