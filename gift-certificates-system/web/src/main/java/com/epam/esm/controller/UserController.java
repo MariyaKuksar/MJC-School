@@ -69,7 +69,11 @@ public class UserController {
     }
 
     private void addLinks(UserDto userDto) {
-        userDto.add(linkTo(methodOn(UserController.class).getUserById(userDto.getId())).withSelfRel());
-        userDto.add(linkTo(methodOn(OrderController.class).getOrdersByUserId(userDto.getId(), Collections.emptyMap())).withRel(ORDERS));
+        userDto.add(linkTo(methodOn(UserController.class)
+                .getUserById(userDto.getId()))
+                .withSelfRel());
+        userDto.add(linkTo(methodOn(OrderController.class)
+                .getOrdersByUserId(userDto.getId(), Collections.emptyMap()))
+                .withRel(ORDERS));
     }
 }

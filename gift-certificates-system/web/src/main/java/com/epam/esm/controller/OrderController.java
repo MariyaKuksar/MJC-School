@@ -83,9 +83,15 @@ public class OrderController {
     }
 
     private void addLinks(OrderDto orderDto) {
-        orderDto.add(linkTo(methodOn(OrderController.class).getOrderById(orderDto.getId())).withSelfRel());
-        orderDto.getUser().add(linkTo(methodOn(UserController.class).getUserById(orderDto.getUser().getId())).withSelfRel());
+        orderDto.add(linkTo(methodOn(OrderController.class)
+                .getOrderById(orderDto.getId()))
+                .withSelfRel());
+        orderDto.getUser().add(linkTo(methodOn(UserController.class)
+                .getUserById(orderDto.getUser().getId()))
+                .withSelfRel());
         orderDto.getOrderedGiftCertificates().forEach(orderedGiftCertificateDto ->
-                orderedGiftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class).getGiftCertificateById(orderedGiftCertificateDto.getGiftCertificateId())).withSelfRel()));
+                orderedGiftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class)
+                        .getGiftCertificateById(orderedGiftCertificateDto.getGiftCertificateId()))
+                        .withSelfRel()));
     }
 }

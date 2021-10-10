@@ -6,11 +6,9 @@ import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Role;
+import com.epam.esm.entity.Status;
 import com.epam.esm.entity.User;
-import com.epam.esm.exception.ErrorCode;
-import com.epam.esm.exception.ErrorDetails;
-import com.epam.esm.exception.MessageKey;
-import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.exception.*;
 import com.epam.esm.service.UserService;
 import com.epam.esm.validator.UserValidator;
 import org.modelmapper.ModelMapper;
@@ -50,10 +48,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         userValidator.validateUser(userDto);
-        //check email TODO
+        checkIfEmailFree(userDto.getEmail());
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDto.setRole(Role.USER);
-        //TODO status.active
+        userDto.setStatus(Status.ACTIVE);
         User user = modelMapper.map(userDto, User.class);
         user = userDao.createUser(user);
         return modelMapper.map(user, UserDto.class);
@@ -78,4 +76,13 @@ public class UserServiceImpl implements UserService {
         long totalNumberPosition = userDao.getTotalNumber();
         return new PageDto<>(userDtoList, totalNumberPosition);
     }
+
+    private void checkIfEmailFree(String email) {
+        if (userDao.findByEmail(email).isPresent()) {
+            throw new ResourceAlreadyExistsException("user with such email already exist, invalid email = " + email,
+                    new ErrorDetails(MessageKey.EMAIL_ALREADY_EXISTS,
+                            email, ErrorCode.USER_INVALID_EMAIL.getErrorCode()));
+        }
+    }
+
 }

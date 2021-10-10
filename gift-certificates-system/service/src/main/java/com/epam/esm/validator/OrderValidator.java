@@ -6,6 +6,8 @@ import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
 import com.epam.esm.exception.IncorrectParamValueException;
 import com.epam.esm.exception.MessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class OrderValidator {
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Validates order id
@@ -79,6 +82,7 @@ public class OrderValidator {
             ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_QUANTITY, String.valueOf(quantity),
                     ErrorCode.GIFT_CERTIFICATE_INVALID_QUANTITY.getErrorCode());
             errors.add(errorDetails);
+            logger.error("gift certificate quantity error, invalid quantity = " + quantity);
         }
     }
 
@@ -87,14 +91,16 @@ public class OrderValidator {
             ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(giftCertificateId),
                     ErrorCode.GIFT_CERTIFICATE_INVALID_ID.getErrorCode());
             errors.add(errorDetails);
+            logger.error("gift certificate id error, invalid id = " + giftCertificateId);
         }
     }
 
-    private void validateUserId(long id, List<ErrorDetails> errors) {
-        if (id < ValidValue.MIN_ID) {
-            ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(id),
+    private void validateUserId(long userId, List<ErrorDetails> errors) {
+        if (userId < ValidValue.MIN_ID) {
+            ErrorDetails errorDetails = new ErrorDetails(MessageKey.INCORRECT_ID, String.valueOf(userId),
                     ErrorCode.USER_INVALID_ID.getErrorCode());
             errors.add(errorDetails);
+            logger.error("user id error, invalid id = " + userId);
         }
     }
 }

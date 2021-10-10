@@ -34,6 +34,11 @@ public final class MessageKey {
     public static final String POPULAR_TAG_NOT_FOUND = "message.popular_tag_not_found";
     public static final String BAD_CREDENTIALS = "message.bad_credentials";
     public static final String LOCKED_ACCOUNT = "message.locked_account";
+    public static final String EMPTY_EMAIL = "message.empty_email";
+    public static final String INCORRECT_EMAIL = "message.incorrect_email";
+    public static final String EMPTY_PASSWORD = "message.empty_password";
+    public static final String INCORRECT_PASSWORD = "message.incorrect_password";
+    public static final String EMAIL_ALREADY_EXISTS = "message.email_already_exists";
 
     private MessageKey() {
     }

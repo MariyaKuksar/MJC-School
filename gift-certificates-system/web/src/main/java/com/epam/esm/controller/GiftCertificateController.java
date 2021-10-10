@@ -1,6 +1,7 @@
 package com.epam.esm.controller;
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static  org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.GiftCertificateDto;
@@ -92,7 +93,7 @@ public class GiftCertificateController {
     /**
      * Updates part of gift certificate data, processes PATCH requests at /gift-certificates/{id}
      *
-     * @param id the gift certificate id which needs to update
+     * @param id                 the gift certificate id which needs to update
      * @param giftCertificateDto data for updating gift certificate
      * @return the updated gift certificate dto
      */
@@ -109,7 +110,7 @@ public class GiftCertificateController {
     /**
      * Updates gift certificate, processes PUT requests at /gift-certificates/{id}
      *
-     * @param id the gift certificate id which needs to update
+     * @param id                 the gift certificate id which needs to update
      * @param giftCertificateDto data for updating gift certificate
      * @return the updated gift certificate dto
      */
@@ -136,12 +137,20 @@ public class GiftCertificateController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void addLinks (GiftCertificateDto giftCertificateDto){
-        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class).getGiftCertificateById(giftCertificateDto.getId())).withSelfRel());
-        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class).updateGiftCertificate(giftCertificateDto.getId(), giftCertificateDto)).withRel(UPDATE));
-        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class).deleteGiftCertificate(giftCertificateDto.getId())).withRel(DELETE));
+    private void addLinks(GiftCertificateDto giftCertificateDto) {
+        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class)
+                .getGiftCertificateById(giftCertificateDto.getId()))
+                .withSelfRel());
+        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class)
+                .updateGiftCertificate(giftCertificateDto.getId(), giftCertificateDto))
+                .withRel(UPDATE));
+        giftCertificateDto.add(linkTo(methodOn(GiftCertificateController.class)
+                .deleteGiftCertificate(giftCertificateDto.getId()))
+                .withRel(DELETE));
         giftCertificateDto.getTags().forEach(tagDto ->
-                tagDto.add(linkTo(methodOn(TagController.class).getTagById(tagDto.getId())).withSelfRel()));
+                tagDto.add(linkTo(methodOn(TagController.class)
+                        .getTagById(tagDto.getId()))
+                        .withSelfRel()));
     }
 }
 

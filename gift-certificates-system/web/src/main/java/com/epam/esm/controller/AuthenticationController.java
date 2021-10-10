@@ -1,5 +1,8 @@
 package com.epam.esm.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.epam.esm.dto.AuthenticationRequestDto;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.security.JwtTokenProvider;
@@ -21,6 +24,7 @@ import java.util.Map;
 public class AuthenticationController {
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
+    private static final String AUTHENTICATE = "authenticate";
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
@@ -43,6 +47,14 @@ public class AuthenticationController {
     @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto register(@RequestBody UserDto userDto) {
-        return userService.createUser(userDto);
+        UserDto createdUserDto = userService.createUser(userDto);
+        addLinks(createdUserDto);
+        return createdUserDto;
+    }
+
+    private void addLinks(UserDto userDto) {
+        userDto.add(linkTo(methodOn(AuthenticationController.class)
+                .authenticate(new AuthenticationRequestDto(userDto.getEmail(), userDto.getPassword())))
+                .withRel(AUTHENTICATE));
     }
 }
