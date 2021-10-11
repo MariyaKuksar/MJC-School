@@ -10,6 +10,7 @@ import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,6 +48,7 @@ public class OrderController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('make_order')")
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
         OrderDto createdOrderDto = orderService.createOrder(orderDto);
         addLinks(createdOrderDto);
@@ -61,6 +63,7 @@ public class OrderController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read')")
     public OrderDto getOrderById(@PathVariable long id) {
         OrderDto orderDto = orderService.findOrderById(id);
         addLinks(orderDto);
@@ -75,6 +78,7 @@ public class OrderController {
      * @return the page with found orders and total number of positions
      */
     @GetMapping("/users/{userId}")
+    @PreAuthorize("hasAuthority('read')")
     public PageDto<OrderDto> getOrdersByUserId(@PathVariable long userId, @RequestParam Map<String, String> pageParams) {
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
         PageDto<OrderDto> pageDto = orderService.findOrderByUserId(userId, paginationDto);

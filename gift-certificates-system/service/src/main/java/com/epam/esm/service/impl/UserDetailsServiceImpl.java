@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,11 +22,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userDao = userDao;
     }
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> userOptional = userDao.findByEmail(email);
-        User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("user doesn't exists"));
-        JwtUser jwtUser = new JwtUser(user.getEmail(), user.getPassword(), user.getRole().getAuthorities(), user.getStatus() == Status.ACTIVE);
-        return jwtUser;
+        return userOptional.map(user ->
+                        new JwtUser(user.getEmail(), user.getPassword(), user.getRole().getAuthorities(), user.getStatus() == Status.ACTIVE))
+                .orElseThrow(() -> new UsernameNotFoundException("user doesn't exists"));
     }
 }

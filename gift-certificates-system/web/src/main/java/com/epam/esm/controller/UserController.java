@@ -10,6 +10,7 @@ import com.epam.esm.dto.UserDto;
 import com.epam.esm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,6 +48,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read')")
     public UserDto getUserById(@PathVariable long id) {
         UserDto userDto = userService.findUserById(id);
         addLinks(userDto);
@@ -61,6 +63,7 @@ public class UserController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read_all')")
     public PageDto<UserDto> getUsers(@RequestParam Map<String, String> pageParams) {
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
         PageDto<UserDto> pageDto = userService.findAllUsers(paginationDto);

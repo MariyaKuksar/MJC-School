@@ -15,7 +15,6 @@ import org.springframework.hateoas.RepresentationModel;
  * @see RepresentationModel
  */
 public class UserDto extends RepresentationModel<UserDto> {
-    @JsonProperty(access = Access.READ_ONLY)
     private long id;
     private String name;
     private String email;

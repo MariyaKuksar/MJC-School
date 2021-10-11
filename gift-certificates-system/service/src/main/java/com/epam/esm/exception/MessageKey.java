@@ -39,6 +39,8 @@ public final class MessageKey {
     public static final String EMPTY_PASSWORD = "message.empty_password";
     public static final String INCORRECT_PASSWORD = "message.incorrect_password";
     public static final String EMAIL_ALREADY_EXISTS = "message.email_already_exists";
+    public static final String ACCESS_IS_DENIED = "message.access_is_denied";
+    public static final String NO_RIGHTS = "message.no_rights";
 
     private MessageKey() {
     }

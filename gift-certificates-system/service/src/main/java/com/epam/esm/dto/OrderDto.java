@@ -25,7 +25,7 @@ public class OrderDto extends RepresentationModel<OrderDto> {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime createDate;
-    private List <OrderedGiftCertificateDto> orderedGiftCertificates;
+    private List<OrderedGiftCertificateDto> orderedGiftCertificates;
 
     public OrderDto() {
     }

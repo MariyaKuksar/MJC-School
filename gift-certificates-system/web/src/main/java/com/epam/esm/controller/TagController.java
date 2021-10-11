@@ -11,6 +11,7 @@ import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,6 +51,7 @@ public class TagController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('write')")
     public TagDto createTag(@RequestBody TagDto tagDto) {
         TagDto createdTagDto = tagService.createTag(tagDto);
         addLinks(tagDto);
@@ -64,6 +66,7 @@ public class TagController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read')")
     public TagDto getTagById(@PathVariable long id) {
         TagDto tagDto = tagService.findTagById(id);
         addLinks(tagDto);
@@ -78,6 +81,7 @@ public class TagController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read')")
     public PageDto<TagDto> getTags(@RequestParam Map<String, String> pageParams) {
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
         PageDto<TagDto> pageDto = tagService.findAllTags(paginationDto);
@@ -93,6 +97,7 @@ public class TagController {
      */
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('read')")
     public TagDto getMostPopularTagOfUserWithHighestCostOfAllOrders() {
         TagDto tagDto = tagService.findMostPopularTagOfUserWithHighestCostOfAllOrders();
         addLinks(tagDto);
@@ -107,6 +112,7 @@ public class TagController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('write')")
     public ResponseEntity<Void> deleteTag(@PathVariable long id) {
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -52,6 +51,14 @@ public class RestExceptionHandler {
         String errorMessage = messageSource.getMessage(MessageKey.LOCKED_ACCOUNT, new String[]{}, locale);
         logger.error(HttpStatus.UNAUTHORIZED, exception);
         return new ResponseMessage(errorMessage, HttpStatus.UNAUTHORIZED.value() + ErrorCode.DEFAULT.getErrorCode());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseMessage handleAccessDeniedException (AccessDeniedException exception, Locale locale){
+        String errorMessage = messageSource.getMessage(MessageKey.ACCESS_IS_DENIED, new String[]{}, locale);
+        logger.error(HttpStatus.FORBIDDEN, exception);
+        return new ResponseMessage(errorMessage, HttpStatus.FORBIDDEN.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 
     /**
