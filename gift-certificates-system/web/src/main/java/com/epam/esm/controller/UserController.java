@@ -7,6 +7,7 @@ import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.UserDto;
+import com.epam.esm.security.AccessVerifier;
 import com.epam.esm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,13 @@ public class UserController {
     public static final String ORDERS = "orders";
     private final UserService userService;
     private final ParamsToDtoConverter paramsToDtoConverter;
+    private final AccessVerifier accessVerifier;
 
     @Autowired
-    public UserController(UserService userService, ParamsToDtoConverter paramsToDtoConverter) {
+    public UserController(UserService userService, ParamsToDtoConverter paramsToDtoConverter, AccessVerifier accessVerifier) {
         this.userService = userService;
         this.paramsToDtoConverter = paramsToDtoConverter;
+        this.accessVerifier = accessVerifier;
     }
 
     /**
@@ -50,6 +53,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('read')")
     public UserDto getUserById(@PathVariable long id) {
+        accessVerifier.checkAccess(id);
         UserDto userDto = userService.findUserById(id);
         addLinks(userDto);
         return userDto;

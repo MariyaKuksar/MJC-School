@@ -7,6 +7,7 @@ import com.epam.esm.converter.ParamsToDtoConverter;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.dto.PageDto;
 import com.epam.esm.dto.PaginationDto;
+import com.epam.esm.security.AccessVerifier;
 import com.epam.esm.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,13 @@ import java.util.Map;
 public class OrderController {
     private final OrderService orderService;
     private final ParamsToDtoConverter paramsToDtoConverter;
+    private final AccessVerifier accessVerifier;
 
     @Autowired
-    public OrderController(OrderService orderService, ParamsToDtoConverter paramsToDtoConverter) {
+    public OrderController(OrderService orderService, ParamsToDtoConverter paramsToDtoConverter, AccessVerifier accessVerifier) {
         this.orderService = orderService;
         this.paramsToDtoConverter = paramsToDtoConverter;
+        this.accessVerifier = accessVerifier;
     }
 
     /**
@@ -50,6 +53,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('make_order')")
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
+        accessVerifier.checkAccess(orderDto.getUser().getId());
         OrderDto createdOrderDto = orderService.createOrder(orderDto);
         addLinks(createdOrderDto);
         return createdOrderDto;
@@ -66,6 +70,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('read')")
     public OrderDto getOrderById(@PathVariable long id) {
         OrderDto orderDto = orderService.findOrderById(id);
+        accessVerifier.checkAccess(orderDto.getUser().getId());
         addLinks(orderDto);
         return orderDto;
     }
@@ -80,6 +85,7 @@ public class OrderController {
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasAuthority('read')")
     public PageDto<OrderDto> getOrdersByUserId(@PathVariable long userId, @RequestParam Map<String, String> pageParams) {
+        accessVerifier.checkAccess(userId);
         PaginationDto paginationDto = paramsToDtoConverter.getPaginationDto(pageParams);
         PageDto<OrderDto> pageDto = orderService.findOrderByUserId(userId, paginationDto);
         pageDto.getPagePositions().forEach(this::addLinks);

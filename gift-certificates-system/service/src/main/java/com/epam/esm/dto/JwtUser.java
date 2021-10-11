@@ -8,16 +8,24 @@ import java.util.Collection;
 import java.util.Set;
 
 public class JwtUser implements UserDetails {
+    private final long id;
     private final String username;
     private final String password;
     private final Set<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
+    private final boolean isAdmin;
 
-    public JwtUser(String username, String password, Set<SimpleGrantedAuthority> authorities, boolean isActive) {
+    public JwtUser(long id, String username, String password, Set<SimpleGrantedAuthority> authorities, boolean isActive, boolean isAdmin) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
         this.isActive = isActive;
+        this.isAdmin = isAdmin;
+    }
+
+    public long getId() {
+        return id;
     }
 
     @Override
@@ -55,6 +63,14 @@ public class JwtUser implements UserDetails {
         return isActive;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,7 +78,9 @@ public class JwtUser implements UserDetails {
 
         JwtUser jwtUser = (JwtUser) o;
 
+        if (id != jwtUser.id) return false;
         if (isActive != jwtUser.isActive) return false;
+        if (isAdmin != jwtUser.isAdmin) return false;
         if (username != null ? !username.equals(jwtUser.username) : jwtUser.username != null) return false;
         if (password != null ? !password.equals(jwtUser.password) : jwtUser.password != null) return false;
         return authorities != null ? authorities.equals(jwtUser.authorities) : jwtUser.authorities == null;
@@ -70,20 +88,24 @@ public class JwtUser implements UserDetails {
 
     @Override
     public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (authorities != null ? authorities.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
+        result = 31 * result + (isAdmin ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("JwtUser{");
-        sb.append("username='").append(username).append('\'');
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", authorities=").append(authorities);
         sb.append(", isActive=").append(isActive);
+        sb.append(", isAdmin=").append(isAdmin);
         sb.append('}');
         return sb.toString();
     }
