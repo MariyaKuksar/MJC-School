@@ -1,5 +1,6 @@
 package com.epam.esm.configuration;
 
+import com.epam.esm.security.CustomAuthenticationEntryPoint;
 import com.epam.esm.security.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtTokenFilter jwtTokenFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Autowired
-    public SecurityConfiguration(JwtTokenFilter jwtTokenFilter) {
+    public SecurityConfiguration(JwtTokenFilter jwtTokenFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.jwtTokenFilter = jwtTokenFilter;
+        this.customAuthenticationEntryPoint=customAuthenticationEntryPoint;
     }
 
     @Override
@@ -37,6 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
