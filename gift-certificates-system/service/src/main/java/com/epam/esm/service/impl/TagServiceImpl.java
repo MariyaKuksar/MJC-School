@@ -1,7 +1,10 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.TagDto;
+import com.epam.esm.entity.Pagination;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.ErrorCode;
 import com.epam.esm.exception.ErrorDetails;
@@ -10,9 +13,11 @@ import com.epam.esm.exception.ResourceAlreadyExistsException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +43,7 @@ public class TagServiceImpl implements TagService {
         this.modelMapper = modelMapper;
         this.tagValidator = tagValidator;
     }
-
+    @Transactional
     @Override
     public TagDto createTag(TagDto tagDto) {
         String tagName = tagDto.getName();
@@ -62,13 +67,25 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDto> findAllTags() {
-        List<Tag> tagList = tagDao.findAll();
-        return tagList.stream()
+    public PageDto<TagDto> findAllTags(PaginationDto paginationDto) {
+        Pagination pagination = modelMapper.map(paginationDto, Pagination.class);
+        List<Tag> tagList = tagDao.findAll(pagination);
+        List<TagDto> tagDtoList = tagList.stream()
                 .map(tag -> modelMapper.map(tag, TagDto.class))
                 .collect(Collectors.toList());
+        long totalNumberPosition = tagDao.getTotalNumber();
+        return new PageDto<>(tagDtoList, totalNumberPosition);
     }
 
+    @Override
+    public TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders() {
+        Optional<Tag> tagOptional = tagDao.findMostPopularTagOfUserWithHighestCostOfAllOrders();
+        return tagOptional.map(tag -> modelMapper.map(tag, TagDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException("the most popular tag of user with the highest cost of all orders not found",
+                        new ErrorDetails(MessageKey.POPULAR_TAG_NOT_FOUND, StringUtils.EMPTY ,ErrorCode.DEFAULT.getErrorCode())));
+    }
+
+    @Transactional
     @Override
     public void deleteTag(long id) {
         tagValidator.validateId(id);

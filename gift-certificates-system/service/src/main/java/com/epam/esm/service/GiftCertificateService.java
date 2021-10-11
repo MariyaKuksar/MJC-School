@@ -2,8 +2,8 @@ package com.epam.esm.service;
 
 import com.epam.esm.dto.GiftCertificateDto;
 import com.epam.esm.dto.GiftCertificateSearchParamsDto;
-
-import java.util.List;
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 
 /**
  * The interface for operations with gift certificates.
@@ -17,7 +17,7 @@ public interface GiftCertificateService {
      * Creates new gift certificate in database,
      * if gift certificate has new tags they will be created
      *
-     * @param giftCertificateDto data for creating new gift certificate
+     * @param giftCertificateDto the data for creating new gift certificate
      * @return the created gift certificate dto
      */
     GiftCertificateDto createGiftCertificate(GiftCertificateDto giftCertificateDto);
@@ -25,25 +25,26 @@ public interface GiftCertificateService {
     /**
      * Finds gift certificate by id
      *
-     * @param id the gift certificate id which needs to found
-     * @return the founded gift certificate dto
+     * @param id the gift certificate id which needs to find
+     * @return the found gift certificate dto
      */
     GiftCertificateDto findGiftCertificateById(long id);
 
     /**
-     * Finds gift certificates by params
+     * Finds gift certificates by search params
      *
+     * @param paginationDto the data for pagination
      * @param searchParamsDto data for searching gift certificates
-     * @return the list of founded gift certificate dto
+     * @return the page with found gift certificates and total number of positions
      */
-    List<GiftCertificateDto> findGiftCertificates(GiftCertificateSearchParamsDto searchParamsDto);
+    PageDto<GiftCertificateDto> findGiftCertificates(PaginationDto paginationDto, GiftCertificateSearchParamsDto searchParamsDto);
 
     /**
      * Updates part of gift certificate data,
      * if field value is null it will be not updated,
      * if gift certificate has new tags they will be added
      *
-     * @param giftCertificateDto data for updating gift certificate
+     * @param giftCertificateDto the data for updating gift certificate
      * @return the updated gift certificate dto
      */
     GiftCertificateDto updateGiftCertificate(GiftCertificateDto giftCertificateDto);
@@ -52,10 +53,10 @@ public interface GiftCertificateService {
      * Updates gift certificate, all fields must be filled,
      * if gift certificate has new tags they will be added
      *
-     * @param giftCertificateDto data for updating gift certificate
+     * @param giftCertificateDto the data for updating gift certificate
      * @return the updated gift certificate dto
      */
-    GiftCertificateDto updateAllGiftCertificate (GiftCertificateDto giftCertificateDto);
+    GiftCertificateDto updateAllGiftCertificate(GiftCertificateDto giftCertificateDto);
 
     /**
      * Deletes gift certificate by id

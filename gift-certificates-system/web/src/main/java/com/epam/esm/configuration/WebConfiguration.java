@@ -1,17 +1,12 @@
 package com.epam.esm.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -24,9 +19,7 @@ import java.util.Locale;
  * @version 1.0
  * @see WebMvcConfigurer
  */
-@Configuration
-@EnableWebMvc
-@ComponentScan("com.epam.esm")
+@SpringBootApplication(scanBasePackages = "com.epam.esm")
 public class WebConfiguration implements WebMvcConfigurer {
     @Value("message")
     private String baseName;
@@ -36,17 +29,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     private String languageRu;
     @Value("en")
     private String languageEn;
-    private final Converter stringToSortingOrderConverter;
-
-    @Autowired
-    public WebConfiguration(Converter stringToSortingOrderConverter) {
-        this.stringToSortingOrderConverter = stringToSortingOrderConverter;
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(stringToSortingOrderConverter);
-    }
 
     /**
      * Creates bean MessageSource for resolving messages, with support for the parameterization
@@ -78,7 +60,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * Creates bean LocaleResolver and set default locale fo prod profile
+     * Creates bean LocaleResolver and set default locale for prod profile
      *
      * @return the local resolver
      */
@@ -89,5 +71,4 @@ public class WebConfiguration implements WebMvcConfigurer {
         acceptHeaderLocaleResolver.setDefaultLocale(new Locale(languageEn));
         return acceptHeaderLocaleResolver;
     }
-
 }

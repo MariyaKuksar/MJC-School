@@ -26,8 +26,9 @@ import java.util.List;
 @Component
 public class GiftCertificateValidator {
     private static final Logger logger = LogManager.getLogger();
+
     /**
-     * Validates all fields of gift certificates
+     * Validates all fields of gift certificate
      *
      * @param giftCertificateDto data for validating
      */

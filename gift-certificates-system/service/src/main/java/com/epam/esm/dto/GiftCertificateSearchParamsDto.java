@@ -2,15 +2,18 @@ package com.epam.esm.dto;
 
 import com.epam.esm.entity.SortingOrder;
 
+import java.util.List;
+
 /**
  * Class is implementation of pattern DTO for transmission gift certificate
  * search params between service and controller
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see org.springframework.hateoas.RepresentationModel
  */
 public class GiftCertificateSearchParamsDto {
-    private String tagName;
+    private List<String> tagNames;
     private String partNameOrDescription;
     private SortingOrder sortingOrderByDate;
     private SortingOrder sortingOrderByName;
@@ -18,12 +21,12 @@ public class GiftCertificateSearchParamsDto {
     public GiftCertificateSearchParamsDto() {
     }
 
-    public String getTagName() {
-        return tagName;
+    public List<String> getTagNames() {
+        return tagNames;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setTagNames(List<String> tagNames) {
+        this.tagNames = tagNames;
     }
 
     public String getPartNameOrDescription() {
@@ -53,13 +56,12 @@ public class GiftCertificateSearchParamsDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GiftCertificateSearchParamsDto)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         GiftCertificateSearchParamsDto that = (GiftCertificateSearchParamsDto) o;
 
-        if (tagName != null ? !tagName.equals(that.tagName) : that.tagName != null) return false;
-        if (partNameOrDescription != null ? !partNameOrDescription.equals(that.partNameOrDescription) :
-                that.partNameOrDescription != null)
+        if (tagNames != null ? !tagNames.equals(that.tagNames) : that.tagNames != null) return false;
+        if (partNameOrDescription != null ? !partNameOrDescription.equals(that.partNameOrDescription) : that.partNameOrDescription != null)
             return false;
         if (sortingOrderByDate != that.sortingOrderByDate) return false;
         return sortingOrderByName == that.sortingOrderByName;
@@ -67,7 +69,7 @@ public class GiftCertificateSearchParamsDto {
 
     @Override
     public int hashCode() {
-        int result = tagName != null ? tagName.hashCode() : 0;
+        int result = tagNames != null ? tagNames.hashCode() : 0;
         result = 31 * result + (partNameOrDescription != null ? partNameOrDescription.hashCode() : 0);
         result = 31 * result + (sortingOrderByDate != null ? sortingOrderByDate.hashCode() : 0);
         result = 31 * result + (sortingOrderByName != null ? sortingOrderByName.hashCode() : 0);
@@ -77,7 +79,7 @@ public class GiftCertificateSearchParamsDto {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GiftCertificateSearchParamsDto{");
-        sb.append("tagName='").append(tagName).append('\'');
+        sb.append("tagNames=").append(tagNames);
         sb.append(", partNameOrDescription='").append(partNameOrDescription).append('\'');
         sb.append(", sortingOrderByDate=").append(sortingOrderByDate);
         sb.append(", sortingOrderByName=").append(sortingOrderByName);

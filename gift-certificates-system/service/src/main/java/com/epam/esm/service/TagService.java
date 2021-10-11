@@ -1,5 +1,7 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.PageDto;
+import com.epam.esm.dto.PaginationDto;
 import com.epam.esm.dto.TagDto;
 
 import java.util.List;
@@ -22,17 +24,26 @@ public interface TagService {
 
     /**
      * Finds tag by id
-     * @param id the tag id which needs to found
-     * @return the founded tag dto
+     *
+     * @param id the tag id which needs to find
+     * @return the found tag dto
      */
     TagDto findTagById(long id);
 
     /**
      * Finds all tags
      *
-     * @return the list of all founded tags dto
+     * @param paginationDto the data for pagination
+     * @return the page with all orders and total number of positions
      */
-    List<TagDto> findAllTags();
+    PageDto<TagDto> findAllTags(PaginationDto paginationDto);
+
+    /**
+     * Finds the most popular tag of the user with the highest cost of all orders
+     *
+     * @return the found tag dto
+     */
+    TagDto findMostPopularTagOfUserWithHighestCostOfAllOrders();
 
     /**
      * Deletes tag by id

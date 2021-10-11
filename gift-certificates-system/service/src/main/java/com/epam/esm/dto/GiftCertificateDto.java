@@ -1,6 +1,8 @@
 package com.epam.esm.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -10,25 +12,27 @@ import java.util.List;
 
 /**
  * Class is implementation of pattern DTO for transmission gift certificate
- * entity between service and controller
+ * entity between service and controller.
  *
  * @author Maryia Kuksar
  * @version 1.0
+ * @see RepresentationModel
  */
-public class GiftCertificateDto {
+public class GiftCertificateDto extends RepresentationModel<GiftCertificateDto> {
     private long id;
     private String name;
     private String description;
     private BigDecimal price;
     private int duration;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime createDate;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastUpdateDate;
     private List<TagDto> tags;
 
     public GiftCertificateDto() {
-        this.tags = new ArrayList<>();
     }
 
     public GiftCertificateDto(long id, String name, String description, BigDecimal price, int duration,
