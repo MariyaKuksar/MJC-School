@@ -18,6 +18,12 @@ import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * Class contains operations with JSON web tokens.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Component
 public class JwtTokenProvider {
     @Value("${jwt.expiration}")

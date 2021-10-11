@@ -24,6 +24,12 @@ public interface UserDao {
      */
     Optional<User> findById(long id);
 
+    /**
+     * Finds user by email
+     *
+     * @param email the user email
+     * @return the found user
+     */
     Optional<User> findByEmail(String email);
 
     /**

@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
+/**
+ * Class is an endpoint for user authentication and registration.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -36,6 +42,12 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
+    /**
+     * Authenticates user, processes POST requests at /auth/login
+     *
+     * @param request credentials for authentication
+     * @return the map of email and token value
+     */
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, String> authenticate(@RequestBody AuthenticationRequestDto request) {
@@ -44,6 +56,12 @@ public class AuthenticationController {
         return Map.of(EMAIL, request.getEmail(), TOKEN, token);
     }
 
+    /**
+     * Registers new user, processes POST requests at /auth/registration
+     *
+     * @param userDto data for registration new user
+     * @return the created user dto
+     */
     @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto register(@RequestBody UserDto userDto) {

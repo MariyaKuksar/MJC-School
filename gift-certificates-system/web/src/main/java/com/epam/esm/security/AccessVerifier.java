@@ -7,9 +7,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 
+/**
+ * Class is used to check the ability to access.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 @Component
 public class AccessVerifier {
 
+    /**
+     * Checks access
+     *
+     * @param userId the user id
+     */
     public void checkAccess(long userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();

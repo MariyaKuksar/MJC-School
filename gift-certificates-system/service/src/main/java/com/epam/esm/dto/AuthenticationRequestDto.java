@@ -1,5 +1,11 @@
 package com.epam.esm.dto;
 
+/**
+ * Class is implementation of pattern DTO for user credentials.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ */
 public class AuthenticationRequestDto {
 
     private String email;

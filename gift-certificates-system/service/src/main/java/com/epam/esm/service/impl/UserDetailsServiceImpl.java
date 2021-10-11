@@ -14,6 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * Class is implementation of interface {@link UserDetailsService}
+ * for loading user data
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see UserDetailsService
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserDao userDao;

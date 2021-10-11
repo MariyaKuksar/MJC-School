@@ -12,6 +12,12 @@ import com.epam.esm.dto.UserDto;
  */
 public interface UserService {
 
+    /**
+     * Creates new user in database
+     *
+     * @param userDto the data for creating new user
+     * @return the created user dto
+     */
     UserDto createUser(UserDto userDto);
 
     /**

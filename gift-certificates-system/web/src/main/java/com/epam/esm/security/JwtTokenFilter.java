@@ -13,6 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter for token validation.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see OncePerRequestFilter
+ */
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     private static final String GIFT_CERTIFICATES_ENDPOINT = "/gift-certificates";

@@ -37,6 +37,13 @@ public class RestExceptionHandler {
         this.messageSource = messageSource;
     }
 
+    /**
+     * Handles BadCredentialsException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseMessage handleBadCredentialsException(BadCredentialsException exception, Locale locale) {
@@ -45,6 +52,13 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.UNAUTHORIZED.value() + ErrorCode.BAD_CREDENTIALS.getErrorCode());
     }
 
+    /**
+     * Handles LockedException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(LockedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseMessage handleLockedException(LockedException exception, Locale locale) {
@@ -53,6 +67,13 @@ public class RestExceptionHandler {
         return new ResponseMessage(errorMessage, HttpStatus.UNAUTHORIZED.value() + ErrorCode.DEFAULT.getErrorCode());
     }
 
+    /**
+     * Handles AccessDeniedException
+     *
+     * @param exception the exception
+     * @param locale the locale of HTTP request
+     * @return the response message entity
+     */
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseMessage handleAccessDeniedException (AccessDeniedException exception, Locale locale){

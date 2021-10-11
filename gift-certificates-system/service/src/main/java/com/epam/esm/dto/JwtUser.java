@@ -7,6 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Class presents user data for authentication and access.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see UserDetails
+ */
 public class JwtUser implements UserDetails {
     private final long id;
     private final String username;

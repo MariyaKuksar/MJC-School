@@ -23,7 +23,7 @@ import java.util.List;
 @Component
 public class UserValidator {
     private static final Logger logger = LogManager.getLogger();
-    private static final String EMAIL_PATTERN = "^([.[^@\\sА-Яа-я]]+)@([.[^@\\sА-Яа-я]]+)\\.([a-z]+)$";
+    private static final String EMAIL_PATTERN = "^([.[^@\\s]]+)@([.[^@\\s]]+)\\.([a-z]+)$";
     private static final String PASSWORD_PATTERN = "^[a-zA-Z\\d]{4,15}$";
 
     /**
@@ -39,6 +39,11 @@ public class UserValidator {
         }
     }
 
+    /**
+     * Validates all fields of user
+     *
+     * @param userDto the data for validating
+     */
     public void validateUser(UserDto userDto) {
         List<ErrorDetails> errors = new ArrayList<>();
         validateName(userDto.getName(), errors);

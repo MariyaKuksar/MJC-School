@@ -18,6 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class is implementation of interface {@link AuthenticationEntryPoint}
+ * for customize authentication process.
+ *
+ * @author Maryia_Kuksar
+ * @version 1.0
+ * @see AuthenticationEntryPoint
+ */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final Logger logger = LogManager.getLogger();

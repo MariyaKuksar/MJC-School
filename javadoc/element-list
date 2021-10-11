@@ -7,6 +7,7 @@ com.epam.esm.dto
 com.epam.esm.entity
 com.epam.esm.entity.audit
 com.epam.esm.exception
+com.epam.esm.security
 com.epam.esm.service
 com.epam.esm.service.impl
 com.epam.esm.validator
